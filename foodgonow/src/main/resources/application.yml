@@ -4,3 +4,8 @@ server:
 spring:
   application:
     name: foodgonowTest
+
+bot:
+  telegram:
+    username: FoodGoNowBot
+    token: 5215231662:AAF1bz21CEH8eS-Yb98BnYr13JDn5LBD5yA
