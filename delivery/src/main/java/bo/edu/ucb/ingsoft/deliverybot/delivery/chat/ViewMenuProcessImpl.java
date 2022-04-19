@@ -39,12 +39,8 @@ public class ViewMenuProcessImpl extends AbstractProcess{
                 try {
                     int opcion = Integer.parseInt(text);
                     switch (opcion){
-                        case 1 :  this.sendStringBuffer(bot,chatId,new StringBuffer("Pedido Enviado"));
-                            result = new MenuProcessImpl();
+                        case 0 : result = new MenuProcessImpl();
                             break;
-                        case 2 : result = new MenuOrderProcessImpl();
-                            break;
-
                         default: showMenuRestaurant(bot, chatId);
                     }
                 } catch (NumberFormatException ex) {
@@ -69,8 +65,11 @@ public class ViewMenuProcessImpl extends AbstractProcess{
             sb.append("Precio: "+plate.getPrecio() + " Bs").append("\n\r");
             sb.append("Descripcion: "+plate.getDescripcion()).append("\n\r");
             sb.append("\n");
+
         });
+        sb.append("0: Salir").append("\n\r");
         sendStringBuffer(bot,chatId,sb);
+        this.setStatus("AWAITING_USER_RESPONSE");
     }
 
     @Override
