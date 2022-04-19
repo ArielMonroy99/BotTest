@@ -29,7 +29,7 @@ public class MenuProcessImpl extends AbstractProcess {
     public AbstractProcess handle(Update update, DeliveryLongPollingBot bot) {
         AbstractProcess result = this; // sigo en el mismo proceso.
         Long chatId = update.getMessage().getChatId();
-
+        System.out.println("aaaaaa");
         if (this.getStatus().equals("STARTED")) {
 
             showMainMenu(bot, chatId);
@@ -47,7 +47,7 @@ public class MenuProcessImpl extends AbstractProcess {
                        // case 2 : result = new RequestsPermissionProcessImpl();
                           //  break;
                         case 3: result = new MenuOrderProcessImpl(); break;
-                        default: showMainMenu(bot, chatId);
+                        default: showMainMenu(bot, chatId); break;
                     }
                 } catch (NumberFormatException ex) {
                     showMainMenu(bot, chatId);

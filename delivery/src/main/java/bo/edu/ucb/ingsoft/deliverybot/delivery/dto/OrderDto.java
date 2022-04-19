@@ -3,21 +3,21 @@ package bo.edu.ucb.ingsoft.deliverybot.delivery.dto;
 import java.util.List;
 
 public class OrderDto {
-    private List<PlateDto> listaPlatos;
+    private List<PlateInOrderDto> listaPlatos;
     private Double total;
     private String fecha;
 
-    public OrderDto(List<PlateDto> listaPlatos, Double total, String fecha) {
+    public OrderDto(List<PlateInOrderDto> listaPlatos, Double total, String fecha) {
         this.listaPlatos = listaPlatos;
         this.total = total;
         this.fecha = fecha;
     }
 
-    public List<PlateDto> getListaPlatos() {
+    public List<PlateInOrderDto> getListaPlatos() {
         return listaPlatos;
     }
 
-    public void setListaPlatos(List<PlateDto> listaPlatos) {
+    public void setListaPlatos(List<PlateInOrderDto> listaPlatos) {
         this.listaPlatos = listaPlatos;
     }
 
@@ -41,14 +41,23 @@ public class OrderDto {
     public String toString() {
         int c = 1;
         StringBuffer sb = new StringBuffer();
-        for(PlateDto plate:listaPlatos){
+        for(PlateInOrderDto plate:listaPlatos){
             sb.append("Nro :").append(c).append("\n");
             sb.append(plate.toString());
             c++;
         }
 
-        return "lista de Platos:\n" + sb +"\n"+
-                " Total: " + total +"\n"+
+        return "Lista de Platos:\n" + sb +"\n"+
+                "Total: " + total +"\n"+
+                "Fecha: " + fecha ;
+    }
+    public String toString2() {
+        StringBuffer sb = new StringBuffer();
+        for(PlateInOrderDto plate:listaPlatos){
+            sb.append("-").append(plate.getPlato().getNombre()).append(" x ").append(plate.getCantidad()).append("\n");
+        }
+        return "Lista de Platos:\n" + sb +"\n"+
+                "Total: " + total +"\n"+
                 "Fecha: " + fecha ;
     }
 }
