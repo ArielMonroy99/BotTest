@@ -29,12 +29,12 @@ public class DeliveryLongPollingBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "DelyDaTes_bot";
+        return "kevin372bot";
     }
 
     @Override
     public String getBotToken() {
-        return "5111105977:AAFaCQxCDtmJZ_q6Y87CR4AvgdUN1UQOnKE";
+        return "5340720737:AAHD1z8IoU3HbASqiARcrqbvxwXhV4AcnPQ";
     }
 
     @Override

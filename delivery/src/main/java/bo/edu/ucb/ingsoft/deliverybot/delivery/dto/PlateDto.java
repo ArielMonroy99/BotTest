@@ -5,6 +5,16 @@ public class PlateDto {
     private String nombre;
     private Double precio;
     private String Desc;
+
+    public PlateDto(){
+    }
+
+    public PlateDto(Integer id, String nombre, Double precio, String Desc){
+        this.id =id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.Desc = Desc;
+    }
     public Integer getId() {
         return id;
     }
