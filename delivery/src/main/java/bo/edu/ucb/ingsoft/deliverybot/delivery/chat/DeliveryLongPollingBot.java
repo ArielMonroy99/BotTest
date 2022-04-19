@@ -29,12 +29,12 @@ public class DeliveryLongPollingBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "UCBFoodGoNow";
+        return "DelyDaTes_bot";
     }
 
     @Override
     public String getBotToken() {
-        return "5215231662:AAF1bz21CEH8eS-Yb98BnYr13JDn5LBD5yA";
+        return "5111105977:AAFaCQxCDtmJZ_q6Y87CR4AvgdUN1UQOnKE";
     }
 
     @Override

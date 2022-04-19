@@ -63,7 +63,7 @@ public class MenuProcessImpl extends AbstractProcess {
         StringBuffer sb = new StringBuffer();
         sb.append("Bot delivery\r\n");
         sb.append("1. Ver Menu\r\n");
-        sb.append("2. Solicitar vacación\r\n");
+        sb.append("2. Información del restaurante \r\n");
         sb.append("Elija una opción:\r\n");
         sendStringBuffer(bot, chatId, sb);
 
