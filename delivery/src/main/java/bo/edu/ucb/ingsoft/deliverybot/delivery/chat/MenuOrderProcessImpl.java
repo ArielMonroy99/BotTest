@@ -5,11 +5,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.HashMap;
 
-public class MenuProcessImpl extends AbstractProcess {
+public class MenuOrderProcessImpl extends AbstractProcess{
 
-
-    public MenuProcessImpl() {
-        this.setName("Menú principal");
+    public MenuOrderProcessImpl() {
+        this.setName("Menú de Pedidos");
         this.setDefault(true);
         this.setExpires(false);
         this.setStartDate(System.currentTimeMillis()/1000);
@@ -17,22 +16,25 @@ public class MenuProcessImpl extends AbstractProcess {
         this.setStatus("STARTED");
     }
 
-    // Retornar un Widget de tipo menu
-//    @Override
-//    public AbstractWidget onInit() {
-//        MenuWidgetImpl menuWidget = new MenuWidgetImpl(messages);
-//        return menuWidget;
-//    }
-
-
+    private void showOrderMenu(DeliveryLongPollingBot bot,Long chatId){
+        StringBuffer sb = new StringBuffer();
+        sb.append("Bot Delivery -- Menú de Pedidos\r\n");
+        sb.append("1. Ver Pedido Actual\r\n");
+        sb.append("2. Ver Pedido Anteriores\r\n");
+        sb.append("3. Volver al Menu Principal\r\n");
+        sb.append("Elija una opción:\r\n");
+        sendStringBuffer(bot,chatId,sb);
+        this.setStatus("AWAITING_USER_RESPONSE");
+    }
     @Override
     public AbstractProcess handle(Update update, DeliveryLongPollingBot bot) {
+
         AbstractProcess result = this; // sigo en el mismo proceso.
         Long chatId = update.getMessage().getChatId();
 
         if (this.getStatus().equals("STARTED")) {
 
-            showMainMenu(bot, chatId);
+            showOrderMenu(bot, chatId);
         } else if (this.getStatus().equals("AWAITING_USER_RESPONSE")) {
             // Estamos esperando por un numero 1 o 2
             Message message = update.getMessage();
@@ -42,38 +44,24 @@ public class MenuProcessImpl extends AbstractProcess {
                 try {
                     int opcion = Integer.parseInt(text);
                     switch (opcion){
-                       //case 1 : result = new QueryPastRequestsProcessImpl();
-                            //break;
-                       // case 2 : result = new RequestsPermissionProcessImpl();
-                          //  break;
-                        case 3: result = new MenuOrderProcessImpl(); break;
-                        default: showMainMenu(bot, chatId);
+                        case 1 : result = new OrderProcessImpl();
+                        break;
+                        // case 2 : result = new RequestsPermissionProcessImpl();
+                        //  break;
+
+                        case 3: result = new MenuProcessImpl(); break;
+                        default: showOrderMenu(bot, chatId);
                     }
                 } catch (NumberFormatException ex) {
-                    showMainMenu(bot, chatId);
+                    showOrderMenu(bot, chatId);
                 }
                 // continuar con el proceso seleccionado
             } else { // Si me enviaron algo diferente de un texto.
-                showMainMenu(bot, chatId);
+                showOrderMenu(bot, chatId);
             }
         }
         return result;
     }
-
-    private void showMainMenu(DeliveryLongPollingBot bot, Long chatId) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Bot delivery\r\n");
-        sb.append("1. Ver Menu\r\n");
-        sb.append("2. Información del restaurante \r\n");
-        sb.append("3. Ver pedidos\r\n");
-        sb.append("Elija una opción:\r\n");
-        sendStringBuffer(bot, chatId, sb);
-
-        this.setStatus("AWAITING_USER_RESPONSE");
-    }
-
-
-
 
     @Override
     public AbstractProcess onError() {
