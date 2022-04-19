@@ -61,8 +61,8 @@ public class MenuProcessImpl extends AbstractProcess {
 
     private void showMainMenu(DeliveryLongPollingBot bot, Long chatId) {
         StringBuffer sb = new StringBuffer();
-        sb.append("MENU PRINCIPAL - BOT RRHH\r\n");
-        sb.append("1. Consultar permisos solicitados\r\n");
+        sb.append("Bot delivery\r\n");
+        sb.append("1. Ver Menu\r\n");
         sb.append("2. Solicitar vacación\r\n");
         sb.append("Elija una opción:\r\n");
         sendStringBuffer(bot, chatId, sb);
