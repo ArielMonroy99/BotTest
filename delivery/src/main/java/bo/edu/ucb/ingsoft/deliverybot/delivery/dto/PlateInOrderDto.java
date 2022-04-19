@@ -27,9 +27,10 @@ public class PlateInOrderDto {
 
     @Override
     public String toString() {
-        return "PlateInOrder{" +
-                "plato=" + plato +
-                ", cantidad=" + cantidad +
-                '}';
+        return "Nombre: " + plato.getNombre() + '\n' +
+                "Precio: " + plato.getPrecio() +'\n' +
+                "Descripción: " + plato.getDescripcion() + '\n'+
+                "Cantidad: "+ cantidad +"\n";
+
     }
 }

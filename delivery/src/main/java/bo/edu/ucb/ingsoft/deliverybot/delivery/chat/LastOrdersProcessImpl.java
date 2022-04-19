@@ -20,8 +20,9 @@ public class LastOrdersProcessImpl extends AbstractProcess{
 
     @Override
     public AbstractProcess handle(Update update, DeliveryLongPollingBot bot) {
-        int c = 1;
         Long chatId = update.getMessage().getChatId();
+        int c = 1;
+
         OrderBl orderBl = new OrderBl();
         List<OrderDto> lastOrders = orderBl.findLas10Orders(chatId);
         StringBuffer sb = new StringBuffer();
@@ -34,7 +35,6 @@ public class LastOrdersProcessImpl extends AbstractProcess{
             c++;
         }
         sendStringBuffer(bot,chatId,sb);
-
         return new MenuOrderProcessImpl();
     }
 
