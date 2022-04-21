@@ -13,7 +13,9 @@ public class PlateBl {
 
     }
     public List<PlateDto> TodayMenu(Long chatID){
+
         plateDao = new PlateDao();
         return plateDao.TodayMenu(chatID);
     }
+
 }
