@@ -7,16 +7,18 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
 
+public class OrderPlateProcessImpl extends AbstractProcess {
 
-public class ViewMenuProcessImpl extends AbstractProcess{
+    private int orderSelecion;
 
-    ViewMenuProcessImpl(){
-        this.setName("Platos del menu");
+    public OrderPlateProcessImpl(int orderSelecion){
+        this.setName("Selecion");
         this.setDefault(true);
         this.setExpires(false);
         this.setStartDate(System.currentTimeMillis()/1000);
 //        this.setUserData(new HashMap<>());
         this.setStatus("STARTED");
+        this.orderSelecion =orderSelecion;
     }
 
     @Override
@@ -27,64 +29,45 @@ public class ViewMenuProcessImpl extends AbstractProcess{
 
         if (this.getStatus().equals("STARTED")) {
 
-            showMenuRestaurant(bot, chatId);
+            showOrderPlateProcess(bot, chatId);
         } else if (this.getStatus().equals("AWAITING_USER_RESPONSE")) {
             // Estamos esperando por un numero 1 o 2
             Message message = update.getMessage();
             if ( message.hasText() ) {
                 // Intentamos transformar en número
-                String text = message.getText(); // El texto contiene asdasda
+                String text = message.getText(); // El texto contiene asdasdas
                 try {
                     int opcion = Integer.parseInt(text);
                     switch (opcion){
-                        case 0 : result = new MenuProcessImpl();
+                        case 0 : result = new ViewMenuProcessImpl();
                             break;
-                        case 1 :
-                            System.out.println(opcion);
-                            result = new OrderPlateProcessImpl(opcion);
-
-                            break;
-                        case 2 :
-                            System.out.println(opcion);
-                            result = new OrderPlateProcessImpl(opcion);
-
-                            break;
-                        case 3 :
-                            System.out.println(opcion);
-                            result = new OrderPlateProcessImpl(opcion);
-                            break;
-                        case 4 :
-                            System.out.println(opcion);
-                            result = new OrderPlateProcessImpl(opcion);
-                            break;
-
-                        default: showMenuRestaurant(bot, chatId);
+                        default: showOrderPlateProcess(bot, chatId);
                     }
                 } catch (NumberFormatException ex) {
-                    showMenuRestaurant(bot, chatId);
+                    showOrderPlateProcess(bot, chatId);
                 }
                 // continuar con el proceso seleccionado
             } else { // Si me enviaron algo diferente de un texto.
-                showMenuRestaurant(bot, chatId);
+                showOrderPlateProcess(bot, chatId);
             }
         }
         return result;
     }
 
-    private void showMenuRestaurant(DeliveryLongPollingBot bot, Long chatId){
+    private void showOrderPlateProcess(DeliveryLongPollingBot bot, Long chatId){
         PlateBl plateBl = new PlateBl();
         List<PlateDto> menuToday = plateBl.TodayMenu(chatId);
         StringBuffer sb = new StringBuffer();
-        sb.append("Menu del dia \r\n");
-        menuToday.forEach(plate->{
+        sb.append("Usted Selecciono \r\n");
+        PlateDto selecion = menuToday.get(orderSelecion-1);
+        sb.append(selecion.getId()+": "+"Nombre: "+ selecion.getNombre()).append("\n\r");
+        sb.append("Precio: "+selecion.getPrecio() + " Bs").append("\n\r");
+        sb.append("Descripcion: "+selecion.getDescripcion()).append("\n\r");
+        sb.append("0: atras").append("\n\r");
+        sb.append("\n");
+        sb.append("Seleccione la cantidad que desea: ");
+        sb.append("\n");
 
-            sb.append(plate.getId()+": "+"Nombre: "+ plate.getNombre()).append("\n\r");
-            sb.append("Precio: "+plate.getPrecio() + " Bs").append("\n\r");
-            sb.append("Descripcion: "+plate.getDescripcion()).append("\n\r");
-            sb.append("\n");
-
-        });
-        sb.append("0: Salir").append("\n\r");
         sendStringBuffer(bot,chatId,sb);
         this.setStatus("AWAITING_USER_RESPONSE");
     }

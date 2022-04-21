@@ -1,6 +1,8 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.Map;
@@ -54,7 +56,6 @@ public abstract class AbstractProcess {
             throw new RuntimeException(ex);
         }
     }
-
     public String getName() {
         return name;
     }
