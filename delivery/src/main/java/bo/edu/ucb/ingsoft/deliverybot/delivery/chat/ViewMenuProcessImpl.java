@@ -76,13 +76,16 @@ public class ViewMenuProcessImpl extends AbstractProcess{
         List<PlateDto> menuToday = plateBl.TodayMenu(chatId);
         StringBuffer sb = new StringBuffer();
         sb.append("Menu del dia \r\n");
+        sendStringBuffer(bot,chatId,sb);
+        sb.setLength(0);
         menuToday.forEach(plate->{
 
             sb.append(plate.getId()+": "+"Nombre: "+ plate.getNombre()).append("\n\r");
             sb.append("Precio: "+plate.getPrecio() + " Bs").append("\n\r");
             sb.append("Descripcion: "+plate.getDescripcion()).append("\n\r");
+            sendPhotoB(bot,chatId,plate.getImg(),sb);
             sb.append("\n");
-
+            sb.setLength(0);
         });
         sb.append("0: Salir").append("\n\r");
         sendStringBuffer(bot,chatId,sb);

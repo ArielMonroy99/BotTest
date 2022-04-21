@@ -55,6 +55,18 @@ public abstract class AbstractProcess {
             // relanzamos la excepción
             throw new RuntimeException(ex);
         }
+    }protected void sendPhotoB(DeliveryLongPollingBot bot, Long chatId, String sb,StringBuffer texto) {
+        SendPhoto sendMessage = new SendPhoto();
+        sendMessage.setChatId(chatId.toString());
+        sendMessage.setPhoto(new InputFile(sb));
+        sendMessage.setCaption(String.valueOf(texto));
+        sendMessage.setProtectContent(true);
+        try {
+            bot.execute(sendMessage);
+        } catch (Exception ex) {
+            // relanzamos la excepción
+            throw new RuntimeException(ex);
+        }
     }
     public String getName() {
         return name;
