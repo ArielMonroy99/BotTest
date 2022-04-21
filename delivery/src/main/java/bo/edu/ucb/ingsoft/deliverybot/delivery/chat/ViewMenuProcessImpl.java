@@ -87,6 +87,7 @@ public class ViewMenuProcessImpl extends AbstractProcess{
             sb.append("\n");
             sb.setLength(0);
         });
+        sb.append("Selecione un plato").append("\n\r");
         sb.append("0: Salir").append("\n\r");
         sendStringBuffer(bot,chatId,sb);
         this.setStatus("AWAITING_USER_RESPONSE");
