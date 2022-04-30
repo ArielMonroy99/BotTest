@@ -4,12 +4,13 @@ import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.PlateBl;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
 
-
+@Service
 public class ViewMenuProcessImpl extends AbstractProcess{
     private PlateBl plateBl;
 
