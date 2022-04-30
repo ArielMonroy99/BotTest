@@ -21,7 +21,7 @@ public class ViewMenuProcessImpl extends AbstractProcess{
         this.setDefault(true);
         this.setExpires(false);
         this.setStartDate(System.currentTimeMillis()/1000);
-//        this.setUserData(new HashMap<>());
+//      this.setUserData(new HashMap<>());
         this.setStatus("STARTED");
     }
 
