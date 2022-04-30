@@ -3,6 +3,7 @@ package bo.edu.ucb.ingsoft.deliverybot.delivery.dto;
 import java.util.List;
 
 public class OrderDto {
+    private int id;
     private List<PlateInOrderDto> listaPlatos;
     private Double total;
     private String fecha;

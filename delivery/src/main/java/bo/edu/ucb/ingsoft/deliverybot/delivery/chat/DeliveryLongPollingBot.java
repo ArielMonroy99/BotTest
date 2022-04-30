@@ -1,5 +1,6 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
+import org.springframework.context.ApplicationContext;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -17,13 +18,16 @@ public class DeliveryLongPollingBot extends TelegramLongPollingBot {
     private Map<Long, AbstractProcess> usersSession;
     private boolean test = false;
     private List<BotApiMethod> testMessages = new ArrayList<>();
+    private ApplicationContext context;
 
-    public DeliveryLongPollingBot() {
+    public DeliveryLongPollingBot(ApplicationContext context) {
+        this.context = context;
         usersSession = new HashMap<>();
     }
 
-    public DeliveryLongPollingBot(boolean test) {
+    public DeliveryLongPollingBot(ApplicationContext context,boolean test) {
         this.test = test;
+        this.context = context;
         usersSession = new HashMap<>();
     }
 
@@ -66,11 +70,11 @@ public class DeliveryLongPollingBot extends TelegramLongPollingBot {
             currentProcess = new MenuProcessImpl();
             usersSession.put(chatId, currentProcess);
             System.out.println("Derivando la conversación al proceso: " + currentProcess.getName());
-            AbstractProcess nextProcess = currentProcess.handle(update, this);
+            AbstractProcess nextProcess = currentProcess.handle(context,update, this);
 
             if (!nextProcess.equals(currentProcess)) { // Si el siguiente proceso es diferente lo iniciamos
                 System.out.println("Iniciando siguiente proceso: " + nextProcess.getName());
-                nextProcess.handle(update, this);
+                nextProcess.handle(context,update, this);
             } else {
                 System.out.println("No hay cambio de proceso, así que termina conversación");
             }
@@ -79,11 +83,11 @@ public class DeliveryLongPollingBot extends TelegramLongPollingBot {
         } else { // Ya existe un proceso
             System.out.println("Continuamos el proceso para el  chatId: " + chatId
                     + " proceso: " + currentProcess.getName());
-            AbstractProcess nextProcess = currentProcess.handle(update, this);
+            AbstractProcess nextProcess = currentProcess.handle(context,update, this);
 
             if (!nextProcess.equals(currentProcess)) { // Si el siguiente proceso es diferente
                 System.out.println("Iniciando siguiente proceso: " + nextProcess.getName());
-                nextProcess = nextProcess.handle(update, this);
+                nextProcess = nextProcess.handle(context,update, this);
             } else {
                 System.out.println("No hay cambio de proceso, así que termina conversación");
             }

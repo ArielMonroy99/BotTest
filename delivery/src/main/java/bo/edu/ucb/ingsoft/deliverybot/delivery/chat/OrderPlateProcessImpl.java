@@ -2,27 +2,33 @@ package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
 import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.PlateBl;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateDto;
+import org.jvnet.hk2.annotations.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.security.Permission;
 import java.util.List;
-
+@Service
 public class OrderPlateProcessImpl extends AbstractProcess {
-
+    private PlateBl plateBl;
     private int orderSelecion;
 
-    public OrderPlateProcessImpl(int orderSelecion){
+    @Autowired
+    public OrderPlateProcessImpl(int orderSelecion , PlateBl plateB){
+        this.plateBl = plateBl;
         this.setName("Selecion");
         this.setDefault(true);
         this.setExpires(false);
         this.setStartDate(System.currentTimeMillis()/1000);
 //        this.setUserData(new HashMap<>());
         this.setStatus("STARTED");
-        this.orderSelecion =orderSelecion;
+        this.orderSelecion = orderSelecion;
     }
 
     @Override
-    public AbstractProcess handle(Update update, DeliveryLongPollingBot bot) {
+    public AbstractProcess handle(ApplicationContext context, Update update, DeliveryLongPollingBot bot) {
         AbstractProcess result = this;
         Long chatId = update.getMessage().getChatId();
 
@@ -39,7 +45,7 @@ public class OrderPlateProcessImpl extends AbstractProcess {
                 try {
                     int opcion = Integer.parseInt(text);
                     switch (opcion){
-                        case 0 : result = new ViewMenuProcessImpl();
+                        case 0 : result = context.getBean(ViewMenuProcessImpl.class);
                             break;
                         default: showOrderPlateProcess(bot, chatId);
                     }
@@ -55,7 +61,6 @@ public class OrderPlateProcessImpl extends AbstractProcess {
     }
 
     private void showOrderPlateProcess(DeliveryLongPollingBot bot, Long chatId){
-        PlateBl plateBl = new PlateBl();
         List<PlateDto> menuToday = plateBl.TodayMenu(chatId);
         StringBuffer sb = new StringBuffer();
         sb.append("Usted Selecciono \r\n");

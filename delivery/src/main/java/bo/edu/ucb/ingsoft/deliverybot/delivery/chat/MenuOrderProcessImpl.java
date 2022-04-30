@@ -1,10 +1,14 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.HashMap;
 
+@Service
 public class MenuOrderProcessImpl extends AbstractProcess{
 
     public MenuOrderProcessImpl() {
@@ -27,7 +31,7 @@ public class MenuOrderProcessImpl extends AbstractProcess{
         this.setStatus("AWAITING_USER_RESPONSE");
     }
     @Override
-    public AbstractProcess handle(Update update, DeliveryLongPollingBot bot) {
+    public AbstractProcess handle(ApplicationContext context, Update update, DeliveryLongPollingBot bot) {
 
         AbstractProcess result = this; // sigo en el mismo proceso.
         Long chatId = update.getMessage().getChatId();
@@ -44,9 +48,9 @@ public class MenuOrderProcessImpl extends AbstractProcess{
                 try {
                     int opcion = Integer.parseInt(text);
                     switch (opcion){
-                        case 1 : result = new OrderProcessImpl();
+                        case 1 : result = context.getBean(OrderProcessImpl.class);
                         break;
-                         case 2 : result = new LastOrdersProcessImpl();
+                         case 2 : result = context.getBean(LastOrdersProcessImpl.class);
                           break;
 
                         case 3: result = new MenuProcessImpl(); break;

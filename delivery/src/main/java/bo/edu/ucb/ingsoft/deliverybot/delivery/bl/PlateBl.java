@@ -4,18 +4,23 @@ import bo.edu.ucb.ingsoft.deliverybot.delivery.dao.PlateDao;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.OrderDto;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateDto;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class PlateBl {
     private PlateDao plateDao;
-    public PlateBl(){
 
+    @Autowired
+    public PlateBl(PlateDao plateDao){
+        this.plateDao = plateDao;
     }
     public List<PlateDto> TodayMenu(Long chatID){
+        return plateDao.findAllPlates();
 
-        plateDao = new PlateDao();
-        return plateDao.TodayMenu(chatID);
     }
 
 }

@@ -1,10 +1,13 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.HashMap;
 
+@Service
 public class MenuProcessImpl extends AbstractProcess {
 
 
@@ -26,7 +29,7 @@ public class MenuProcessImpl extends AbstractProcess {
 
 
     @Override
-    public AbstractProcess handle(Update update, DeliveryLongPollingBot bot) {
+    public AbstractProcess handle(ApplicationContext context, Update update, DeliveryLongPollingBot bot) {
         AbstractProcess result = this; // sigo en el mismo proceso.
         Long chatId = update.getMessage().getChatId();
         System.out.println("aaaaaa");
@@ -42,9 +45,9 @@ public class MenuProcessImpl extends AbstractProcess {
                 try {
                     int opcion = Integer.parseInt(text);
                     switch (opcion){
-                       case 1 : result = new ViewMenuProcessImpl();
+                       case 1 : result = context.getBean(ViewMenuProcessImpl.class);
                             break;
-                        case 2 : result = new AboutProcessImpl();
+                        case 2 : result = context.getBean(AboutProcessImpl.class);
                             break;
                         case 3: result = new MenuOrderProcessImpl(); break;
                         default: showMainMenu(bot, chatId); break;

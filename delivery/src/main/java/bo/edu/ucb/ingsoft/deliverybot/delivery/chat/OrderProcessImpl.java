@@ -2,12 +2,19 @@ package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
 import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.OrderBl;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.OrderDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+@Service
 public class OrderProcessImpl extends AbstractProcess{
 
-    public OrderProcessImpl(){
+    private  OrderBl orderBl;
+    @Autowired
+    public OrderProcessImpl(OrderBl orderBl){
+        this.orderBl = orderBl;
         this.setName("Consultar Pedido actual");
         this.setDefault(false);
         this.setExpires(false);
@@ -16,23 +23,10 @@ public class OrderProcessImpl extends AbstractProcess{
     }
     private boolean hasShowOrder = false;
     @Override
-    public AbstractProcess handle(Update update, DeliveryLongPollingBot bot) {
+    public AbstractProcess handle(ApplicationContext context, Update update, DeliveryLongPollingBot bot) {
         AbstractProcess result = this;
         Long chatId = update.getMessage().getChatId();
-        OrderBl orderBl = new OrderBl();
-        OrderDto lastOrder = orderBl.findLastOrder(chatId);
-       if(!hasShowOrder){
-
-
-           StringBuffer sb = new StringBuffer();
-           sb.append("---Pedido---\r\n");
-           sb.append(lastOrder.toString()).append("\n\r");
-           sendStringBuffer(bot,chatId,sb);
-           hasShowOrder = true;
-       }
-
        // sigo en el mismo proceso.
-
         if (this.getStatus().equals("STARTED")) {
 
             showMenu(bot, chatId);
@@ -46,9 +40,9 @@ public class OrderProcessImpl extends AbstractProcess{
                     int opcion = Integer.parseInt(text);
                     switch (opcion){
                         case 1 :  this.sendStringBuffer(bot,chatId,new StringBuffer("Pedido Enviado"));
-                                  result = new MenuProcessImpl();
+                                  result = context.getBean(MenuProcessImpl.class);
                         break;
-                        case 2 : result = new MenuOrderProcessImpl();
+                        case 2 : result = context.getBean(MenuOrderProcessImpl.class);
                         break;
 
                         default: showMenu(bot, chatId);
@@ -65,7 +59,12 @@ public class OrderProcessImpl extends AbstractProcess{
 
     }
     private void showMenu(DeliveryLongPollingBot bot, Long chatId){
-        StringBuffer sb = new StringBuffer();
+
+      StringBuffer sb = new StringBuffer();
+//        OrderDto lastOrder = orderBl.findLastOrder(chatId);
+//        sb.append("---Pedido---\r\n");
+//        sb.append(lastOrder.toString()).append("\n\r");
+//        sendStringBuffer(bot,chatId,sb);
         sb.append("Bot delivery\r\n");
         sb.append("1. Enviar Pedido\r\n");
         sb.append("2. Volver \r\n");

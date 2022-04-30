@@ -2,15 +2,22 @@ package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
 import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.OrderBl;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.OrderDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.HashMap;
 import java.util.List;
 
+@Service
 public class LastOrdersProcessImpl extends AbstractProcess{
 
-    public LastOrdersProcessImpl() {
+    private OrderBl orderBl;
+    @Autowired
+    public LastOrdersProcessImpl(OrderBl orderBl) {
+        this.orderBl = orderBl;
         this.setName("Lista de Pedidos Anteriores");
         this.setDefault(true);
         this.setExpires(false);
@@ -21,18 +28,18 @@ public class LastOrdersProcessImpl extends AbstractProcess{
 
 
     private void showMainMenu(DeliveryLongPollingBot bot, Long chatId) {
-        int c = 1;
-        OrderBl orderBl = new OrderBl();
-        List<OrderDto> lastOrders = orderBl.findLas10Orders(chatId);
-        StringBuffer sb = new StringBuffer();
-        sb.append("<----- Pedidos ------>\n");
-        for(OrderDto order: lastOrders){
-
-            sb.append("Pedido: ").append(c).append("\n");
-            sb.append(order.toString2()).append("\n\r");
-            sb.append("----------------------------------\n");
-            c++;
-        }
+//        int c = 1;
+//
+//        List<OrderDto> lastOrders = orderBl.findLas10Orders(chatId);
+       StringBuffer sb = new StringBuffer();
+//        sb.append("<----- Pedidos ------>\n");
+//        for(OrderDto order: lastOrders){
+//
+//            sb.append("Pedido: ").append(c).append("\n");
+//            sb.append(order.toString2()).append("\n\r");
+//            sb.append("----------------------------------\n");
+//            c++;
+//        }
 
         sb.append("1. Volver al Menu Principal\r\n");
         sendStringBuffer(bot, chatId, sb);
@@ -41,7 +48,7 @@ public class LastOrdersProcessImpl extends AbstractProcess{
 
 
     @Override
-    public AbstractProcess handle(Update update, DeliveryLongPollingBot bot) {
+    public AbstractProcess handle(ApplicationContext context, Update update, DeliveryLongPollingBot bot) {
         AbstractProcess result = this; // sigo en el mismo proceso.
         Long chatId = update.getMessage().getChatId();
 

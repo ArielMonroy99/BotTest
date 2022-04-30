@@ -2,6 +2,8 @@ package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
 import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.PlateBl;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -9,8 +11,11 @@ import java.util.List;
 
 
 public class ViewMenuProcessImpl extends AbstractProcess{
+    private PlateBl plateBl;
 
-    ViewMenuProcessImpl(){
+    @Autowired
+    ViewMenuProcessImpl(PlateBl plateBl){
+        this.plateBl = plateBl;
         this.setName("Platos del menu");
         this.setDefault(true);
         this.setExpires(false);
@@ -19,8 +24,30 @@ public class ViewMenuProcessImpl extends AbstractProcess{
         this.setStatus("STARTED");
     }
 
+    private void showMenuRestaurant(DeliveryLongPollingBot bot, Long chatId){
+
+        List<PlateDto> menuToday = plateBl.TodayMenu(chatId);
+        StringBuffer sb = new StringBuffer();
+        sb.append("Menu del dia \r\n");
+        sendStringBuffer(bot,chatId,sb);
+        sb.setLength(0);
+        menuToday.forEach(plate->{
+
+            sb.append(plate.getId()+": "+"Nombre: "+ plate.getNombre()).append("\n\r");
+            sb.append("Precio: "+plate.getPrecio() + " Bs").append("\n\r");
+            sb.append("Descripcion: "+plate.getDescripcion()).append("\n\r");
+            sendPhotoB(bot,chatId,plate.getImg(), String.valueOf(sb));
+            sb.append("\n");
+            sb.setLength(0);
+        });
+        sb.append("Selecione un plato").append("\n\r");
+        sb.append("0: Salir").append("\n\r");
+        sendStringBuffer(bot,chatId,sb);
+        this.setStatus("AWAITING_USER_RESPONSE");
+    }
+
     @Override
-    public AbstractProcess handle(Update update, DeliveryLongPollingBot bot) {
+    public AbstractProcess handle(ApplicationContext context, Update update, DeliveryLongPollingBot bot) {
         AbstractProcess result = this;
         Long chatId = update.getMessage().getChatId();
 
@@ -37,26 +64,26 @@ public class ViewMenuProcessImpl extends AbstractProcess{
                 try {
                     int opcion = Integer.parseInt(text);
                     switch (opcion){
-                        case 0 : result = new MenuProcessImpl();
-                            break;
-                        case 1 :
-                            System.out.println(opcion);
-                            result = new OrderPlateProcessImpl(opcion);
-
-                            break;
-                        case 2 :
-                            System.out.println(opcion);
-                            result = new OrderPlateProcessImpl(opcion);
-
-                            break;
-                        case 3 :
-                            System.out.println(opcion);
-                            result = new OrderPlateProcessImpl(opcion);
-                            break;
-                        case 4 :
-                            System.out.println(opcion);
-                            result = new OrderPlateProcessImpl(opcion);
-                            break;
+//                        case 0 : result = new MenuProcessImpl();
+//                            break;
+//                        case 1 :
+//                            System.out.println(opcion);
+//                            result = new OrderPlateProcessImpl(opcion);
+//
+//                            break;
+//                        case 2 :
+//                            System.out.println(opcion);
+//                            result = new OrderPlateProcessImpl(opcion);
+//
+//                            break;
+//                        case 3 :
+//                            System.out.println(opcion);
+//                            result = new OrderPlateProcessImpl(opcion);
+//                            break;
+//                        case 4 :
+//                            System.out.println(opcion);
+//                            result = new OrderPlateProcessImpl(opcion);
+//                            break;
 
                         default: showMenuRestaurant(bot, chatId);
                     }
@@ -69,28 +96,6 @@ public class ViewMenuProcessImpl extends AbstractProcess{
             }
         }
         return result;
-    }
-
-    private void showMenuRestaurant(DeliveryLongPollingBot bot, Long chatId){
-        PlateBl plateBl = new PlateBl();
-        List<PlateDto> menuToday = plateBl.TodayMenu(chatId);
-        StringBuffer sb = new StringBuffer();
-        sb.append("Menu del dia \r\n");
-        sendStringBuffer(bot,chatId,sb);
-        sb.setLength(0);
-        menuToday.forEach(plate->{
-
-            sb.append(plate.getId()+": "+"Nombre: "+ plate.getNombre()).append("\n\r");
-            sb.append("Precio: "+plate.getPrecio() + " Bs").append("\n\r");
-            sb.append("Descripcion: "+plate.getDescripcion()).append("\n\r");
-            sendPhotoB(bot,chatId,plate.getImg(),sb);
-            sb.append("\n");
-            sb.setLength(0);
-        });
-        sb.append("Selecione un plato").append("\n\r");
-        sb.append("0: Salir").append("\n\r");
-        sendStringBuffer(bot,chatId,sb);
-        this.setStatus("AWAITING_USER_RESPONSE");
     }
 
     @Override

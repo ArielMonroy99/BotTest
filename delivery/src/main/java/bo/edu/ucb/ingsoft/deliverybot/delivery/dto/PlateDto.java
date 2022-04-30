@@ -5,16 +5,10 @@ public class PlateDto {
     private String nombre;
     private Double precio;
     private String descripcion;
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
     private String img;
+
+
+
 
     public PlateDto(){
     }
@@ -26,6 +20,14 @@ public class PlateDto {
         this.descripcion = descripcion;
         this.img = img;
     }
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     public Integer getId() {
         return id;
     }

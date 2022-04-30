@@ -1,5 +1,6 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
+import org.springframework.context.ApplicationContext;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -31,10 +32,11 @@ public abstract class AbstractProcess {
     private String status;
 
     // Este metodo decide que hacer con el usuario en cada tipo de proceso.
-    public abstract AbstractProcess handle(Update update, DeliveryLongPollingBot bot);
+    public abstract AbstractProcess handle(ApplicationContext context,Update update, DeliveryLongPollingBot bot);
 
 //    // Método que se invoca al iniciar el proceso
 //    public abstract AbstractWidget onInit();
+
 
     // A que proceso se debe ir en caso de error.
     public abstract AbstractProcess onError();
@@ -55,11 +57,17 @@ public abstract class AbstractProcess {
             // relanzamos la excepción
             throw new RuntimeException(ex);
         }
-    }protected void sendPhotoB(DeliveryLongPollingBot bot, Long chatId, String sb,StringBuffer texto) {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    protected void sendPhotoB(DeliveryLongPollingBot bot, Long chatId, String sb, String caption) {
         SendPhoto sendMessage = new SendPhoto();
         sendMessage.setChatId(chatId.toString());
         sendMessage.setPhoto(new InputFile(sb));
-        sendMessage.setCaption(String.valueOf(texto));
+        sendMessage.setCaption(caption);
         sendMessage.setProtectContent(true);
         try {
             bot.execute(sendMessage);
@@ -67,9 +75,6 @@ public abstract class AbstractProcess {
             // relanzamos la excepción
             throw new RuntimeException(ex);
         }
-    }
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
