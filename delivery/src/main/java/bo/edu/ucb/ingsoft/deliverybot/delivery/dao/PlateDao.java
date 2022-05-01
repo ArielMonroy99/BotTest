@@ -8,6 +8,6 @@ import java.util.List;
 @Service
 public interface PlateDao {
 
-    @Select("select * from plato")
+    @Select("select plato_id as id, nombre,precio,descripcion, imagen_url as img from plato")
     List<PlateDto> findAllPlates();
 }

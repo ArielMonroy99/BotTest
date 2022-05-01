@@ -61,7 +61,7 @@ public class OrderPlateProcessImpl extends AbstractProcess {
     }
 
     private void showOrderPlateProcess(DeliveryLongPollingBot bot, Long chatId){
-        List<PlateDto> menuToday = plateBl.TodayMenu(chatId);
+        List<PlateDto> menuToday = plateBl.TodayMenu();
         StringBuffer sb = new StringBuffer();
         sb.append("Usted Selecciono \r\n");
         PlateDto selecion = menuToday.get(orderSelecion-1);

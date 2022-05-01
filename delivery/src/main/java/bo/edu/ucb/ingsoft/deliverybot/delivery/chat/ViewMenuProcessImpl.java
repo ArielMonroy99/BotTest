@@ -27,7 +27,7 @@ public class ViewMenuProcessImpl extends AbstractProcess{
 
     private void showMenuRestaurant(DeliveryLongPollingBot bot, Long chatId){
 
-        List<PlateDto> menuToday = plateBl.TodayMenu(chatId);
+        List<PlateDto> menuToday = plateBl.TodayMenu();
         StringBuffer sb = new StringBuffer();
         sb.append("Menu del dia \r\n");
         sendStringBuffer(bot,chatId,sb);
@@ -65,26 +65,26 @@ public class ViewMenuProcessImpl extends AbstractProcess{
                 try {
                     int opcion = Integer.parseInt(text);
                     switch (opcion){
-//                        case 0 : result = new MenuProcessImpl();
-//                            break;
-//                        case 1 :
-//                            System.out.println(opcion);
-//                            result = new OrderPlateProcessImpl(opcion);
-//
-//                            break;
-//                        case 2 :
-//                            System.out.println(opcion);
-//                            result = new OrderPlateProcessImpl(opcion);
-//
-//                            break;
-//                        case 3 :
-//                            System.out.println(opcion);
-//                            result = new OrderPlateProcessImpl(opcion);
-//                            break;
-//                        case 4 :
-//                            System.out.println(opcion);
-//                            result = new OrderPlateProcessImpl(opcion);
-//                            break;
+                        case 0 : result = new MenuProcessImpl();
+                            break;
+                        case 1 :
+                            System.out.println(opcion);
+                            result = context.getBean(OrderPlateProcessImpl.class,opcion);
+
+                            break;
+                        case 2 :
+                            System.out.println(opcion);
+                            result =context.getBean(OrderPlateProcessImpl.class,opcion);
+
+                            break;
+                        case 3 :
+                            System.out.println(opcion);
+                            result = context.getBean(OrderPlateProcessImpl.class,opcion);
+                            break;
+                        case 4 :
+                            System.out.println(opcion);
+                            result = context.getBean(OrderPlateProcessImpl.class,opcion);
+                            break;
 
                         default: showMenuRestaurant(bot, chatId);
                     }

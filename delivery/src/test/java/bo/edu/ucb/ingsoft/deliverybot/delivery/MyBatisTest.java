@@ -21,7 +21,7 @@ public class MyBatisTest {
     public void testSelectAllPlates(){
         List<PlateDto> plateDtoList = plateDao.findAllPlates();
         for(PlateDto plate: plateDtoList ){
-            System.out.println("plato" + plate);
+            System.out.println("plato " + plate.getId());
         }
     }
 }

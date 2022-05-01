@@ -18,7 +18,7 @@ public class PlateBl {
     public PlateBl(PlateDao plateDao){
         this.plateDao = plateDao;
     }
-    public List<PlateDto> TodayMenu(Long chatID){
+    public List<PlateDto> TodayMenu(){
         return plateDao.findAllPlates();
 
     }
