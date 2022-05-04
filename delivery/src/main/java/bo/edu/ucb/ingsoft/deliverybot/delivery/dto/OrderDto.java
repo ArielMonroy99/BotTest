@@ -1,17 +1,53 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.dto;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 public class OrderDto {
     private int id;
+    private ClienteDto Cliente;
     private List<PlateInOrderDto> listaPlatos;
-    private Double total;
-    private String fecha;
+    private int estado;
+    private Date fecha;
+    private int longitud;
+    private int latitud;
+    private int metodoDePago;
+    private int delivery;
+    private BigDecimal total;
+    private int status;
 
-    public OrderDto(List<PlateInOrderDto> listaPlatos, Double total, String fecha) {
+    public OrderDto(){
+
+    }
+    public OrderDto(int id, ClienteDto cliente, List<PlateInOrderDto> listaPlatos, int estado, Date fecha, int longitud, int latitud, int metodoDePago, int delivery, BigDecimal total, int status) {
+        this.id = id;
+        Cliente = cliente;
         this.listaPlatos = listaPlatos;
-        this.total = total;
+        this.estado = estado;
         this.fecha = fecha;
+        this.longitud = longitud;
+        this.latitud = latitud;
+        this.metodoDePago = metodoDePago;
+        this.delivery = delivery;
+        this.total = total;
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public ClienteDto getCliente() {
+        return Cliente;
+    }
+
+    public void setCliente(ClienteDto cliente) {
+        Cliente = cliente;
     }
 
     public List<PlateInOrderDto> getListaPlatos() {
@@ -22,20 +58,68 @@ public class OrderDto {
         this.listaPlatos = listaPlatos;
     }
 
-    public Double getTotal() {
-        return total;
+    public int getEstado() {
+        return estado;
     }
 
-    public void setTotal(Double total) {
-        this.total = total;
+    public void setEstado(int estado) {
+        this.estado = estado;
     }
 
-    public String getFecha() {
+    public Date getFecha(Date date) {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public int getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(int longitud) {
+        this.longitud = longitud;
+    }
+
+    public int getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(int latitud) {
+        this.latitud = latitud;
+    }
+
+    public int getMetodoDePago() {
+        return metodoDePago;
+    }
+
+    public void setMetodoDePago(int metodoDePago) {
+        this.metodoDePago = metodoDePago;
+    }
+
+    public int getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(int delivery) {
+        this.delivery = delivery;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     @Override
