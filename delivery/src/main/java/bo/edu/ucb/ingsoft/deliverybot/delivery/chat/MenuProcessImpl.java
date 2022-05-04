@@ -45,7 +45,7 @@ public class MenuProcessImpl extends AbstractProcess {
                 try {
                     int opcion = Integer.parseInt(text);
                     switch (opcion){
-                       case 1 : result = context.getBean(ViewMenuProcessImpl.class);
+                        case 1 : result = context.getBean(ViewMenuProcessImpl.class);
                             break;
                         case 2 : result = context.getBean(AboutProcessImpl.class);
                             break;

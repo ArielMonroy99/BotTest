@@ -20,7 +20,6 @@ public class PlateBl {
     }
     public List<PlateDto> TodayMenu(){
         return plateDao.findAllPlates();
-
     }
 
 }

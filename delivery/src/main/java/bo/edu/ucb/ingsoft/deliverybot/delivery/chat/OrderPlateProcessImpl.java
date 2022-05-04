@@ -2,6 +2,8 @@ package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
 import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.PlateBl;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateDto;
+import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateInOrderDto;
+import bo.edu.ucb.ingsoft.deliverybot.delivery.util.UserSession;
 import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -9,14 +11,17 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.security.Permission;
+import java.util.ArrayList;
 import java.util.List;
+//import java.util.logging.Logger;
+
 @Service
 public class OrderPlateProcessImpl extends AbstractProcess {
     private PlateBl plateBl;
-    private int orderSelecion;
-
+    private PlateDto plate;
+    private List<PlateInOrderDto> plateInOrder;
     @Autowired
-    public OrderPlateProcessImpl(int orderSelecion , PlateBl plateB){
+    public OrderPlateProcessImpl(PlateDto plate, PlateBl plateBl){
         this.plateBl = plateBl;
         this.setName("Selecion");
         this.setDefault(true);
@@ -24,11 +29,12 @@ public class OrderPlateProcessImpl extends AbstractProcess {
         this.setStartDate(System.currentTimeMillis()/1000);
 //        this.setUserData(new HashMap<>());
         this.setStatus("STARTED");
-        this.orderSelecion = orderSelecion;
+        this.plate = plate;
     }
 
     @Override
     public AbstractProcess handle(ApplicationContext context, Update update, DeliveryLongPollingBot bot) {
+
         AbstractProcess result = this;
         Long chatId = update.getMessage().getChatId();
 
@@ -43,12 +49,23 @@ public class OrderPlateProcessImpl extends AbstractProcess {
                 // Intentamos transformar en número
                 String text = message.getText(); // El texto contiene asdasdas
                 try {
-                    int opcion = Integer.parseInt(text);
-                    switch (opcion){
-                        case 0 : result = context.getBean(ViewMenuProcessImpl.class);
-                            break;
-                        default: showOrderPlateProcess(bot, chatId);
+                    int cantidad = Integer.parseInt(text);
+                    if(cantidad == 0){
+                        result = new ViewMenuProcessImpl(plateBl,plateInOrder);
+                    }else {
+//                       plateInOrder.add(new PlateInOrderDto(plate, cantidad));
+                       if (UserSession.get(chatId,"Lista") != null){
+                           List<PlateInOrderDto> lista = (List<PlateInOrderDto>) UserSession.get(chatId,"Lista");
+                           lista.add((PlateInOrderDto) plateInOrder);
+                       }else{
+                           List<PlateInOrderDto> lista = new ArrayList<PlateInOrderDto>();
+                           lista.add((PlateInOrderDto) plateInOrder);
+                           UserSession.put(chatId,"Lista",lista);
+                       }
+                       System.out.println("Esto es algo"+UserSession.get(chatId,"Lista"));
+                        result = new ViewMenuProcessImpl(plateBl,plateInOrder);
                     }
+
                 } catch (NumberFormatException ex) {
                     showOrderPlateProcess(bot, chatId);
                 }
@@ -61,19 +78,20 @@ public class OrderPlateProcessImpl extends AbstractProcess {
     }
 
     private void showOrderPlateProcess(DeliveryLongPollingBot bot, Long chatId){
-        List<PlateDto> menuToday = plateBl.TodayMenu();
+        List<PlateDto> order = plateBl.TodayMenu();
         StringBuffer sb = new StringBuffer();
         sb.append("Usted Selecciono \r\n");
-        PlateDto selecion = menuToday.get(orderSelecion-1);
-        sb.append(selecion.getId()+": "+"Nombre: "+ selecion.getNombre()).append("\n\r");
-        sb.append("Precio: "+selecion.getPrecio() + " Bs").append("\n\r");
-        sb.append("Descripcion: "+selecion.getDescripcion()).append("\n\r");
+        sb.append(plate.getId()+": "+"Nombre: "+ plate.getNombre()).append("\n\r");
+        sb.append("Precio: "+plate.getPrecio() + " Bs").append("\n\r");
+        sb.append("Descripcion: "+plate.getDescripcion()).append("\n\r");
+        sb.append("\n");
         sb.append("0: atras").append("\n\r");
         sb.append("\n");
         sb.append("Seleccione la cantidad que desea: ");
         sb.append("\n");
-
-        sendStringBuffer(bot,chatId,sb);
+        sendPhotoB(bot,chatId,plate.getImg(), String.valueOf(sb));
+//        sendStringBuffer(bot,chatId,sb);
+        sb.setLength(0);
         this.setStatus("AWAITING_USER_RESPONSE");
     }
 

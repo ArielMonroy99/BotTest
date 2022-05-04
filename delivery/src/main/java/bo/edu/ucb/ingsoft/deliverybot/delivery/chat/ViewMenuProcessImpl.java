@@ -2,6 +2,7 @@ package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
 import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.PlateBl;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateDto;
+import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateInOrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -9,18 +10,20 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 public class ViewMenuProcessImpl extends AbstractProcess{
     private PlateBl plateBl;
-
+    private List<PlateInOrderDto> plateOrder;
     @Autowired
-    ViewMenuProcessImpl(PlateBl plateBl){
+    ViewMenuProcessImpl(PlateBl plateBl, List<PlateInOrderDto> plateOrder){
         this.plateBl = plateBl;
         this.setName("Platos del menu");
         this.setDefault(true);
         this.setExpires(false);
         this.setStartDate(System.currentTimeMillis()/1000);
+        this.plateOrder = plateOrder;
 //      this.setUserData(new HashMap<>());
         this.setStatus("STARTED");
     }
@@ -64,29 +67,17 @@ public class ViewMenuProcessImpl extends AbstractProcess{
                 String text = message.getText(); // El texto contiene asdasda
                 try {
                     int opcion = Integer.parseInt(text);
-                    switch (opcion){
-                        case 0 : result = new MenuProcessImpl();
-                            break;
-                        case 1 :
-                            System.out.println(opcion);
-                            result = context.getBean(OrderPlateProcessImpl.class,opcion);
-
-                            break;
-                        case 2 :
-                            System.out.println(opcion);
-                            result =context.getBean(OrderPlateProcessImpl.class,opcion);
-
-                            break;
-                        case 3 :
-                            System.out.println(opcion);
-                            result = context.getBean(OrderPlateProcessImpl.class,opcion);
-                            break;
-                        case 4 :
-                            System.out.println(opcion);
-                            result = context.getBean(OrderPlateProcessImpl.class,opcion);
-                            break;
-
-                        default: showMenuRestaurant(bot, chatId);
+                    List<PlateDto> menuToday = plateBl.TodayMenu();
+//                    for (int i = 0; i <= menuToday.size() ; i++) {
+//                        if (opcion == i){
+//                            System.out.println();
+//                        }
+//
+//                    }
+                    if (opcion == 0){
+                        result = new MenuProcessImpl();
+                    }else{
+                        result = new OrderPlateProcessImpl(menuToday.get(opcion-1), plateBl);
                     }
                 } catch (NumberFormatException ex) {
                     showMenuRestaurant(bot, chatId);
