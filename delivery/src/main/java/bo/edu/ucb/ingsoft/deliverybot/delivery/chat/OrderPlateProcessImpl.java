@@ -1,5 +1,6 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
+import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.OrderBl;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.PlateBl;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateDto;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateInOrderDto;
@@ -19,7 +20,8 @@ import java.util.List;
 public class OrderPlateProcessImpl extends AbstractProcess {
     private PlateBl plateBl;
     private PlateDto plate;
-    private List<PlateInOrderDto> plateInOrder;
+    private PlateInOrderDto plateInOrder;
+    private OrderBl orderBl;
     @Autowired
     public OrderPlateProcessImpl(PlateDto plate, PlateBl plateBl){
         this.plateBl = plateBl;
@@ -51,22 +53,26 @@ public class OrderPlateProcessImpl extends AbstractProcess {
                 try {
                     int cantidad = Integer.parseInt(text);
                     if(cantidad == 0){
-                        result = new ViewMenuProcessImpl(plateBl,plateInOrder);
+                        result = new ViewMenuProcessImpl(plateBl);
                     }else {
                         //FIXME : el plateInOrderDto no se inicializa tendrias que usar algo asi  -->  plateInOrder.add(new PlateInOrderDto(plate, cantidad));
                         // pero en este caso utiliza esta funcion 'List<PlateInOrderDto> addPlateToList (List<PlateInOrderDto> list,PlateInOrderDto newPlate)'
                         // es parte del OrderBl
                        // es
+                        orderBl = new OrderBl();
                        if (UserSession.get(chatId,"Lista") != null){
                            List<PlateInOrderDto> lista = (List<PlateInOrderDto>) UserSession.get(chatId,"Lista");
-                           lista.add((PlateInOrderDto) plateInOrder);
+                           plateInOrder = new PlateInOrderDto(plate,cantidad);
+                           orderBl.addPlateToList(lista,plateInOrder);
+
                        }else{
                            List<PlateInOrderDto> lista = new ArrayList<PlateInOrderDto>();
-                           lista.add((PlateInOrderDto) plateInOrder);
+                           plateInOrder = new PlateInOrderDto(plate,cantidad);
+                           orderBl.addPlateToList(lista,plateInOrder);
                            UserSession.put(chatId,"Lista",lista);
                        }
                        System.out.println("Esto es algo"+UserSession.get(chatId,"Lista"));
-                        result = new ViewMenuProcessImpl(plateBl,plateInOrder);
+                        result = new ViewMenuProcessImpl(plateBl);
                     }
 
                 } catch (NumberFormatException ex) {

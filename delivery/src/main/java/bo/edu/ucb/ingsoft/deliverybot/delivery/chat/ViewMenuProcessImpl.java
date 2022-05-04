@@ -15,15 +15,14 @@ import java.util.logging.Logger;
 @Service
 public class ViewMenuProcessImpl extends AbstractProcess{
     private PlateBl plateBl;
-    private List<PlateInOrderDto> plateOrder;
     @Autowired
-    ViewMenuProcessImpl(PlateBl plateBl, List<PlateInOrderDto> plateOrder){
+    ViewMenuProcessImpl(PlateBl plateBl){
         this.plateBl = plateBl;
         this.setName("Platos del menu");
         this.setDefault(true);
         this.setExpires(false);
         this.setStartDate(System.currentTimeMillis()/1000);
-        this.plateOrder = plateOrder;
+
 //      this.setUserData(new HashMap<>());
         this.setStatus("STARTED");
     }
