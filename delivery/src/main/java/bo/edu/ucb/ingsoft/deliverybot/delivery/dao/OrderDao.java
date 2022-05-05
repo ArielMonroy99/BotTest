@@ -14,7 +14,7 @@ public interface OrderDao {
 
     @Select("Select fecha, estado, cliente_idcliente , encargado_ci,ubicacion,metododepago, delivery "+
             "from pedido " +
-            "where cliente_cliente  = #{id}")
+            "where cliente_cliente  = #{id}, status = 1")
     List<OrderDto> findLastOrder(@Param("id") String botCharId);
 
 }

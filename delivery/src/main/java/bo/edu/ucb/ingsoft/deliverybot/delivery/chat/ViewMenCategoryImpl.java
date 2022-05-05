@@ -46,20 +46,27 @@ public class ViewMenCategoryImpl extends AbstractProcess{
             showMainMenuCategory(bot, chatId);
         } else if (this.getStatus().equals("AWAITING_USER_RESPONSE")) {
             // Estamos esperando por un numero 1 o 2
+//            showMainMenuCategory(bot,chatId);
             Message message = update.getMessage();
             if ( message.hasText() ) {
                 // Intentamos transformar en número
                 String text = message.getText(); // El texto contiene asdasda
                 try {
                     int opcion = Integer.parseInt(text);
+
                     switch (opcion){
-                        case  0: result = new MenuProcessImpl();
-                        break;
+                        case  0:
+                            this.setStatus("STARTED");
+                            result = new  MenuProcessImpl();
+                            break;
                         case 1: result = new ViewMenuSoupImpl(categoryBl);
-                        break;
+                            break;
                         case 2: result = new ViewMainMenuImpl(categoryBl);
-                        break;
+                            break;
                         case 3: result = new ViewMenuDessertImpl(categoryBl);
+                            break;
+                        default: showMainMenuCategory(bot, chatId);
+                            break;
                     }
                 } catch (NumberFormatException ex) {
                     showMainMenuCategory(bot, chatId);
