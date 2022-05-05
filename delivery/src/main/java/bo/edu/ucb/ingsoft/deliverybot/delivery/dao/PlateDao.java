@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public interface PlateDao {
 
-    @Select("select plato_id as id, nombre,precio,descripcion, imagen_url as img from plato where plato_id = 1 ")
+    @Select("select plato_id as id, nombre,precio,descripcion, imagen_url as img from plato")
     List<PlateDto> findAllPlates();
 
 

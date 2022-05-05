@@ -1,7 +1,7 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
+import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.CategoryBl;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.OrderBl;
-import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.PlateBl;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateDto;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateInOrderDto;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.util.UserSession;
@@ -11,20 +11,19 @@ import org.springframework.context.ApplicationContext;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
 //import java.util.logging.Logger;
 
 @Service
 public class OrderPlateProcessImpl extends AbstractProcess {
-    private PlateBl plateBl;
+    private CategoryBl categoryBl;
     private PlateDto plate;
     private PlateInOrderDto plateInOrder;
     private OrderBl orderBl;
     @Autowired
-    public OrderPlateProcessImpl(PlateDto plate, PlateBl plateBl){
-        this.plateBl = plateBl;
+    public OrderPlateProcessImpl(PlateDto plate, CategoryBl categoryBl){
+        this.categoryBl = categoryBl;
         this.setName("Selecion");
         this.setDefault(true);
         this.setExpires(false);
@@ -53,7 +52,7 @@ public class OrderPlateProcessImpl extends AbstractProcess {
                 try {
                     int cantidad = Integer.parseInt(text);
                     if(cantidad == 0){
-                        result = new ViewMenuProcessImpl(plateBl);
+                        result = new ViewMenuSoupImpl(categoryBl);
                     }else {
                         //FIXME : el plateInOrderDto no se inicializa tendrias que usar algo asi  -->  plateInOrder.add(new PlateInOrderDto(plate, cantidad));
                         // pero en este caso utiliza esta funcion 'List<PlateInOrderDto> addPlateToList (List<PlateInOrderDto> list,PlateInOrderDto newPlate)'
@@ -72,7 +71,7 @@ public class OrderPlateProcessImpl extends AbstractProcess {
                            UserSession.put(chatId,"Lista",lista);
                        }
                        System.out.println("Esto es algo"+UserSession.get(chatId,"Lista"));
-                        result = new ViewMenuProcessImpl(plateBl);
+                        result = new ViewMenCategoryImpl(categoryBl);
                     }
 
                 } catch (NumberFormatException ex) {
@@ -87,10 +86,10 @@ public class OrderPlateProcessImpl extends AbstractProcess {
     }
 
     private void showOrderPlateProcess(DeliveryLongPollingBot bot, Long chatId){
-        List<PlateDto> order = plateBl.TodayMenu();
+        List<PlateDto> order = CategoryBl.CategorySoup();
         StringBuffer sb = new StringBuffer();
         sb.append("Usted Selecciono \r\n");
-        sb.append(plate.getId()+": "+"Nombre: "+ plate.getNombre()).append("\n\r");
+        sb.append("Nombre: "+ plate.getNombre()).append("\n\r");
         sb.append("Precio: "+plate.getPrecio() + " Bs").append("\n\r");
         sb.append("Descripcion: "+plate.getDescripcion()).append("\n\r");
         sb.append("\n");

@@ -1,8 +1,7 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
-import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.PlateBl;
+import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.CategoryBl;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateDto;
-import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateInOrderDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -10,39 +9,39 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
-public class ViewMenuProcessImpl extends AbstractProcess{
-    private PlateBl plateBl;
+public class ViewMainMenuImpl extends AbstractProcess{
+    private CategoryBl categoryBl;
     @Autowired
-    ViewMenuProcessImpl(PlateBl plateBl){
-        this.plateBl = plateBl;
-        this.setName("Platos del menu");
+    ViewMainMenuImpl(CategoryBl categoryBl){
+        this.categoryBl = categoryBl;
+        this.setName("Categoria de plato principal");
         this.setDefault(true);
         this.setExpires(false);
         this.setStartDate(System.currentTimeMillis()/1000);
-
 //      this.setUserData(new HashMap<>());
         this.setStatus("STARTED");
     }
 
-    private void showMenuRestaurant(DeliveryLongPollingBot bot, Long chatId){
+    private void showMenuSoup(DeliveryLongPollingBot bot, Long chatId){
 
-        List<PlateDto> menuToday = plateBl.TodayMenu();
+        List<PlateDto> menuMain = CategoryBl.CategoryMain();
         StringBuffer sb = new StringBuffer();
-        sb.append("Menu del dia \r\n");
+        int i = 1;
+        sb.append("Menu de platos principales \r\n");
         sendStringBuffer(bot,chatId,sb);
         sb.setLength(0);
-        menuToday.forEach(plate->{
+        for(PlateDto plate : menuMain){
 
-            sb.append(plate.getId()+": "+"Nombre: "+ plate.getNombre()).append("\n\r");
+            sb.append(i +": "+"Nombre: "+ plate.getNombre()).append("\n\r");
             sb.append("Precio: "+plate.getPrecio() + " Bs").append("\n\r");
             sb.append("Descripcion: "+plate.getDescripcion()).append("\n\r");
             sendPhotoB(bot,chatId,plate.getImg(), String.valueOf(sb));
             sb.append("\n");
             sb.setLength(0);
-        });
+            i++;
+        }
         sb.append("Selecione un plato").append("\n\r");
         sb.append("0: Salir").append("\n\r");
         sendStringBuffer(bot,chatId,sb);
@@ -57,7 +56,7 @@ public class ViewMenuProcessImpl extends AbstractProcess{
 
         if (this.getStatus().equals("STARTED")) {
 
-            showMenuRestaurant(bot, chatId);
+            showMenuSoup(bot, chatId);
         } else if (this.getStatus().equals("AWAITING_USER_RESPONSE")) {
             // Estamos esperando por un numero 1 o 2
             Message message = update.getMessage();
@@ -66,18 +65,18 @@ public class ViewMenuProcessImpl extends AbstractProcess{
                 String text = message.getText(); // El texto contiene asdasda
                 try {
                     int opcion = Integer.parseInt(text);
-                    List<PlateDto> menuToday = plateBl.TodayMenu();
+                    List<PlateDto> menuMain = CategoryBl.CategoryMain();
                     if (opcion == 0){
-                        result = new MenuProcessImpl();
+                        result = new ViewMenCategoryImpl(categoryBl);
                     }else{
-//                        result = new OrderPlateProcessImpl(menuToday.get(opcion-1), plateBl);
+                        result = new OrderPlateProcessImpl(menuMain.get(opcion-1), categoryBl);
                     }
                 } catch (NumberFormatException ex) {
-                    showMenuRestaurant(bot, chatId);
+                    showMenuSoup(bot, chatId);
                 }
                 // continuar con el proceso seleccionado
             } else { // Si me enviaron algo diferente de un texto.
-                showMenuRestaurant(bot, chatId);
+                showMenuSoup(bot, chatId);
             }
         }
         return result;
@@ -97,4 +96,5 @@ public class ViewMenuProcessImpl extends AbstractProcess{
     public AbstractProcess onTimeout() {
         return null;
     }
+
 }
