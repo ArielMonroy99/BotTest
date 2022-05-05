@@ -65,13 +65,13 @@ public class EditarPlatoProcessImpl extends AbstractProcess{
                 String text = message.getText(); // El texto contiene asdasda
                 try {
                     int opcion = Integer.parseInt(text);
-                    List<PlatoDto> menu = platoBl.TodayMenu();
+                    List<PlatoDto> menuT = platoBl.TodayMenu();
                     if (opcion == 0){
                         result = new MenuProcessImpl();
                     }
                     else{
 
-                        result = new EditarProcessImpl(menu.get(opcion-1),platoBl);
+                        result = new EditarProcessImpl(menuT.get(opcion-1),platoBl);
                     }
                 } catch (NumberFormatException ex) {
                     showMenuRestaurant(bot, chatId);
