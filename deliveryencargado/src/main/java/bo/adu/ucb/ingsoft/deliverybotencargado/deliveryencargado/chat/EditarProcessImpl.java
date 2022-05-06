@@ -8,12 +8,16 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import javax.xml.transform.Result;
 import java.util.List;
 
 @Service
 public class EditarProcessImpl extends AbstractProcess{
     private PlatoBl platoBl;
     private PlatoDto platoDto;
+    PlatoDto  aux = new PlatoDto();
+    int cen = 0 , cen2=0;
+    int cont,aux2;
 
     @Autowired
     EditarProcessImpl(PlatoDto platoDto, PlatoBl platoBl){
@@ -24,28 +28,50 @@ public class EditarProcessImpl extends AbstractProcess{
         this.setStartDate(System.currentTimeMillis()/1000);
 //      this.setUserData(new HashMap<>());
         this.setStatus("STARTED");
-        this.platoDto = this.platoDto;
+        this.platoDto = platoDto;
     }
 
     private void showMenuRestaurant(DeliveryLongPollingBot bot, Long chatId){
 
-        List<PlatoDto> menuT = platoBl.TodayMenu();
         StringBuffer sb = new StringBuffer();
-        sb.append("Menu del dia \r\n");
-        sendStringBuffer(bot,chatId,sb);
-        sb.setLength(0);
-        menuT.forEach(menu->{
-
-            sb.append(menu.getId()+": "+"Nombre: "+ menu.getNombre()).append("\n\r");
-            sb.append("Precio: "+menu.getPrecio() + " Bs").append("\n\r");
-            sb.append("Descripcion: "+menu.getDescripcion()).append("\n\r");
-            sendPhotoB(bot,chatId,menu.getImg(), String.valueOf(sb));
+        if (cen2==0){
+            cen2=1;
+            sb.append("Seleccione el atributo que desea modificar:\r\n");
+            sb.append("2. Nombre: "+ platoDto.getNombre()).append("\n\r");
+            sb.append("3. Precio: "+platoDto.getPrecio() + " Bs").append("\n\r");
+            sb.append("4. Descripcion: "+platoDto.getDescripcion()).append("\n\r");
+            sb.append("5. Imagen(URL): "+platoDto.getImg()).append("\n\r");
+            sb.append("6. Categoria: "+platoDto.getCategoria()).append("\n\r");
             sb.append("\n");
-            sb.setLength(0);
-        });
-        sb.append("Selecione el plato que desea editar ").append("\n\r");
-        sb.append("0: Salir").append("\n\r");
-        sendStringBuffer(bot,chatId,sb);
+            sb.append("0. atras").append("\n\r");
+            sb.append("1. guardar").append("\n\r");
+            sendPhotoB(bot,chatId,platoDto.getImg(), String.valueOf(sb));
+        }
+        else {
+            cen2=0;
+            aux2=cont;
+            switch (cont){
+                case 2:
+                    sb.append("Nuevo Nombre: \r\n");
+                    break;
+                case 3:
+                    sb.append("Nuevo Precio: \r\n");
+                    break;
+                case 4:
+                    sb.append("Nueva Descripcion: \r\n");
+                    break;
+                case 5:
+                    sb.append("Nueva Imagen(URL): \r\n");
+                    break;
+                case 6:
+                    sb.append("Nueva Categoria: \r\n");
+                    break;
+            }
+
+            sendStringBuffer(bot, chatId, sb);
+
+        }
+        sb.setLength(0);
         this.setStatus("AWAITING_USER_RESPONSE");
     }
 
@@ -53,7 +79,7 @@ public class EditarProcessImpl extends AbstractProcess{
     public AbstractProcess handle(ApplicationContext context, Update update, DeliveryLongPollingBot bot) {
         AbstractProcess result = this;
         Long chatId = update.getMessage().getChatId();
-
+        StringBuffer sb = new StringBuffer();
 
         if (this.getStatus().equals("STARTED")) {
 
@@ -64,18 +90,54 @@ public class EditarProcessImpl extends AbstractProcess{
             if ( message.hasText() ) {
                 // Intentamos transformar en número
                 String text = message.getText(); // El texto contiene asdasda
-                try {
-                    int opcion = Integer.parseInt(text);
-                    if (opcion == 0){
-                        result = new MenuProcessImpl();
-                    }
-                    else{
+//                try {
 
-                        result = new MenuProcessImpl();
+                    if (cen2==1){
+                        int opcion = Integer.parseInt(text);
+                        cont = opcion;
                     }
-                } catch (NumberFormatException ex) {
-                    showMenuRestaurant(bot, chatId);
+
+                    if (cen2==0){
+                        switch (aux2){
+                            case 0:
+                                result = context.getBean(EditarPlatoProcessImpl.class);
+                                cen = 1;
+                                break;
+                            case 1:
+                                result = context.getBean(EditarPlatoProcessImpl.class);
+                                cen = 1;
+                                sb.append("El plato se agrego  \r\n");
+                                break;
+                            case 2:
+                                aux.setNombre(text);
+                                platoDto.setNombre(aux.getNombre());
+                                break;
+                            case 3:
+                                aux.setPrecio(Double.parseDouble(text));
+                                platoDto.setPrecio(aux.getPrecio());
+                                break;
+                            case 4:
+                                aux.setDescripcion(text);
+                                platoDto.setDescripcion(aux.getDescripcion());
+                                break;
+                            case 5:
+                                aux.setImg(text);
+                                platoDto.setImg(aux.getImg());
+                                break;
+                            case 6:
+                                aux.setCategoria(Integer.parseInt(text));
+                                platoDto.setCategoria(aux.getCategoria());
+                                break;
+
+                        }
+                    }
+
+                if (cen==0){
+                    showMenuRestaurant(bot,chatId);
                 }
+//                } catch (NumberFormatException ex) {
+//                    showMenuRestaurant(bot, chatId);
+//                }
                 // continuar con el proceso seleccionado
             } else { // Si me enviaron algo diferente de un texto.
                 showMenuRestaurant(bot, chatId);

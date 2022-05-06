@@ -1,5 +1,8 @@
 package bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.dto;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class PlatoDto {
     private Integer id;
     private String nombre;
