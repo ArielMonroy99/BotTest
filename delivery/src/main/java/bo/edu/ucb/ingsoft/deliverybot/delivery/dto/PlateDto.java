@@ -1,9 +1,11 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.dto;
 
+import java.math.BigDecimal;
+
 public class PlateDto {
     private Integer id;
     private String nombre;
-    private Double precio;
+    private BigDecimal precio;
     private String descripcion;
     private String img;
 
@@ -13,7 +15,7 @@ public class PlateDto {
     public PlateDto(){
     }
 
-    public PlateDto(Integer id, String nombre, Double precio, String descripcion,String img){
+    public PlateDto(Integer id, String nombre, BigDecimal precio, String descripcion,String img){
         this.id =id;
         this.nombre = nombre;
         this.precio = precio;
@@ -44,11 +46,11 @@ public class PlateDto {
         this.nombre = nombre;
     }
 
-    public Double getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 

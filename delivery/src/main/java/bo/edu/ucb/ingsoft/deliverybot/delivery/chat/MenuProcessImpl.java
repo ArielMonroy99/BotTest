@@ -49,7 +49,7 @@ public class MenuProcessImpl extends AbstractProcess {
                             break;
                         case 2 : result = context.getBean(AboutProcessImpl.class);
                             break;
-                        case 3: result = new MenuOrderProcessImpl(); break;
+                        case 3: result = context.getBean(MenuOrderProcessImpl.class); break;
                         default: showMainMenu(bot, chatId); break;
                     }
                 } catch (NumberFormatException ex) {

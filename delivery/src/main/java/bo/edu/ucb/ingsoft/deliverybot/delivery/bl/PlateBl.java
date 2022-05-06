@@ -22,4 +22,5 @@ public class PlateBl {
         return plateDao.findAllPlates();
     }
 
+
 }

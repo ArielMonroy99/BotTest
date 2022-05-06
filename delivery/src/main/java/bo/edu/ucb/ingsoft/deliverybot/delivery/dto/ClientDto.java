@@ -1,6 +1,6 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.dto;
 
-public class ClienteDto {
+public class ClientDto {
     private int cliente_id;
     private String nombre;
     private String nit;
@@ -8,7 +8,10 @@ public class ClienteDto {
     private long chat_id;
     private int status;
 
-    public ClienteDto(int cliente_id, String nombre, String nit, String telefono, long chat_id, int status) {
+    public ClientDto (){
+
+    }
+    public ClientDto(int cliente_id, String nombre, String nit, String telefono, long chat_id, int status) {
         this.cliente_id = cliente_id;
         this.nombre = nombre;
         this.nit = nit;

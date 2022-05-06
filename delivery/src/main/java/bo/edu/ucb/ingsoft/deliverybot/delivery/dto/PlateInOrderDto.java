@@ -27,9 +27,9 @@ public class PlateInOrderDto {
 
     @Override
     public String toString() {
-        return "Nombre: " + plato.getNombre() + '\n' +
+        return  plato.getNombre().toUpperCase() + '\n' +
+                plato.getDescripcion() + '\n'+
                 "Precio: " + plato.getPrecio() +'\n' +
-                "Descripción: " + plato.getDescripcion() + '\n'+
                 "Cantidad: "+ cantidad +"\n";
 
     }

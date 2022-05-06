@@ -1,17 +1,21 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.dto;
 
 import java.math.BigDecimal;
-import java.util.Date;
+
+
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class OrderDto {
     private int id;
-    private ClienteDto Cliente;
+    private int  cliente_id;
     private List<PlateInOrderDto> listaPlatos;
     private int estado;
-    private Date fecha;
-    private int longitud;
-    private int latitud;
+    private Timestamp fecha;
+    private Double longitud;
+    private Double latitud;
+    private int encargado_id;
     private int metodoDePago;
     private int delivery;
     private BigDecimal total;
@@ -20,14 +24,15 @@ public class OrderDto {
     public OrderDto(){
 
     }
-    public OrderDto(int id, ClienteDto cliente, List<PlateInOrderDto> listaPlatos, int estado, Date fecha, int longitud, int latitud, int metodoDePago, int delivery, BigDecimal total, int status) {
+    public OrderDto(int id, int cliente_id, List<PlateInOrderDto> listaPlatos, int estado, Timestamp fecha, Double longitud, Double latitud, int encargado_id, int metodoDePago, int delivery, BigDecimal total, int status) {
         this.id = id;
-        Cliente = cliente;
+        this.cliente_id = cliente_id;
         this.listaPlatos = listaPlatos;
         this.estado = estado;
         this.fecha = fecha;
         this.longitud = longitud;
         this.latitud = latitud;
+        this.encargado_id = encargado_id;
         this.metodoDePago = metodoDePago;
         this.delivery = delivery;
         this.total = total;
@@ -42,12 +47,12 @@ public class OrderDto {
         this.id = id;
     }
 
-    public ClienteDto getCliente() {
-        return Cliente;
+    public int getCliente_id() {
+        return cliente_id;
     }
 
-    public void setCliente(ClienteDto cliente) {
-        Cliente = cliente;
+    public void setCliente_id(int cliente_id) {
+        this.cliente_id = cliente_id;
     }
 
     public List<PlateInOrderDto> getListaPlatos() {
@@ -66,28 +71,36 @@ public class OrderDto {
         this.estado = estado;
     }
 
-    public Date getFecha(Date date) {
+    public Timestamp getFecha(java.util.Date date) {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(Timestamp fecha) {
         this.fecha = fecha;
     }
 
-    public int getLongitud() {
+    public Double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(int longitud) {
+    public void setLongitud(Double longitud) {
         this.longitud = longitud;
     }
 
-    public int getLatitud() {
+    public Double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(int latitud) {
+    public void setLatitud(Double latitud) {
         this.latitud = latitud;
+    }
+
+    public int getEncargado_id() {
+        return encargado_id;
+    }
+
+    public void setEncargado_id(int encargado_id) {
+        this.encargado_id = encargado_id;
     }
 
     public int getMetodoDePago() {
@@ -121,6 +134,8 @@ public class OrderDto {
     public void setStatus(int status) {
         this.status = status;
     }
+
+
 
     @Override
     public String toString() {
