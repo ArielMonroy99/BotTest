@@ -24,8 +24,8 @@ public class MenuOrderProcessImpl extends AbstractProcess{
     private void showOrderMenu(DeliveryLongPollingBot bot,Long chatId){
         StringBuffer sb = new StringBuffer();
         sb.append("Bot Delivery -- Menú de Pedidos\r\n");
-        sb.append("1. Ver Pedido Actual\r\n");
-        sb.append("2. Ver Pedido Anteriores\r\n");
+        sb.append("1. Ver Lista Actual\r\n");
+        sb.append("2. Ver Pedido Actual\r\n");
         sb.append("3. Volver al Menu Principal\r\n");
         sb.append("Elija una opción:\r\n");
         sendStringBuffer(bot,chatId,sb);
@@ -53,8 +53,7 @@ public class MenuOrderProcessImpl extends AbstractProcess{
                         break;
                         case 2 : result = context.getBean(LastOrderProcessImpl.class);
                          break;
-
-                        case 3: result = new MenuProcessImpl(); break;
+                        case 3: result = context.getBean(MenuProcessImpl.class); break;
                         default: showOrderMenu(bot, chatId);
                     }
                 } catch (NumberFormatException ex) {

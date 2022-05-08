@@ -1,5 +1,7 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -8,6 +10,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.List;
 @Service
 public class AboutProcessImpl extends AbstractProcess{
+
+    public Logger logger = LoggerFactory.getLogger(AboutProcessImpl.class);
     public AboutProcessImpl(){
         this.setName("Informacion");
         this.setDefault(false);

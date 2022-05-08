@@ -44,7 +44,7 @@ public class LastOrderProcessImpl extends AbstractProcess{
                 try {
                     int opcion = Integer.parseInt(text);
                     switch (opcion){
-                        case 1 : result = context.getBean(MenuProcessImpl.class);
+                        case 0 : result = context.getBean(MenuProcessImpl.class);
                             break;
                         default: showMainMenu(bot, chatId);
                     }

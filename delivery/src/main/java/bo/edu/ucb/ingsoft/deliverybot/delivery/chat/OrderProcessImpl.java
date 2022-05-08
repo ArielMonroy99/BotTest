@@ -70,11 +70,14 @@ public class OrderProcessImpl extends AbstractProcess{
                                    result = context.getBean(NewClientDataProcessImpl.class);
                                    hasOrder = false;
                                }
-
                                break;
-                           case 2 : result = context.getBean(MenuOrderProcessImpl.class);
+                           case 3: result = context.getBean(MenuOrderProcessImpl.class);
+                               hasOrder = false;
+                               break;
+                           case 2: result = context.getBean(EditOrderProcessImpl.class);
                                     hasOrder = false;
                                     break;
+
 
                            default: showMenu(bot, chatId); break;
                    }
@@ -117,7 +120,8 @@ public class OrderProcessImpl extends AbstractProcess{
             sb.setLength(0);
             sb.append("Bot delivery\r\n");
             sb.append("1. Enviar Pedido\r\n");
-            sb.append("2. Volver \r\n");
+            sb.append("2. Editar Pedido\r\n");
+            sb.append("3. Volver \r\n");
             sb.append("Elija una opción:\r\n");
             hasOrder = true;
         }else {
