@@ -5,7 +5,8 @@ import java.util.Map;
 
 public class UserSession {
     private final static Map<Long,Map<String,Object>> SESSION = new HashMap<>();
-
+    public final static String awaiting_response = "AWAITING_USER_RESPONSE";
+    public final static String started = "STARTED";
     public static Object get(Long chatId, String key) {
         if (SESSION.get(chatId) == null) { // NO hay session
             SESSION.put(chatId, new HashMap<>());

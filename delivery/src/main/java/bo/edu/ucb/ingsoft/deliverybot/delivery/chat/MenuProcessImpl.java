@@ -1,5 +1,8 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
+import bo.edu.ucb.ingsoft.deliverybot.delivery.util.UserSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -10,7 +13,7 @@ import java.util.HashMap;
 @Service
 public class MenuProcessImpl extends AbstractProcess {
 
-
+    public Logger logger = LoggerFactory.getLogger(MenuProcessImpl.class);
     public MenuProcessImpl() {
         this.setName("Menú principal");
         this.setDefault(true);
@@ -18,6 +21,7 @@ public class MenuProcessImpl extends AbstractProcess {
         this.setStartDate(System.currentTimeMillis()/1000);
         this.setUserData(new HashMap<>());
         this.setStatus("STARTED");
+
     }
 
     // Retornar un Widget de tipo menu
@@ -32,18 +36,22 @@ public class MenuProcessImpl extends AbstractProcess {
     public AbstractProcess handle(ApplicationContext context, Update update, DeliveryLongPollingBot bot) {
         AbstractProcess result = this; // sigo en el mismo proceso.
         Long chatId = update.getMessage().getChatId();
-        System.out.println("aaaaaa");
-        if (this.getStatus().equals("STARTED")) {
 
+        if (UserSession.get(chatId,"process_status").equals(UserSession.started)) {
+            logger.info("estado del proceso para el chatID {} : {} ",chatId,UserSession.get(chatId,"process_status"));
             showMainMenu(bot, chatId);
-        } else if (this.getStatus().equals("AWAITING_USER_RESPONSE")) {
+           // logger.info("estado del proceso para el chatID {} : {} ",chatId,UserSession.get(chatId,"process_status"));
+        } else if (UserSession.get(chatId,"process_status").equals(UserSession.awaiting_response)) {
             // Estamos esperando por un numero 1 o 2
             Message message = update.getMessage();
             if ( message.hasText() ) {
                 // Intentamos transformar en número
-                String text = message.getText(); // El texto contiene asdasdas
+                UserSession.put(chatId,"process_status",UserSession.started);
+                String text = message.getText();
+                logger.info("selecciono la opcion {}",text);
                 try {
                     int opcion = Integer.parseInt(text);
+
                     switch (opcion){
                         case 1 : result = context.getBean(ViewMenCategoryImpl.class);
                             break;
@@ -72,7 +80,7 @@ public class MenuProcessImpl extends AbstractProcess {
         sb.append("Elija una opción:\r\n");
         sendStringBuffer(bot, chatId, sb);
 
-        this.setStatus("AWAITING_USER_RESPONSE");
+        UserSession.put(chatId,"process_status",UserSession.awaiting_response);
     }
 
 

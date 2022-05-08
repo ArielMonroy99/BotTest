@@ -39,16 +39,16 @@ public class OrderDataProcessImpl extends AbstractProcess {
         AbstractProcess result = this;
         Long chatId = update.getMessage().getChatId();
         // sigo en el mismo proceso.
-        if (this.getStatus().equals("STARTED")) {
+        if (UserSession.get(chatId,"process_status").equals(UserSession.started)) {
         logger.info("aqui llego");
             showMenu(bot, chatId);
-        } else if (this.getStatus().equals("AWAITING_USER_RESPONSE")) {
+        } else if (UserSession.get(chatId,"process_status").equals(UserSession.awaiting_response)) {
             // Estamos esperando por un numero 1 o 2
             Message message = update.getMessage();
             if ( message.hasText() || message.hasLocation() ) {
                 // Intentamos transformar en número
                 String text = message.getText(); // El texto contiene asdasdas
-
+                UserSession.put(chatId,"process_status",UserSession.started);
                 try {
                     switch (datos){
                         case 0: t  = Integer.parseInt(text); UserSession.put(chatId,"pago",t);
@@ -87,6 +87,7 @@ public class OrderDataProcessImpl extends AbstractProcess {
 
                     if(datos <4){
                         showMenu(bot, chatId);
+                        datos = 0;
                     }
                 } catch (NumberFormatException ex) {
                     showMenu(bot, chatId);
@@ -102,7 +103,7 @@ public class OrderDataProcessImpl extends AbstractProcess {
     private void showMenu(DeliveryLongPollingBot bot, Long chatId){
 
         StringBuffer sb = new StringBuffer();
-        ClientDto client = clientBl.getClientData(chatId);
+
         switch (datos){
 
             case 0: sb.append("Ingrese metodo de pago: \n\r");
@@ -117,9 +118,8 @@ public class OrderDataProcessImpl extends AbstractProcess {
                     break;
             case 4: sb.append("Pedido Enviado esperando Confirmation");
         }
-
         sendStringBuffer(bot,chatId,sb);
-        this.setStatus("AWAITING_USER_RESPONSE");
+        UserSession.put(chatId,"process_status",UserSession.awaiting_response);
     }
 
     private void showConfMessage(DeliveryLongPollingBot bot, long chatId){

@@ -37,15 +37,16 @@ public class NewClientDataProcessImpl extends AbstractProcess{
         Long chatId = update.getMessage().getChatId();
 
         // sigo en el mismo proceso.
-        if (this.getStatus().equals("STARTED")) {
+        if (UserSession.get(chatId,"process_status").equals(UserSession.started)) {
             showMenu(bot, chatId);
-        } else if (this.getStatus().equals("AWAITING_USER_RESPONSE")) {
+        } else if (UserSession.get(chatId,"process_status").equals(UserSession.awaiting_response)) {
             // Estamos esperando por un numero 1 o 2
             Message message = update.getMessage();
             if ( message.hasText()) {
                 // Intentamos transformar en número
                 String text = message.getText();
                 try {
+                    UserSession.put(chatId,"process_status",UserSession.started);
                     switch (datos){
                         case 0: UserSession.put(chatId,"nombre",text); datos++; logger.info("nombre:{}",text); break;
 
@@ -87,7 +88,7 @@ public class NewClientDataProcessImpl extends AbstractProcess{
 
         }
         sendStringBuffer(bot,chatId,sb);
-        this.setStatus("AWAITING_USER_RESPONSE");
+        UserSession.put(chatId,"process_status",UserSession.awaiting_response);
 
     }
 

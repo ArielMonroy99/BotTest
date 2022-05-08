@@ -1,6 +1,8 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
 import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.CategoryBl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -10,10 +12,11 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Service
 public class ViewMenCategoryImpl extends AbstractProcess{
     private CategoryBl categoryBl;
-
+    public Logger logger = LoggerFactory.getLogger(ViewMenCategoryImpl.class);
     @Autowired
     ViewMenCategoryImpl(CategoryBl categoryBl){
         this.categoryBl = categoryBl;
+
         this.setName("Categoria de platos");
         this.setDefault(true);
         this.setExpires(false);
@@ -39,10 +42,8 @@ public class ViewMenCategoryImpl extends AbstractProcess{
     public AbstractProcess handle(ApplicationContext context, Update update, DeliveryLongPollingBot bot) {
         AbstractProcess result = this;
         Long chatId = update.getMessage().getChatId();
-
-
+        logger.info("Estado del proceso {}",this.getStatus());
         if (this.getStatus().equals("STARTED")) {
-
             showMainMenuCategory(bot, chatId);
         } else if (this.getStatus().equals("AWAITING_USER_RESPONSE")) {
             // Estamos esperando por un numero 1 o 2
@@ -53,11 +54,10 @@ public class ViewMenCategoryImpl extends AbstractProcess{
                 String text = message.getText(); // El texto contiene asdasda
                 try {
                     int opcion = Integer.parseInt(text);
-
+                    this.setStatus("STARTED");
                     switch (opcion){
                         case  0:
-                            this.setStatus("STARTED");
-                            result = new  MenuProcessImpl();
+                            result = context.getBean(MenuProcessImpl.class);
                             break;
                         case 1: result = new ViewMenuSoupImpl(categoryBl);
                             break;

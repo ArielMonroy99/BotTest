@@ -14,10 +14,9 @@ import java.util.List;
 @Service
 public interface OrderDao {
 
-    @Select("Select fecha, estado, cliente_idcliente , encargado_ci,ubicacion,metododepago, delivery "+
-            "from pedido " +
-            "where cliente_cliente  = #{id} and status = 1")
-    List<OrderDto> findLastOrder(@Param("id") String botCharId);
+    @Select("SELECT p.pedido_id, p.cliente_cliente_id, p.fecha, p.total from pedido p join cliente c2\n" +
+            "    on p.cliente_cliente_id = c2.cliente_id where chat_id = {chatId}" )
+    List<OrderDto> findLastsOrders(@Param("chatId")long ChatId);
 
     @Select("Select nextval('pedido_cliente_cliente_id_seq')")
     int getNextOrderId();

@@ -7,6 +7,7 @@ import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.OrderDto;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateDto;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateInOrderDto;
 
+import bo.edu.ucb.ingsoft.deliverybot.delivery.util.UserSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,11 @@ public class OrderBl {
         OrderDto newOrder = new OrderDto();
         newOrder.setCliente_id(cliente.getCliente_id());
 
-        clientDao.saveClient(cliente);
+       // ClientDto clientDto = clientDao.getClientData(cliente.getChat_id());
+        if((boolean) UserSession.get(cliente.getChat_id(),"nuevo_cliente")){
+            clientDao.saveClient(cliente);
+        }
+
         logger.info("se esta guardando {} y {}",cliente.getCliente_id(),cliente.getNombre());
 
         newOrder.setEncargado_id(1);//FIXME: agregar query para encontrar al encargado de turno
@@ -88,6 +93,8 @@ public class OrderBl {
             logger.info("Se esta guardando: {} , en pedido {}", plate.getPlato().getNombre(),newOrder.getId());
             orderDao.savePlatesInOrder(plate.getPlato().getId(),newOrder.getId(),plate.getCantidad());
        }
+       UserSession.put(cliente.getChat_id(),"Lista",null);
+
         return newOrder;
     }
     public List<PlateInOrderDto> addPlateToList (List<PlateInOrderDto> list,PlateInOrderDto newPlate){
@@ -107,6 +114,14 @@ public class OrderBl {
         }
         return list;
     }
+    public List<OrderDto>  findLastsOrders(long chatId){
+        OrderDto orderDto =  new OrderDto();
+        List<OrderDto> list = new ArrayList<>();
+        ClientDto clientDto = clientDao.getClientData(chatId);
+        orderDao.findLastsOrders(chatId);
 
+
+        return list;
+    }
 
 }

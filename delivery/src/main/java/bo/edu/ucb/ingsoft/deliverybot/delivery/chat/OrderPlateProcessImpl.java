@@ -54,10 +54,7 @@ public class OrderPlateProcessImpl extends AbstractProcess {
                     if(cantidad == 0){
                         result = new ViewMenuSoupImpl(categoryBl);
                     }else {
-                        //FIXME : el plateInOrderDto no se inicializa tendrias que usar algo asi  -->  plateInOrder.add(new PlateInOrderDto(plate, cantidad));
-                        // pero en este caso utiliza esta funcion 'List<PlateInOrderDto> addPlateToList (List<PlateInOrderDto> list,PlateInOrderDto newPlate)'
-                        // es parte del OrderBl
-                       // es
+
                         orderBl = new OrderBl();
                        if (UserSession.get(chatId,"Lista") != null){
                            List<PlateInOrderDto> lista = (List<PlateInOrderDto>) UserSession.get(chatId,"Lista");
