@@ -112,7 +112,7 @@ public class EditarPlatoProcessImpl extends AbstractProcess{
                     else {
                         if (opcion == 0){
                             cen=0;
-                            result = new MenuProcessImpl();
+                            result = context.getBean(MenuEncargadoProcessImpl.class);
                         }
                         else{
                             cen=0;

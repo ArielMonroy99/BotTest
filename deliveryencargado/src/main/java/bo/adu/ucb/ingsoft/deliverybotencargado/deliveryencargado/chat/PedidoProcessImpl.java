@@ -67,7 +67,7 @@ public class PedidoProcessImpl extends AbstractProcess{
                     int opcion = Integer.parseInt(text);
                     List<PedidoDto> pedidos = pedidoBl.Pedidos();
                     if (opcion == 0){
-                        result = new MenuProcessImpl();
+                        result = context.getBean(MenuProcessImpl.class);
                     }else{
                         result = new EstadoPedidoProcessImpl(pedidos.get(opcion-1), pedidoBl);
                     }

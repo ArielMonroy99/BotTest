@@ -112,7 +112,7 @@ public class EliminarPlatoProcessImpl extends AbstractProcess{
                     else{
                         if (opcion == 0){
                             cen=0;
-                            result = new MenuProcessImpl();
+                            result = new MenuEncargadoProcessImpl();
                         }
                         else{
                             cen=0;

@@ -72,7 +72,7 @@ public class DeliveryLongPollingBot extends TelegramLongPollingBot{
             logger.info("Creando proceso para el  chatId: {}" ,  chatId);
 
             // Debo crear el proceso por defecto
-            currentProcess = new MenuProcessImpl();
+            currentProcess = context.getBean(MenuProcessImpl.class);
             usersSession.put(chatId, currentProcess);
             logger.info("Derivando la conversación al proceso: {}" , currentProcess.getName());
 

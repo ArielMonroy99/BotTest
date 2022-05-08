@@ -35,6 +35,7 @@ public class AgregarPlatoProcessImpl extends AbstractProcess{
 
         switch (cont){
             case 1:
+                sb.append("Ingrese 0 en cualquier momento para cancelar: \r\n");
                 sb.append("Nombre: \r\n");
                 sendStringBuffer(bot, chatId, sb);
                 break;
@@ -77,24 +78,29 @@ public class AgregarPlatoProcessImpl extends AbstractProcess{
                     switch (aux3){
                         case 2:
                             sb.append("Nuevo Nombre: \r\n");
+                            sendStringBuffer(bot, chatId, sb);
                             break;
                         case 3:
                             sb.append("Nuevo Precio: \r\n");
+                            sendStringBuffer(bot, chatId, sb);
                             break;
                         case 4:
                             sb.append("Nueva Descripcion: \r\n");
+                            sendStringBuffer(bot, chatId, sb);
                             break;
                         case 5:
                             sb.append("Nueva Imagen(URL): \r\n");
+                            sendStringBuffer(bot, chatId, sb);
                             break;
                         case 6:
                             sb.append("Nueva Categoria: \r\n");
                             sb.append("1. Sopa \r\n");
                             sb.append("2 Plato Principal \r\n");
                             sb.append("3 Postre \r\n");
+                            sendStringBuffer(bot, chatId, sb);
                             break;
                     }
-                    sendStringBuffer(bot, chatId, sb);
+
                 }
                 break;
         }
@@ -120,8 +126,11 @@ public class AgregarPlatoProcessImpl extends AbstractProcess{
                 String text = message.getText(); // El texto contiene asdasda
 //                try {
 //                    int opcion = Integer.parseInt(text);
+                this.setStatus("STARTED");
                     if (text.equals("0")){
-                        result = new MenuProcessImpl();
+                        this.setStatus("STARTED");
+                        cont = 1;
+                        result = context.getBean(MenuEncargadoProcessImpl.class);
                     }
                     else{
                         //opcion = 1;
@@ -130,7 +139,13 @@ public class AgregarPlatoProcessImpl extends AbstractProcess{
                                 aux.setNombre(text);
                                 break;
                             case 2:
-                                aux.setPrecio(new BigDecimal(text));
+                                try {
+                                    aux.setPrecio(new BigDecimal(text));
+                                }
+                                catch (NumberFormatException ex){
+                                    cont--;
+                                }
+
                                 break;
                             case 3:
                                 aux.setDescripcion(text);
@@ -153,28 +168,34 @@ public class AgregarPlatoProcessImpl extends AbstractProcess{
                                 if (cen2==1){
                                     int opcion = Integer.parseInt(text);
                                     aux3 = opcion;
+                                    if(opcion == 1){
+                                        platoBl.guardarPlato(aux);
+
+                                        cen = 1;
+                                        return context.getBean(MenuEncargadoProcessImpl.class);
+
+
+                                    }
+                                    else if (opcion == 0){
+                                        result = context.getBean(MenuEncargadoProcessImpl.class);
+                                        cen = 1;
+
+                                    }
                                 }
                                 if (cen2==0){
                                     switch (aux2){
-                                        case 0:
-                                            result = context.getBean(MenuEncargadoProcessImpl.class);
-                                            cen = 1;
-                                            this.setStatus("STARTED");
-                                            break;
-                                        case 1:
-                                            platoBl.guardarPlato(aux);
-                                            sb.append("El plato se agrego  \r\n");
-                                            sendStringBuffer(bot, chatId, sb);
-                                            result = context.getBean(MenuEncargadoProcessImpl.class);
-                                            cen = 1;
-                                            this.setStatus("STARTED");
-                                            break;
+
                                         case 2:
                                             aux.setNombre(text);
 
                                             break;
                                         case 3:
-                                            aux.setPrecio(new BigDecimal(text));
+                                            try {
+                                                aux.setPrecio(new BigDecimal(text));
+                                            }
+                                            catch (NumberFormatException ex){
+//                                                cont--;
+                                            }
 
                                             break;
                                         case 4:
