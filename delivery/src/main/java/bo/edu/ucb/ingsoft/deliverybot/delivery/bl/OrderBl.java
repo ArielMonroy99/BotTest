@@ -2,10 +2,8 @@ package bo.edu.ucb.ingsoft.deliverybot.delivery.bl;
 
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dao.ClientDao;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dao.OrderDao;
-import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.ClientDto;
-import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.OrderDto;
-import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateDto;
-import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateInOrderDto;
+import bo.edu.ucb.ingsoft.deliverybot.delivery.dao.PlateDao;
+import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.*;
 
 import bo.edu.ucb.ingsoft.deliverybot.delivery.util.UserSession;
 import org.slf4j.Logger;
@@ -27,11 +25,13 @@ import java.util.List;
 public class OrderBl {
     private OrderDao orderDao;
     private ClientDao clientDao;
+    private PlateDao plateDao;
     public static Logger logger = LoggerFactory.getLogger(OrderBl.class);
     @Autowired
-    public OrderBl(OrderDao orderDao,ClientDao clientDao){
+    public OrderBl(OrderDao orderDao,ClientDao clientDao,PlateDao plateDao){
         this.orderDao = orderDao;
         this.clientDao = clientDao;
+        this.plateDao = plateDao;
     }
     public OrderBl(){
 
@@ -46,15 +46,9 @@ public class OrderBl {
 //        orderDao = new OrderDao();
 //        return orderDao.findLas10Orders(chatId);
 //    }
-    @Transactional(propagation = Propagation.REQUIRED)
-    public OrderDto createOrder(ClientDto cliente, List<PlateInOrderDto> listadePlatos,Double latitud, Double longitud,int metodoDePago,int delivery){
+    public OrderDto createOrder (ClientDto cliente, List<PlateInOrderDto> listadePlatos,Double latitud, Double longitud,int metodoDePago,int delivery){
         OrderDto newOrder = new OrderDto();
         newOrder.setCliente_id(cliente.getCliente_id());
-
-       // ClientDto clientDto = clientDao.getClientData(cliente.getChat_id());
-        if((boolean) UserSession.get(cliente.getChat_id(),"nuevo_cliente")){
-            clientDao.saveClient(cliente);
-        }
 
         logger.info("se esta guardando {} y {}",cliente.getCliente_id(),cliente.getNombre());
 
@@ -86,16 +80,26 @@ public class OrderBl {
             newOrder.setLongitud(0.0);
         }
         newOrder.setTotal(total);
+        return newOrder;
+    }
+    @Transactional(propagation = Propagation.REQUIRED)
+    public OrderDto saveOrder(OrderDto order ,ClientDto cliente){
 
-        logger.info("Se esta guardando: {}", newOrder);
-        orderDao.saveOrder(newOrder);
-        for(PlateInOrderDto plate: listadePlatos){
-            logger.info("Se esta guardando: {} , en pedido {}", plate.getPlato().getNombre(),newOrder.getId());
-            orderDao.savePlatesInOrder(plate.getPlato().getId(),newOrder.getId(),plate.getCantidad());
+       // ClientDto clientDto = clientDao.getClientData(cliente.getChat_id());
+        if((boolean) UserSession.get(cliente.getChat_id(),"nuevo_cliente")){
+            clientDao.saveClient(cliente);
+        }
+
+        logger.info("se esta guardando {} y {}",cliente.getCliente_id(),cliente.getNombre());
+
+        orderDao.saveOrder(order);
+        for(PlateInOrderDto plate: order.getListaPlatos()){
+            logger.info("Se esta guardando: {} , en pedido {}", plate.getPlato().getNombre(),order.getId());
+            orderDao.savePlatesInOrder(plate.getPlato().getId(),order.getId(),plate.getCantidad());
        }
        UserSession.put(cliente.getChat_id(),"Lista",null);
 
-        return newOrder;
+        return order;
     }
     public List<PlateInOrderDto> addPlateToList (List<PlateInOrderDto> list,PlateInOrderDto newPlate){
         boolean isRepeated = false;
@@ -114,14 +118,22 @@ public class OrderBl {
         }
         return list;
     }
-    public List<OrderDto>  findLastsOrders(long chatId){
-        OrderDto orderDto =  new OrderDto();
-        List<OrderDto> list = new ArrayList<>();
-        ClientDto clientDto = clientDao.getClientData(chatId);
-        orderDao.findLastsOrders(chatId);
+    public OrderDto LastOrder(long chatId){
+        OrderDto lastOrder  = orderDao.Lastorder(chatId);
+        List<PlateDto> platos = plateDao.findAllPlates();
+        List<PlateInOrderDbDto> platesInOrder = plateDao.findPlatesInOrder(lastOrder.getId());
+        List<PlateInOrderDto> plates = new ArrayList<>();
+        for(PlateInOrderDbDto p : platesInOrder){
+            for(PlateDto pl : platos){
+                if(p.getPlato_id() == pl.getId()){
+                    plates.add(new PlateInOrderDto(pl,p.getCantidad()));
+                }
+            }
+        }
+        lastOrder.setListaPlatos(plates);
 
 
-        return list;
+        return lastOrder;
     }
 
 }

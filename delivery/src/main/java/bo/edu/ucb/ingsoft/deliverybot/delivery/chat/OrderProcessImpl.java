@@ -6,6 +6,8 @@ import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.ClientDto;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.OrderDto;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateInOrderDto;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.util.UserSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class OrderProcessImpl extends AbstractProcess{
     private  OrderBl orderBl;
     private ClientBl clientBl;
     private boolean hasOrder = false;
+    public Logger logger = LoggerFactory.getLogger(OrderProcessImpl.class);
     @Autowired
     public OrderProcessImpl(OrderBl orderBl,ClientBl clientBl){
         this.clientBl = clientBl;
@@ -53,20 +56,25 @@ public class OrderProcessImpl extends AbstractProcess{
                            case 1 :
                                ClientDto clientDto = clientBl.getClientData(chatId);
                                if(clientDto != null){
+                                   logger.info("Cliente: {}",clientDto.toString());
+                                   UserSession.put(chatId,"id",clientDto.getCliente_id());
                                    UserSession.put(chatId,"nombre",clientDto.getNombre());
                                    UserSession.put(chatId,"telefono",clientDto.getTelefono());
                                    UserSession.put(chatId,"nit",clientDto.getNit());
                                    UserSession.put(chatId,"nuevo_cliente",false);
                                    result = context.getBean(OrderDataProcessImpl.class);
+                                   hasOrder = false;
                                }
                                else{
                                    UserSession.put(chatId,"nuevo_cliente",true);
                                    result = context.getBean(NewClientDataProcessImpl.class);
+                                   hasOrder = false;
                                }
 
                                break;
                            case 2 : result = context.getBean(MenuOrderProcessImpl.class);
-                               break;
+                                    hasOrder = false;
+                                    break;
 
                            default: showMenu(bot, chatId); break;
                    }

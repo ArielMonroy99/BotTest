@@ -20,6 +20,7 @@ public class ClientDto {
         this.status = status;
     }
 
+
     public int getCliente_id() {
         return cliente_id;
     }
@@ -66,5 +67,17 @@ public class ClientDto {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "ClientDto{" +
+                "cliente_id=" + cliente_id +
+                ", nombre='" + nombre + '\'' +
+                ", nit='" + nit + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", chat_id=" + chat_id +
+                ", status=" + status +
+                '}';
     }
 }

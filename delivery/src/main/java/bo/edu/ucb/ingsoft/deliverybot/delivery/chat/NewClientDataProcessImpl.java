@@ -53,8 +53,9 @@ public class NewClientDataProcessImpl extends AbstractProcess{
                         case 1: UserSession.put(chatId,"telefono",text); datos++; logger.info("telefono:{}",text);;break;
                         case 2: UserSession.put(chatId,"nit",text);datos++;  logger.info("nit:{}",text);break;
                         case 3: switch (text){
-                                    case "1": result = context.getBean(OrderDataProcessImpl.class); datos++; break;
+                                    case "1": datos = 0; return  context.getBean(OrderDataProcessImpl.class);
                                     case "2": datos = 0; break;
+                                    case "3": datos = 0; return context.getBean(MenuProcessImpl.class);
                                     }
 
                         default: break;
@@ -84,7 +85,7 @@ public class NewClientDataProcessImpl extends AbstractProcess{
             case 3: sb.append("Nombre: ").append(UserSession.get(chatId,"nombre")).append("\n\r");
                     sb.append("Telefono: ").append(UserSession.get(chatId,"telefono")).append("\n\r");
                     sb.append("Nit: ").append(UserSession.get(chatId,"nit")).append("\n\r");
-                    sb.append("1. Guardar: ").append("\n\r").append("2. Cancelar");
+                    sb.append("1. Guardar: ").append("\n\r").append("2. Reintroducir Datos\n\r").append("3. Salir");
 
         }
         sendStringBuffer(bot,chatId,sb);

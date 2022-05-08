@@ -1,7 +1,10 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery;
 
+import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.ClientBl;
+import bo.edu.ucb.ingsoft.deliverybot.delivery.dao.ClientDao;
+import bo.edu.ucb.ingsoft.deliverybot.delivery.dao.OrderDao;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dao.PlateDao;
-import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateDto;
+import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,17 +14,17 @@ import java.util.List;
 @SpringBootTest
 public class MyBatisTest {
     private PlateDao plateDao;
-
+    private OrderDao orderDao;
     @Autowired
-    public MyBatisTest(PlateDao plateDao) {
+    public MyBatisTest(PlateDao plateDao, OrderDao orderDao) {
         this.plateDao = plateDao;
+        this.orderDao = orderDao;
     }
 
     @Test
     public void testSelectAllPlates(){
-        List<PlateDto> plateDtoList = plateDao.findAllPlates();
-        for(PlateDto plate: plateDtoList ){
-            System.out.println("plato " + plate.getId());
-        }
+        long chatId = 1082438685;
+        OrderDto order = orderDao.Lastorder(chatId);
+        System.out.println("id: "+order.getId()+"\nfecha:"+order.getFecha()+"\ntotal:"+order.getTotal());
     }
 }

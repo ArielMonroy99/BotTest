@@ -51,8 +51,8 @@ public class MenuOrderProcessImpl extends AbstractProcess{
                     switch (opcion){
                         case 1 : result = context.getBean(OrderProcessImpl.class);
                         break;
-                         case 2 : result = context.getBean(LastOrdersProcessImpl.class);
-                          break;
+                        case 2 : result = context.getBean(LastOrderProcessImpl.class);
+                         break;
 
                         case 3: result = new MenuProcessImpl(); break;
                         default: showOrderMenu(bot, chatId);

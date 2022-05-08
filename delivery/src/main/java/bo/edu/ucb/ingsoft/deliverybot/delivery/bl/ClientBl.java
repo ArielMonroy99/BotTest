@@ -29,6 +29,18 @@ public class ClientBl {
         return clientdto;
     }
 
+    public ClientDto createClientDto(int id,String nombre, String nit, String telefono ,long chatId){
+
+        ClientDto clientdto  = new ClientDto();
+        clientdto.setCliente_id(id);
+        clientdto.setNombre(nombre);
+        clientdto.setNit(nit);
+        clientdto.setTelefono(telefono);
+        clientdto.setChat_id(chatId);
+        clientdto.setStatus(1);
+        return clientdto;
+    }
+
 
 
 }

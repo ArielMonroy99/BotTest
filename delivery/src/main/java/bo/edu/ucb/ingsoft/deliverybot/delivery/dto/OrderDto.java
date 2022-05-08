@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class OrderDto {
@@ -71,7 +73,7 @@ public class OrderDto {
         this.estado = estado;
     }
 
-    public Timestamp getFecha(java.util.Date date) {
+    public Timestamp getFecha() {
         return fecha;
     }
 
@@ -141,6 +143,7 @@ public class OrderDto {
     public String toString() {
         int c = 1;
         StringBuffer sb = new StringBuffer();
+
         for(PlateInOrderDto plate:listaPlatos){
             sb.append("Nro :").append(c).append("\n");
             sb.append(plate.toString());
@@ -151,13 +154,67 @@ public class OrderDto {
                 "Total: " + total +"\n"+
                 "Fecha: " + fecha ;
     }
-    public String toString2() {
+    public String toStringClient(ClientDto client) {
+        int c = 1;
         StringBuffer sb = new StringBuffer();
+
         for(PlateInOrderDto plate:listaPlatos){
-            sb.append("-").append(plate.getPlato().getNombre()).append(" x ").append(plate.getCantidad()).append("\n");
+            sb.append("Nro :").append(c).append("\n");
+            sb.append(plate.toString());
+            c++;
         }
-        return "Lista de Platos:\n" + sb +"\n"+
-                "Total: " + total +"\n"+
-                "Fecha: " + fecha ;
+        String paymentMethod = "";
+        String deliveryMethod = "";
+        if(metodoDePago == 1){
+            paymentMethod = "En local";
+        }
+
+        if(metodoDePago == 2){
+            paymentMethod = "Pago QR";
+        }
+
+        if(delivery== 2){
+           deliveryMethod = "Delivery";
+        }
+        if(delivery == 1){
+            deliveryMethod = "Recojo en local";
+        }
+        BigDecimal subtotal = total.subtract(BigDecimal.valueOf(10.00));
+        return  "Nombre: "+ client.getNombre()+"\n"+
+                "Metodo de pago: "+ paymentMethod +"\n"+
+                "Tipo de entrega: "+ deliveryMethod +"\n"+
+                "Lista de Platos:\n" + sb +"\n"+
+                "Subtotal: "+ subtotal+ "Bs\n"+
+                "Envio: 10.00Bs\n" +
+                "Total: " + total +"Bs\n";
     }
+    public String lastOrder(){
+        StringBuffer aa = new StringBuffer();
+        String f = new SimpleDateFormat("MM/dd/yyyy").format(fecha);
+        String h = new SimpleDateFormat("HH:mm").format(fecha);
+        aa.append("ID del pedido: ").append(id).append("\n");
+        aa.append("Fecha: ").append(f).append("\n");
+        aa.append("Hora: ").append(h).append("\n");
+
+        aa.append("Estado: ");
+        if(estado == 1){
+           aa.append("Enviado");
+        }
+        if(estado == 2){
+            aa.append("Aprobado");
+        }
+        if(estado == 4){
+            aa.append("Pagado");
+        }
+        aa.append("\n");
+        aa.append("--- PLATOS---\n");
+        for(PlateInOrderDto plate : listaPlatos){
+            aa.append(plate.toString()).append("\n");
+        }
+        aa.append("\n\nTotal: ").append(total).append("\n");
+
+
+        return String.valueOf(aa);
+    }
+
 }
