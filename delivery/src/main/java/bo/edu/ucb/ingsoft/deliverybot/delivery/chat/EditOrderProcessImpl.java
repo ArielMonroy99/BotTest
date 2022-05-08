@@ -48,7 +48,7 @@ public class EditOrderProcessImpl extends AbstractProcess{
             sendStringBuffer(bot,chatId,sb);
             sb.setLength(0);
             sb.append("Bot delivery\r\n");
-            sb.append("Seleccione que pedido editar\r\n");
+            sb.append("Seleccione el plato a editar\r\n");
             sb.append("0. Volver");
 
 
