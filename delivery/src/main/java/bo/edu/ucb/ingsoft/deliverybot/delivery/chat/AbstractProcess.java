@@ -1,6 +1,7 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
 import org.springframework.context.ApplicationContext;
+import org.telegram.telegrambots.meta.api.methods.send.SendLocation;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -68,6 +69,19 @@ public abstract class AbstractProcess {
         sendMessage.setChatId(chatId.toString());
         sendMessage.setPhoto(new InputFile(sb));
         sendMessage.setCaption(caption);
+        sendMessage.setProtectContent(true);
+        try {
+            bot.execute(sendMessage);
+        } catch (Exception ex) {
+            // relanzamos la excepción
+            throw new RuntimeException(ex);
+        }
+    }
+    protected void sendLocation(DeliveryLongPollingBot bot, Long chatId,  double lat,double lon) {
+        SendLocation sendMessage = new SendLocation();
+        sendMessage.setChatId(chatId.toString());
+        sendMessage.setLongitude(lon);
+        sendMessage.setLatitude(lat);
         sendMessage.setProtectContent(true);
         try {
             bot.execute(sendMessage);

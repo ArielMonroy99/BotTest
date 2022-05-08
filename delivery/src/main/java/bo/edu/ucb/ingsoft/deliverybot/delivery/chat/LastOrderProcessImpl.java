@@ -22,9 +22,18 @@ public class LastOrderProcessImpl extends AbstractProcess{
         StringBuffer sb = new StringBuffer();
         OrderDto order = orderBl.LastOrder(chatId);
         sb.append(order.lastOrder());
+        sendStringBuffer(bot,chatId,sb);
+
+        if(order.getDelivery() == 2){
+            sb.setLength(0);
+            sb.append("Direccion de Envio");
+            sendStringBuffer(bot,chatId,sb);
+            sendLocation(bot,chatId,order.getLatitud(), order.getLongitud());
+
+        }
+        sb.setLength(0);
         sb.append("\n 0.Volver");
         sendStringBuffer(bot, chatId, sb);
-
         this.setStatus("AWAITING_USER_RESPONSE");
     }
     @Override

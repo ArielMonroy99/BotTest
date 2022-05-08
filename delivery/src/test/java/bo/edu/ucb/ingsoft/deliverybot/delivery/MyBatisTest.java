@@ -23,8 +23,9 @@ public class MyBatisTest {
 
     @Test
     public void testSelectAllPlates(){
-        long chatId = 1082438685;
+        long chatId = Long.valueOf("5230435511");
         OrderDto order = orderDao.Lastorder(chatId);
-        System.out.println("id: "+order.getId()+"\nfecha:"+order.getFecha()+"\ntotal:"+order.getTotal());
+        System.out.println("id: "+order.getId()+"\nfecha:"+order.getFecha()+"\ntotal:"+order.getTotal()
+                +"\nLatitud: "+order.getLatitud()+"\nLongitud: "+order.getLongitud());
     }
 }

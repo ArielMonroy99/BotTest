@@ -17,7 +17,7 @@ public interface OrderDao {
 //    @Select("SELECT p.pedido_id, p.cliente_cliente_id, p.fecha, p.total from pedido p join cliente c2\n" +
 //            "    on p.cliente_cliente_id = c2.cliente_id where chat_id = {chatId}" )
 //    List<OrderDto> findLastsOrders(@Param("chatId")long ChatId);
-    @Select("SELECT o.pedido_id as id, o.estado,o.fecha,o.total from pedido o join cliente c on o.cliente_cliente_id = c.cliente_id"+
+    @Select("SELECT o.pedido_id as id, o.estado,o.fecha,o.total, o.longitud , o.latitud , o.delivery from pedido o join cliente c on o.cliente_cliente_id = c.cliente_id"+
             " where c.chat_id = #{chatId} and o.estado != 3 and o.estado != 5 ORDER BY o.fecha DESC LIMIT 1")
     OrderDto Lastorder(@Param("chatId")long chatId);
 
