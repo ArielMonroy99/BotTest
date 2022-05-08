@@ -1,5 +1,7 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
+import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.SucursalBl;
+import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.SucursalDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -10,9 +12,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.util.List;
 @Service
 public class AboutProcessImpl extends AbstractProcess{
-
+    private SucursalBl sucursalBl;
     public Logger logger = LoggerFactory.getLogger(AboutProcessImpl.class);
-    public AboutProcessImpl(){
+    public AboutProcessImpl(SucursalBl sucursalBl){
+        this.sucursalBl = sucursalBl;
         this.setName("Informacion");
         this.setDefault(false);
         this.setExpires(false);
@@ -21,9 +24,16 @@ public class AboutProcessImpl extends AbstractProcess{
     }
     private void showMainMenu(DeliveryLongPollingBot bot, Long chatId) {
         StringBuffer sb = new StringBuffer();
-        sb.append("Direccion: https://goo.gl/maps/y7P11sE15UWkAJHS9\n" );
-        sb.append("Telefono: 76591579\r\n");
-        sb.append("Facebook: https://www.facebook.com/Guenchos564/\r\n");
+        sb.append("Encuentranos en: \n");
+        List<SucursalDto> list = sucursalBl.findAllBranches();
+        sendStringBuffer(bot,chatId,sb);
+        for(SucursalDto sucursal : list){
+            sb.setLength(0);
+            sb.append(sucursal);
+            sendStringBuffer(bot,chatId,sb);
+            sendLocation(bot,chatId,sucursal.getLatitud(),sucursal.getLongitud());
+            sb.setLength(0);
+        }
         sb.append("1. Volver al Menu Principal\r\n");
         sendStringBuffer(bot, chatId, sb);
 
