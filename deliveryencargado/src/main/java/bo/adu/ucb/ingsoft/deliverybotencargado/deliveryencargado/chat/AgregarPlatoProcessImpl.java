@@ -126,7 +126,7 @@ public class AgregarPlatoProcessImpl extends AbstractProcess{
                 String text = message.getText(); // El texto contiene asdasda
 //                try {
 //                    int opcion = Integer.parseInt(text);
-                this.setStatus("STARTED");
+
                     if (text.equals("0")){
                         this.setStatus("STARTED");
                         cont = 1;
@@ -169,16 +169,19 @@ public class AgregarPlatoProcessImpl extends AbstractProcess{
                                     int opcion = Integer.parseInt(text);
                                     aux3 = opcion;
                                     if(opcion == 1){
+
                                         platoBl.guardarPlato(aux);
 
                                         cen = 1;
-                                        return context.getBean(MenuEncargadoProcessImpl.class);
+                                        this.setStatus("STARTED");
+                                        result = new MenuEncargadoProcessImpl();
 
 
                                     }
                                     else if (opcion == 0){
-                                        result = context.getBean(MenuEncargadoProcessImpl.class);
                                         cen = 1;
+                                        this.setStatus("STARTED");
+                                        result = new MenuEncargadoProcessImpl();
 
                                     }
                                 }
