@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import javax.xml.transform.Result;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -65,6 +66,9 @@ public class EditarProcessImpl extends AbstractProcess{
                     break;
                 case 6:
                     sb.append("Nueva Categoria: \r\n");
+                    sb.append("1. Sopa \r\n");
+                    sb.append("2 Plato Principal \r\n");
+                    sb.append("3 Postre \r\n");
                     break;
             }
 
@@ -95,25 +99,29 @@ public class EditarProcessImpl extends AbstractProcess{
                     if (cen2==1){
                         int opcion = Integer.parseInt(text);
                         cont = opcion;
+                        if(opcion == 1){
+                            platoBl.actualizarPlato(platoDto);
+                            sb.append("El plato se guardo  \r\n");
+                            sendStringBuffer(bot, chatId, sb);
+                            result = context.getBean(MenuEncargadoProcessImpl.class);
+
+                            cen = 1;
+
+                        }
+                        else if (opcion == 0){
+                            result = context.getBean(MenuEncargadoProcessImpl.class);
+                            cen = 1;
+                        }
                     }
 
                     if (cen2==0){
                         switch (aux2){
-                            case 0:
-                                result = context.getBean(EditarPlatoProcessImpl.class);
-                                cen = 1;
-                                break;
-                            case 1:
-                                result = context.getBean(EditarPlatoProcessImpl.class);
-                                cen = 1;
-                                sb.append("El plato se agrego  \r\n");
-                                break;
                             case 2:
                                 aux.setNombre(text);
                                 platoDto.setNombre(aux.getNombre());
                                 break;
                             case 3:
-                                aux.setPrecio(Double.parseDouble(text));
+                                aux.setPrecio(new BigDecimal(text));
                                 platoDto.setPrecio(aux.getPrecio());
                                 break;
                             case 4:
@@ -125,8 +133,16 @@ public class EditarProcessImpl extends AbstractProcess{
                                 platoDto.setImg(aux.getImg());
                                 break;
                             case 6:
-                                aux.setCategoria(Integer.parseInt(text));
-                                platoDto.setCategoria(aux.getCategoria());
+                                if (Integer.parseInt(text) >= 1 && Integer.parseInt(text)<= 3){
+                                    aux.setCategoria(Integer.parseInt(text));
+                                    platoDto.setCategoria(aux.getCategoria());
+                                }
+                                else {
+                                    sb.append("Categoría incorrecta  \r\n");
+                                    sb.append("Por favor vuelva a ingresar: \r\n");
+                                    sendStringBuffer(bot, chatId, sb);
+                                    cen2=1;
+                                }
                                 break;
 
                         }

@@ -2,20 +2,22 @@ package bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.dto;
 
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+
 @Service
 public class PlatoDto {
     private Integer id;
     private String nombre;
-    private Double precio;
+    private BigDecimal precio;
     private String descripcion;
     private String img;
-    private int categoria;
-    private int status;
+    private Integer categoria;
+    private Integer status;
 
     public PlatoDto(){
     }
 
-    public PlatoDto(Integer id, String nombre, Double precio, String descripcion,String img,int categoria,int status){
+    public PlatoDto(Integer id, String nombre, BigDecimal precio, String descripcion,String img,Integer categoria,Integer status){
         this.id =id;
         this.nombre = nombre;
         this.precio = precio;
@@ -49,11 +51,11 @@ public class PlatoDto {
         this.nombre = nombre;
     }
 
-    public Double getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 
@@ -65,13 +67,13 @@ public class PlatoDto {
         this.descripcion = descripcion;
     }
 
-    public int getCategoria() { return categoria; }
+    public Integer getCategoria() { return categoria; }
 
-    public void setCategoria(int categoria) { this.categoria = categoria; }
+    public void setCategoria(Integer categoria) { this.categoria = categoria; }
 
-    public int getStatus() { return status; }
+    public Integer getStatus() { return status; }
 
-    public void setStatus(int status) { this.status = status; }
+    public void setStatus(Integer status) { this.status = status; }
 
     @Override
     public String toString() {

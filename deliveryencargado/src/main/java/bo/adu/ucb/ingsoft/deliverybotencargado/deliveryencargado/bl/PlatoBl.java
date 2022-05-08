@@ -25,8 +25,15 @@ public class PlatoBl {
     public List<PlatoDto> TodayMenu(){
         return platoDao.findAllPlates();
     }
+    public List<PlatoDto> Sopa(){ return platoDao.findAllSopa(); }
+    public List<PlatoDto> Principal(){return platoDao.findAllPrincipal();}
+    public List<PlatoDto> Postre(){ return platoDao.findAllPostre(); }
 
     public void guardarPlato(PlatoDto platoDto){
         platoDao.guardarPlato(platoDto);
     }
+
+    public void actualizarPlato(PlatoDto platoDto){ platoDao.actualizarPlato(platoDto); }
+
+    public void eliminarPlato(PlatoDto platoDto){ platoDao.eliminarPlato(platoDto); }
 }

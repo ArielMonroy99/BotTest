@@ -1,21 +1,45 @@
 package bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.chat;
 
+import bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.bl.PlatoBl;
+import bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.dto.PlatoDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.HashMap;
-
 @Service
-public class MenuEncargadoProcessImpl extends AbstractProcess{
-    public MenuEncargadoProcessImpl() {
-        this.setName("Menú principal");
+public class EliminarProcessImpl extends AbstractProcess{
+    private PlatoBl platoBl;
+    private PlatoDto platoDto;
+
+    @Autowired
+    EliminarProcessImpl(PlatoDto platoDto, PlatoBl platoBl){
+        this.platoBl = platoBl;
+        this.setName("EditarPlatos");
         this.setDefault(true);
         this.setExpires(false);
         this.setStartDate(System.currentTimeMillis()/1000);
-        this.setUserData(new HashMap<>());
+//      this.setUserData(new HashMap<>());
         this.setStatus("STARTED");
+        this.platoDto = platoDto;
+    }
+
+    private void showMainMenu(DeliveryLongPollingBot bot, Long chatId){
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("Esta seguro de eliminar el siguiente plato:\r\n");
+        sb.append("Nombre: "+ platoDto.getNombre()).append("\n\r");
+        sb.append("Precio: "+platoDto.getPrecio() + " Bs").append("\n\r");
+        sb.append("Descripcion: "+platoDto.getDescripcion()).append("\n\r");
+        sb.append("Imagen(URL): "+platoDto.getImg()).append("\n\r");
+        sb.append("Categoria: "+platoDto.getCategoria()).append("\n\r");
+        sb.append("\n");
+        sb.append("0. atras").append("\n\r");
+        sb.append("1. borrar").append("\n\r");
+        sendPhotoB(bot,chatId,platoDto.getImg(), String.valueOf(sb));
+        sb.setLength(0);
+        this.setStatus("AWAITING_USER_RESPONSE");
     }
 
     @Override
@@ -34,16 +58,15 @@ public class MenuEncargadoProcessImpl extends AbstractProcess{
                 try {
                     int opcion = Integer.parseInt(text);
                     switch (opcion){
-//                        case 1 : result = context.getBean(PedidoProcessImpl.class);
-//                            break;
-//                        case 2 : result = context.getBean(AboutProcessImpl.class);
-//                            break;
-                        case 1 : result = context.getBean(AgregarPlatoProcessImpl.class);
+                        case 0 :
+                            result = context.getBean(MenuEncargadoProcessImpl.class);
                             break;
-                        case 2 : result = context.getBean(EditarPlatoProcessImpl.class);
+                        case 1 :
+                            platoBl.eliminarPlato(platoDto);
+                            System.out.println(platoDto.getId());
+                            result = context.getBean(MenuEncargadoProcessImpl.class);
                             break;
-                        case 3 : result = context.getBean(EliminarPlatoProcessImpl.class);
-                            break;
+//                        case 3: result = new MenuOrderProcessImpl(); break;
                         default: showMainMenu(bot, chatId); break;
                     }
                 } catch (NumberFormatException ex) {
@@ -56,22 +79,6 @@ public class MenuEncargadoProcessImpl extends AbstractProcess{
         }
         return result;
     }
-
-    private void showMainMenu(DeliveryLongPollingBot bot, Long chatId) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Bot Delivery Encargado\r\n");
-        //sb.append("1. Pedidos\r\n");
-        //sb.append("2. Modificar Menu \r\n");
-        sb.append("1. Agregar Plato \r\n");
-        sb.append("2. Editar Plato \r\n");
-        sb.append("3. Eliminar Plato \r\n");
-        sb.append("Elija una opción:\r\n");
-        sendStringBuffer(bot, chatId, sb);
-
-        this.setStatus("AWAITING_USER_RESPONSE");
-    }
-
-
 
 
     @Override
@@ -88,5 +95,4 @@ public class MenuEncargadoProcessImpl extends AbstractProcess{
     public AbstractProcess onTimeout() {
         return null;
     }
-
 }
