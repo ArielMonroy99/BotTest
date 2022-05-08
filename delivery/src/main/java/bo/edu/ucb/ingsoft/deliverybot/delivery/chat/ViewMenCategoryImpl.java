@@ -1,6 +1,7 @@
 package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
 import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.CategoryBl;
+import bo.edu.ucb.ingsoft.deliverybot.delivery.util.UserSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class ViewMenCategoryImpl extends AbstractProcess{
     private CategoryBl categoryBl;
     public Logger logger = LoggerFactory.getLogger(ViewMenCategoryImpl.class);
-    @Autowired
     ViewMenCategoryImpl(CategoryBl categoryBl){
         this.categoryBl = categoryBl;
 
@@ -44,6 +46,7 @@ public class ViewMenCategoryImpl extends AbstractProcess{
         Long chatId = update.getMessage().getChatId();
         logger.info("Estado del proceso {}",this.getStatus());
         if (this.getStatus().equals("STARTED")) {
+            logger.info("estado del proceso para el chatID {} : {} ",chatId, UserSession.get(chatId,"process_status"));
             showMainMenuCategory(bot, chatId);
         } else if (this.getStatus().equals("AWAITING_USER_RESPONSE")) {
             // Estamos esperando por un numero 1 o 2
@@ -52,6 +55,7 @@ public class ViewMenCategoryImpl extends AbstractProcess{
             if ( message.hasText() ) {
                 // Intentamos transformar en número
                 String text = message.getText(); // El texto contiene asdasda
+                logger.info("selecciono la categoria {}",text);
                 try {
                     int opcion = Integer.parseInt(text);
                     this.setStatus("STARTED");

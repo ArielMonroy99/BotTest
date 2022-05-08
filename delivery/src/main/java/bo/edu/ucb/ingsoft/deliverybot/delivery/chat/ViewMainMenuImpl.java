@@ -2,18 +2,20 @@ package bo.edu.ucb.ingsoft.deliverybot.delivery.chat;
 
 import bo.edu.ucb.ingsoft.deliverybot.delivery.bl.CategoryBl;
 import bo.edu.ucb.ingsoft.deliverybot.delivery.dto.PlateDto;
+import bo.edu.ucb.ingsoft.deliverybot.delivery.util.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 
 @Service
 public class ViewMainMenuImpl extends AbstractProcess{
     private CategoryBl categoryBl;
-    @Autowired
+    public Logger logger = LoggerFactory.getLogger(MenuProcessImpl.class);
     ViewMainMenuImpl(CategoryBl categoryBl){
         this.categoryBl = categoryBl;
         this.setName("Categoria de plato principal");
@@ -55,7 +57,7 @@ public class ViewMainMenuImpl extends AbstractProcess{
 
 
         if (this.getStatus().equals("STARTED")) {
-
+            logger.info("estado del proceso para el chatID {} : {} ",chatId, UserSession.get(chatId,"process_status"));
             showMenuSoup(bot, chatId);
         } else if (this.getStatus().equals("AWAITING_USER_RESPONSE")) {
             // Estamos esperando por un numero 1 o 2
@@ -63,6 +65,7 @@ public class ViewMainMenuImpl extends AbstractProcess{
             if ( message.hasText() ) {
                 // Intentamos transformar en número
                 String text = message.getText(); // El texto contiene asdasda
+                logger.info("selecciono el plato {}",text);
                 try {
                     int opcion = Integer.parseInt(text);
                     List<PlateDto> menuMain = CategoryBl.CategoryMain();
