@@ -36,12 +36,12 @@ public class DeliveryLongPollingBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "FoodGoNowBot";
+        return "kevin372";
     }
 
     @Override
     public String getBotToken() {
-        return "5215231662:AAF1bz21CEH8eS-Yb98BnYr13JDn5LBD5yA";
+        return "5340720737:AAHD1z8IoU3HbASqiARcrqbvxwXhV4AcnPQ";
     }
 
     @Override
