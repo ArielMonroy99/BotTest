@@ -22,7 +22,6 @@ public class MenuEncargadoProcessImpl extends AbstractProcess{
     public AbstractProcess handle(ApplicationContext context, Update update, DeliveryLongPollingBot bot) {
         AbstractProcess result = this; // sigo en el mismo proceso.
         Long chatId = update.getMessage().getChatId();
-        System.out.println("aaaaaa");
         if (this.getStatus().equals("STARTED")) {
 
             showMainMenu(bot, chatId);
