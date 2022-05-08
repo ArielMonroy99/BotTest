@@ -59,12 +59,12 @@ public class EliminarProcessImpl extends AbstractProcess{
                     int opcion = Integer.parseInt(text);
                     switch (opcion){
                         case 0 :
-                            result = context.getBean(MenuEncargadoProcessImpl.class);
+                            result = new MenuEncargadoProcessImpl();
                             break;
                         case 1 :
                             platoBl.eliminarPlato(platoDto);
                             System.out.println(platoDto.getId());
-                            result = context.getBean(MenuEncargadoProcessImpl.class);
+                            result = new MenuEncargadoProcessImpl();
                             break;
 //                        case 3: result = new MenuOrderProcessImpl(); break;
                         default: showMainMenu(bot, chatId); break;

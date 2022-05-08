@@ -103,13 +103,13 @@ public class EditarProcessImpl extends AbstractProcess{
                             platoBl.actualizarPlato(platoDto);
                             sb.append("El plato se guardo  \r\n");
                             sendStringBuffer(bot, chatId, sb);
-                            result = context.getBean(MenuEncargadoProcessImpl.class);
+                            result = new MenuEncargadoProcessImpl();
 
                             cen = 1;
 
                         }
                         else if (opcion == 0){
-                            result = context.getBean(MenuEncargadoProcessImpl.class);
+                            result = new MenuEncargadoProcessImpl();
                             cen = 1;
                         }
                     }

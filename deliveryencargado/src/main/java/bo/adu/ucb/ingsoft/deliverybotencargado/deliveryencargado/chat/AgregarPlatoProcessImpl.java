@@ -174,6 +174,8 @@ public class AgregarPlatoProcessImpl extends AbstractProcess{
 
                                         cen = 1;
                                         this.setStatus("STARTED");
+                                        sb.append("Se agrego el plato  \r\n");
+                                        sendStringBuffer(bot, chatId, sb);
                                         result = new MenuEncargadoProcessImpl();
 
 
