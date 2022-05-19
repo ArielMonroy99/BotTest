@@ -1,0 +1,257 @@
+swagger: '2.0'
+info:
+  title: Delivery API
+  description: API para manejar pedidos y entrega de platos de un restaurant
+  version: 1.0.0
+
+paths:
+  /orders: 
+    post: 
+      summary: Crea un nuevo pedido
+      description: | 
+        Crea en nuevo pedido 
+      parameters:
+      - name: body  
+        in: body
+        description: "Pedido que se añadira al servicio"
+        required: true
+        schema: 
+          $ref: '#/definitions/Order'
+      responses:
+        200: 
+          description: Se creo el nuevo pedido satisfactoriamente
+        400:
+          description: Error al crear el nuevo pedido 
+      produces:
+        - application/json        
+      consumes:        
+        - application/json        
+  /orders/{clienteId}:
+  
+    ### Informacion del usuario
+    get:
+      summary: Obtener pedidos del cliente
+      description: |
+        Obtener la lista de pedidos hechos por el cliente
+      parameters:
+      - name: clienteId
+        in: path
+        description: Referencia de usuario
+        required: true
+        type: string
+      responses:
+        200:
+          description: Lista de pedidos
+          schema:             
+            $ref: '#/definitions/OrderList' 
+        404:
+          description: El usuario no tiene pedidos anteriores
+      produces:
+        - application/json
+
+  /orders/{orderId}:
+    get:
+      summary: Obtener pedido por id
+      description: |
+        Obtener la informacion de un pedido por el id 
+      parameters:
+      - name: orderId
+        in: path
+        required: true
+        type: string
+      responses:
+        200: 
+          description: Informacion del pedido
+          schema: 
+            $ref: '#/definitions/OrderInList'
+        404:
+          description: No se encontro el pedido         
+       ### Informacion de un pedido
+  /client/{clienteId}:
+    put: 
+      summary: Actualizar informacion del cliente 
+      description: |
+        Actualiza la informacion del cliente
+      parameters:
+      - name: clientId
+        in: path
+        description: Referencia de usuario
+        required: true
+        type: string
+      - name: body 
+        in: body
+        description: En body se envia la informacion
+        required: true
+        schema: 
+          $ref: '#/definitions/Client'
+      responses:
+        200: 
+          description: Se guardaron satisfactoriamente los cambios
+        400: 
+          description: Error al actualizar la informacion 
+        404:
+          description: No se encontro al usuario      
+      consumes:        
+        - application/json 
+  /client/{clienteId}/payments:
+    get:
+      summary: Obtener los metodos de pago agregados del cliente
+      description: | 
+        Obtiene todos los metodos de pagos registrados del cliente
+      parameters:
+      - name: clientId
+        in: path 
+        description: Referencia al usuario
+        required: true
+        type: integer
+      responses:
+        200: 
+          description: Metodos de pago
+          schema: 
+            $ref: '#/definitions/PaymentMethods'
+        400: 
+          description: Error al obtener metodos de pago
+        404: 
+          description: No se encontraron metodos de pago
+  
+
+
+definitions:
+  OrderList:
+    type: array
+    items:
+      type: object
+      properties:
+        orderid: 
+          type: integer
+          example: 300
+        fecha: 
+          type: string
+          example: "11/05/2022, 15,31"
+        total: 
+          type: number
+          example: 150.5
+        sucursal:
+          type: string
+          example: "Sucursal Obrajes"
+  OrderInList: 
+    type: object
+    properties:
+      orderId:
+        type: integer
+        example: 300
+      fecha: 
+        type: string
+        example: "11/05/2022, 15,31"
+      total: 
+        type: number
+        example: 150.5
+      sucursal:
+        type: string
+        example: "Sucursal Obrajes"
+      platos:
+        type: array
+        items:
+          type: object
+          properties:
+            id: 
+              type: integer
+              example: 10
+            nombre: 
+              type: number
+              example: "Milanesa"
+            descripcion:
+              type: string
+              example: "Algo de texto aqui"
+            precio: 
+              type: number 
+              example: 30
+            cantidad: 
+              type: integer
+              example: 2
+  Client: 
+    type: object
+    properties:
+        id: 
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: "Maria Perez"
+        telefono: 
+          type: string
+          example: "77777777"
+        nit:
+          type: string
+          example: "12354987-V"
+        correo:
+          type: string
+          example: "mperez@gmail.com"        
+  Order: 
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 30
+      clienteId:
+        type: integer
+        example: 13
+      sucursal: 
+        type: string
+        example: "Sucursal Obrajes"
+      fecha: 
+        type: string
+        example: "11/5/2022, 16:35"
+      lon: 
+        type: number
+        example: -16.6584
+      lat: 
+        type: number
+        example: -66.6584
+      metodoPago: 
+        type: integer
+        example: 2
+      delivery: 
+        type: integer
+        example: 3
+      total: 
+        type: number
+        example: 150
+      platos: 
+        type: array
+        items:
+          properties:
+            id: 
+              type: integer
+              example: 10
+            nombre: 
+              type: number
+              example: "Milanesa"
+            descripcion:
+              type: string
+              example: "Algo de texto aqui"
+            precio: 
+              type: number 
+              example: 30
+            cantidad: 
+              type: integer
+              example: 2
+
+  PaymentMethods:
+      type: array
+      items: 
+        type: object
+        properties: 
+          id: 
+            type: integer
+            example: 34
+          info: 
+            type: string 
+            example: "12341231241"
+          venc: 
+            type: string
+            example: "11/22"
+             
+    
+      
+          
