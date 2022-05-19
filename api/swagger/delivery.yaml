@@ -6,6 +6,8 @@ info:
 tags:
   - name: "Menu"
     description: "Visualizacion de categorias y menus"
+  - name: "Plato"
+    description: "Agregar, eliminar y editar platos"
 paths:
   "/menu/categories":
     get:
@@ -167,7 +169,11 @@ paths:
         404:
           description: No se encontraron metodos de pago
   /plate:
+
     post:
+      tags:
+        - "Plato"
+
       summary: Crea un nuevo plato
       description: |
         Crea en nuevo pedido
@@ -189,7 +195,10 @@ paths:
         - application/json
 
   /plate/{plateId}:
+
     get:
+      tags:
+        - "Plato"
       summary: Obtener la informacion del plato
       description: |
         Obtiene todos los datos registrados del plato
@@ -209,8 +218,9 @@ paths:
         404:
           description: No se encontraron datos del plato
 
-
     put:
+      tags:
+        - "Plato"
       summary: Actualizar informacion del plato
       description: |
         Actualiza los datos del plato
@@ -235,6 +245,8 @@ paths:
         - application/json
 
     delete:
+      tags:
+        - "Plato"
       summary: Eliminar plato
       description: |
         Elimina el plato
@@ -252,9 +264,9 @@ paths:
           required: true
       responses:
         200:
-          description: Se guardaron satisfactoriamente los cambios
+          description: Se elimino con exito
         400:
-          description: Error al actualizar la informacion del plato
+          description: Error al eliminar el plato
       consumes:
         - application/json
 
