@@ -12,6 +12,8 @@ tags:
     description: "todo sobre los pedidos"
   - name: "Cliente"
     description: "Informacion necesaria sobre el cliente"
+  - name: "Orden"
+    description: "Realizar pedido"
 paths:
   "/menu/categories":
     get:
@@ -62,6 +64,57 @@ paths:
           description: No se encuentra la lista de postres populares
       produces:
         - application/json
+
+  "/plato/{plateId}":
+    get:
+      tags:
+      - "Orden"
+      summary: "Obtener la informacion del plato"
+      description: "Obtener la informacion del plato selecionado"
+      parameters: 
+      - name: plateId
+        in: path
+        description: "Obtener datos del plato"
+        required: true
+        type: string
+      responses:
+        200:
+          schema:
+            $ref: '#/definitions/plate'
+          description: "Informacion del Plato"
+        404:
+          description: "No se encuentra el plato"
+      produces:
+        - application/json
+  "/order/{clientId}/{plateId}":
+    post:
+      tags:
+      - "Orden"
+      summary: "Enviar la orden al listado"
+      description: "Enviar la orden al listado"
+      parameters:
+      - name: clientId
+        in: path
+        description: Referencia de cliente
+        required: true
+        type: string
+      - name: plateId
+        in: path
+        description: Referencia de plato
+        required: true
+        type: string
+      - name: body 
+        in: body
+        schema:
+          $ref: '#/definitions/order'
+      responses:
+        200:
+          description: Se envio la orden 
+        400:
+          description: Error al enviar la orden
+      produces:
+        - application/json  
+  
   /orders:
     post:
       tags:
@@ -388,6 +441,60 @@ definitions:
         img:
           type: string
           example: "https://gastronomiaycia.republica.com/wp-content/uploads/2018/08/15postres_choco_saludables_-768x559.jpg"
+  plate:
+    type: array
+    items: 
+      type: object
+      properties:
+        plateID:
+            type: integer
+            example: 10
+        nombre:
+            type: string
+            example: "Milanesa de pollo"
+        precio: 
+            type: number
+            example: 20.50
+        description:
+            type: string
+            example: "Es una milaneza muy buena"
+        img:
+            type: string
+            example: "https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg"
+  order:
+    type: array
+    items: 
+      type: object
+      properties:
+        cantidad: 
+          type: integer
+          example: 2
+        extra:
+          type: string
+          example: "Una porcion extra de papas"
+        nota:
+          type: string
+          example: "Sin mani"
+        plato:
+          type: array
+          items:
+            type: object
+            properties:
+              plateID:
+                type: integer
+                example: 10
+              nombre:
+                type: string
+                example: "Milanesa de pollo"
+              precio: 
+                type: number
+                example: 20.50  
+              description:
+                type: string
+                example: "Es una milaneza muy buena"
+              img:
+                type: string
+                example: "https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg"
   OrderList:
     type: array
     items:
