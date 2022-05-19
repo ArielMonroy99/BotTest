@@ -26,7 +26,7 @@ paths:
         - application/json        
       consumes:        
         - application/json        
-  /orders/{clienteId}:
+  /orders/{clientId}/list:
   
     ### Informacion del usuario
     get:
@@ -34,7 +34,7 @@ paths:
       description: |
         Obtener la lista de pedidos hechos por el cliente
       parameters:
-      - name: clienteId
+      - name: clientId
         in: path
         description: Referencia de usuario
         required: true
@@ -67,7 +67,8 @@ paths:
         404:
           description: No se encontro el pedido         
        ### Informacion de un pedido
-  /client/{clienteId}:
+       
+  /client/{clientId}:
     put: 
       summary: Actualizar informacion del cliente 
       description: |
@@ -93,7 +94,8 @@ paths:
           description: No se encontro al usuario      
       consumes:        
         - application/json 
-  /client/{clienteId}/payments:
+        
+  /client/{clientId}/payments:
     get:
       summary: Obtener los metodos de pago agregados del cliente
       description: | 
@@ -251,7 +253,3 @@ definitions:
           venc: 
             type: string
             example: "11/22"
-             
-    
-      
-          
