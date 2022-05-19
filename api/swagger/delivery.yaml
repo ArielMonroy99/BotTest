@@ -8,6 +8,10 @@ tags:
     description: "Visualizacion de categorias y menus"
   - name: "Plato"
     description: "Agregar, eliminar y editar platos"
+  - name: "Pedidos"
+    description: "todo sobre los pedidos"
+  - name: "Cliente"
+    description: "Informacion necesaria sobre el cliente"
 paths:
   "/menu/categories":
     get:
@@ -60,6 +64,8 @@ paths:
         - application/json
   /orders:
     post:
+      tags:
+        - "Pedidos"
       summary: Crea un nuevo pedido
       description: |
         Crea en nuevo pedido
@@ -79,10 +85,13 @@ paths:
         - application/json
       consumes:
         - application/json
-  /orders/{clientId}/list:
+        
+  /client/{clientId}/orders:
 
     ### Informacion del usuario
     get:
+      tags:
+        - "Cliente"
       summary: Obtener pedidos del cliente
       description: |
         Obtener la lista de pedidos hechos por el cliente
@@ -104,6 +113,8 @@ paths:
 
   /orders/{orderId}:
     get:
+      tags:
+        - "Pedidos"
       summary: Obtener pedido por id
       description: |
         Obtener la informacion de un pedido por el id
@@ -116,13 +127,15 @@ paths:
         200:
           description: Informacion del pedido
           schema:
-            $ref: '#/definitions/OrderInList'
+            $ref: '#/definitions/Order'
         404:
           description: No se encontro el pedido
         ### Informacion de un pedido
 
   /client/{clientId}:
     put:
+      tags:
+        - "Cliente"
       summary: Actualizar informacion del cliente
       description: |
         Actualiza la informacion del cliente
@@ -148,8 +161,55 @@ paths:
       consumes:
         - application/json
 
+    get:
+      responses:
+        200:
+          description: Se Obtienen datos del cliente
+          schema:
+            $ref: '#/definitions/Client'
+        400:
+          description: Error al obtener datos
+        404:
+          description: Cliente no encontrado
+      tags:
+        - "Cliente"
+      summary: Obtener informacion del cliente
+      description: |
+          Actualiza la informacion del cliente
+      parameters:
+        - name: clientId
+          in: path
+          description: Referencia de usuario
+          required: true
+          type: string
+  /client/{clientId}/location:
+    get:
+      tags: 
+      - "Cliente"
+      summary: Obtener las direcciones agregados del cliente
+      description: |
+        Obtiene todos las direcciones registrados del cliente
+      parameters:
+      - name: clientId
+        in: path 
+        description: Referencia al usuario
+        required: true
+        type: integer
+      responses:
+        200: 
+          description: Direcciones registradas
+          schema: 
+            $ref: '#/definitions/Locations'
+        400: 
+          description: Error al obtener informacion de direcciones
+        404: 
+          description: No se encontraron direcciones
+
+
   /client/{clientId}/payments:
     get:
+      tags:
+        - "Cliente"
       summary: Obtener los metodos de pago agregados del cliente
       description: |
         Obtiene todos los metodos de pagos registrados del cliente
@@ -345,41 +405,6 @@ definitions:
         sucursal:
           type: string
           example: "Sucursal Obrajes"
-  OrderInList:
-    type: object
-    properties:
-      orderId:
-        type: integer
-        example: 300
-      fecha:
-        type: string
-        example: "11/05/2022, 15,31"
-      total:
-        type: number
-        example: 150.5
-      sucursal:
-        type: string
-        example: "Sucursal Obrajes"
-      platos:
-        type: array
-        items:
-          type: object
-          properties:
-            id:
-              type: integer
-              example: 10
-            nombre:
-              type: number
-              example: "Milanesa"
-            descripcion:
-              type: string
-              example: "Algo de texto aqui"
-            precio:
-              type: number
-              example: 30
-            cantidad:
-              type: integer
-              example: 2
   Client:
     type: object
     properties:
@@ -483,3 +508,20 @@ definitions:
       categoria:
         type: integer
         example: 1
+  Locations:
+    type: array
+    items: 
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 34
+        lat: 
+          type: number 
+          example: -16.65653
+        lon: 
+          type: number 
+          example: -66.65653
+        nombre: 
+          type: string
+          example: "CASITA"
