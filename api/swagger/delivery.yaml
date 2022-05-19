@@ -86,7 +86,7 @@ paths:
           description: "No se encuentra el plato"
       produces:
         - application/json
-  "/order/{clientId}/{plateId}":
+  "/order/{clientId}/Order":
     post:
       tags:
       - "Orden"
@@ -96,11 +96,6 @@ paths:
       - name: clientId
         in: path
         description: Referencia de cliente
-        required: true
-        type: string
-      - name: plateId
-        in: path
-        description: Referencia de plato
         required: true
         type: string
       - name: body 
