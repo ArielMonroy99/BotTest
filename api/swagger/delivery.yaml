@@ -3,31 +3,31 @@ info:
   title: Delivery API
   description: API para manejar pedidos y entrega de platos de un restaurant
   version: 1.0.0
-tags: 
-- name: "Menu"
-  description: "Visualizacion de categorias y menus" 
+tags:
+  - name: "Menu"
+    description: "Visualizacion de categorias y menus"
 paths:
   "/menu/categories":
     get:
       tags:
-      - "Menu"
+        - "Menu"
       summary: "Obtener las categorias del Menu"
       description: "Obtener la lista de categorias que tiene el restaurante"
       parameters: []
       responses:
         200:
           description: "Lista de categorias del restaurante"
-          schema: 
+          schema:
             $ref: '#/definitions/categories'
-        404: 
+        404:
           description: No se encuentra la lista de categorias
       produces:
-        - application/json  
-          
+        - application/json
+
   "/menu/mainPopular":
     get:
       tags:
-      - "Menu"
+        - "Menu"
       summary: "Obtener los platos principales mas populares"
       description: "Obtener una lista de los platos principales populares del restaurante"
       parameters: []
@@ -39,11 +39,11 @@ paths:
         404:
           description: No se encuentra la lista de platos princiaples populares
       produces:
-        - application/json  
+        - application/json
   "/menu/dessertpopular":
     get:
       tags:
-      - "Menu"
+        - "Menu"
       summary: "Obtener los postrs mas populares"
       description: "Obtener una lista de los postres populares del restaurante"
       parameters: []
@@ -55,46 +55,46 @@ paths:
         404:
           description: No se encuentra la lista de postres populares
       produces:
-        - application/json 
-  /orders: 
-    post: 
+        - application/json
+  /orders:
+    post:
       summary: Crea un nuevo pedido
-      description: | 
-        Crea en nuevo pedido 
+      description: |
+        Crea en nuevo pedido
       parameters:
-      - name: body  
-        in: body
-        description: "Pedido que se añadira al servicio"
-        required: true
-        schema: 
-          $ref: '#/definitions/Order'
+        - name: body
+          in: body
+          description: "Pedido que se añadira al servicio"
+          required: true
+          schema:
+            $ref: '#/definitions/Order'
       responses:
-        200: 
+        200:
           description: Se creo el nuevo pedido satisfactoriamente
         400:
-          description: Error al crear el nuevo pedido 
+          description: Error al crear el nuevo pedido
       produces:
-        - application/json        
-      consumes:        
-        - application/json        
+        - application/json
+      consumes:
+        - application/json
   /orders/{clientId}/list:
-  
+
     ### Informacion del usuario
     get:
       summary: Obtener pedidos del cliente
       description: |
         Obtener la lista de pedidos hechos por el cliente
       parameters:
-      - name: clientId
-        in: path
-        description: Referencia de usuario
-        required: true
-        type: string
+        - name: clientId
+          in: path
+          description: Referencia de usuario
+          required: true
+          type: string
       responses:
         200:
           description: Lista de pedidos
-          schema:             
-            $ref: '#/definitions/OrderList' 
+          schema:
+            $ref: '#/definitions/OrderList'
         404:
           description: El usuario no tiene pedidos anteriores
       produces:
@@ -104,107 +104,198 @@ paths:
     get:
       summary: Obtener pedido por id
       description: |
-        Obtener la informacion de un pedido por el id 
+        Obtener la informacion de un pedido por el id
       parameters:
-      - name: orderId
-        in: path
-        required: true
-        type: string
+        - name: orderId
+          in: path
+          required: true
+          type: string
       responses:
-        200: 
+        200:
           description: Informacion del pedido
-          schema: 
+          schema:
             $ref: '#/definitions/OrderInList'
         404:
-          description: No se encontro el pedido         
-       ### Informacion de un pedido
-       
+          description: No se encontro el pedido
+        ### Informacion de un pedido
+
   /client/{clientId}:
-    put: 
-      summary: Actualizar informacion del cliente 
+    put:
+      summary: Actualizar informacion del cliente
       description: |
         Actualiza la informacion del cliente
       parameters:
-      - name: clientId
-        in: path
-        description: Referencia de usuario
-        required: true
-        type: string
-      - name: body 
-        in: body
-        description: En body se envia la informacion
-        required: true
-        schema: 
-          $ref: '#/definitions/Client'
+        - name: clientId
+          in: path
+          description: Referencia de usuario
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: En body se envia la informacion
+          required: true
+          schema:
+            $ref: '#/definitions/Client'
       responses:
-        200: 
+        200:
           description: Se guardaron satisfactoriamente los cambios
-        400: 
-          description: Error al actualizar la informacion 
+        400:
+          description: Error al actualizar la informacion
         404:
-          description: No se encontro al usuario      
-      consumes:        
-        - application/json 
-        
+          description: No se encontro al usuario
+      consumes:
+        - application/json
+
   /client/{clientId}/payments:
     get:
       summary: Obtener los metodos de pago agregados del cliente
-      description: | 
+      description: |
         Obtiene todos los metodos de pagos registrados del cliente
       parameters:
-      - name: clientId
-        in: path 
-        description: Referencia al usuario
-        required: true
-        type: integer
+        - name: clientId
+          in: path
+          description: Referencia al usuario
+          required: true
+          type: integer
       responses:
-        200: 
+        200:
           description: Metodos de pago
-          schema: 
+          schema:
             $ref: '#/definitions/PaymentMethods'
-        400: 
+        400:
           description: Error al obtener metodos de pago
-        404: 
+        404:
           description: No se encontraron metodos de pago
-  
+  /plate:
+    post:
+      summary: Crea un nuevo plato
+      description: |
+        Crea en nuevo pedido
+      parameters:
+        - name: body
+          in: body
+          description: "Plato que se añadira al manu"
+          required: true
+          schema:
+            $ref: '#/definitions/Plate'
+      responses:
+        200:
+          description: Se creo el nuevo plato satisfactoriamente
+        400:
+          description: Error al crear el nuevo plato
+      produces:
+        - application/json
+      consumes:
+        - application/json
+
+  /plate/{plateId}:
+    get:
+      summary: Obtener la informacion del plato
+      description: |
+        Obtiene todos los datos registrados del plato
+      parameters:
+        - name: plateId
+          in: path
+          description: Referencia al plato
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Informacion del plato
+          schema:
+            $ref: '#/definitions/Plate'
+        400:
+          description: Error al obtener la informacion del plato
+        404:
+          description: No se encontraron datos del plato
+
+
+    put:
+      summary: Actualizar informacion del plato
+      description: |
+        Actualiza los datos del plato
+      parameters:
+        - name: plateId
+          in: path
+          description: Referencia al plato
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: En body se envia la informacion
+          schema:
+            $ref: '#/definitions/Plate'
+          required: true
+      responses:
+        200:
+          description: Se guardaron satisfactoriamente los cambios
+        400:
+          description: Error al actualizar la informacion del plato
+      consumes:
+        - application/json
+
+    delete:
+      summary: Eliminar plato
+      description: |
+        Elimina el plato
+      parameters:
+        - name: plateId
+          in: path
+          description: Referencia al plato
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: En body se envia la informacion
+          schema:
+            $ref: '#/definitions/Plate'
+          required: true
+      responses:
+        200:
+          description: Se guardaron satisfactoriamente los cambios
+        400:
+          description: Error al actualizar la informacion del plato
+      consumes:
+        - application/json
+
 
 
 definitions:
   categories:
     type: array
-    items: 
-        type: object
-        properties:
-          categoriesId:
-            type: integer
-            example: 3
-          name:
-            type: string
-            example: "Postres"
-          image: 
-            type: string
-            example: "https://e6r9x5a3.rocketcdn.me/wp-content/uploads/2020/03/1-680x1020.png"
-    
+    items:
+      type: object
+      properties:
+        categoriesId:
+          type: integer
+          example: 3
+        name:
+          type: string
+          example: "Postres"
+        image:
+          type: string
+          example: "https://e6r9x5a3.rocketcdn.me/wp-content/uploads/2020/03/1-680x1020.png"
+
   PopularMainDishes:
-      type: array
-      items:
-        type: object
-        properties:
-          plateID:
-            type: integer
-            example: 10
-          nombre:
-            type: string
-            example: "Milanesa de pollo"
-          precio: 
-            type: number
-            example: 20.50
-          description:
-            type: string
-            example: "Es una milaneza muy buena"
-          img:
-            type: string
-            example: "https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg"
+    type: array
+    items:
+      type: object
+      properties:
+        plateID:
+          type: integer
+          example: 10
+        nombre:
+          type: string
+          example: "Milanesa de pollo"
+        precio:
+          type: number
+          example: 20.50
+        description:
+          type: string
+          example: "Es una milaneza muy buena"
+        img:
+          type: string
+          example: "https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg"
   dessertpopular:
     type: array
     items:
@@ -216,7 +307,7 @@ definitions:
         nombre:
           type: string
           example: "Flan de chocolate"
-        precio: 
+        precio:
           type: number
           example: 10.50
         description:
@@ -224,34 +315,34 @@ definitions:
           example: "Un Flan bañado en chocolate"
         img:
           type: string
-          example: "https://gastronomiaycia.republica.com/wp-content/uploads/2018/08/15postres_choco_saludables_-768x559.jpg"  
+          example: "https://gastronomiaycia.republica.com/wp-content/uploads/2018/08/15postres_choco_saludables_-768x559.jpg"
   OrderList:
     type: array
     items:
       type: object
       properties:
-        orderid: 
+        orderid:
           type: integer
           example: 300
-        fecha: 
+        fecha:
           type: string
           example: "11/05/2022, 15,31"
-        total: 
+        total:
           type: number
           example: 150.5
         sucursal:
           type: string
           example: "Sucursal Obrajes"
-  OrderInList: 
+  OrderInList:
     type: object
     properties:
       orderId:
         type: integer
         example: 300
-      fecha: 
+      fecha:
         type: string
         example: "11/05/2022, 15,31"
-      total: 
+      total:
         type: number
         example: 150.5
       sucursal:
@@ -262,40 +353,40 @@ definitions:
         items:
           type: object
           properties:
-            id: 
+            id:
               type: integer
               example: 10
-            nombre: 
+            nombre:
               type: number
               example: "Milanesa"
             descripcion:
               type: string
               example: "Algo de texto aqui"
-            precio: 
-              type: number 
+            precio:
+              type: number
               example: 30
-            cantidad: 
+            cantidad:
               type: integer
               example: 2
-  Client: 
+  Client:
     type: object
     properties:
-        id: 
-          type: integer
-          example: 1
-        nombre:
-          type: string
-          example: "Maria Perez"
-        telefono: 
-          type: string
-          example: "77777777"
-        nit:
-          type: string
-          example: "12354987-V"
-        correo:
-          type: string
-          example: "mperez@gmail.com"        
-  Order: 
+      id:
+        type: integer
+        example: 1
+      nombre:
+        type: string
+        example: "Maria Perez"
+      telefono:
+        type: string
+        example: "77777777"
+      nit:
+        type: string
+        example: "12354987-V"
+      correo:
+        type: string
+        example: "mperez@gmail.com"
+  Order:
     type: object
     properties:
       id:
@@ -304,58 +395,79 @@ definitions:
       clienteId:
         type: integer
         example: 13
-      sucursal: 
+      sucursal:
         type: string
         example: "Sucursal Obrajes"
-      fecha: 
+      fecha:
         type: string
         example: "11/5/2022, 16:35"
-      lon: 
+      lon:
         type: number
         example: -16.6584
-      lat: 
+      lat:
         type: number
         example: -66.6584
-      metodoPago: 
+      metodoPago:
         type: integer
         example: 2
-      delivery: 
+      delivery:
         type: integer
         example: 3
-      total: 
+      total:
         type: number
         example: 150
-      platos: 
+      platos:
         type: array
         items:
           properties:
-            id: 
+            id:
               type: integer
               example: 10
-            nombre: 
+            nombre:
               type: number
               example: "Milanesa"
             descripcion:
               type: string
               example: "Algo de texto aqui"
-            precio: 
-              type: number 
+            precio:
+              type: number
               example: 30
-            cantidad: 
+            cantidad:
               type: integer
               example: 2
 
   PaymentMethods:
-      type: array
-      items: 
-        type: object
-        properties: 
-          id: 
-            type: integer
-            example: 34
-          info: 
-            type: string 
-            example: "12341231241"
-          venc: 
-            type: string
-            example: "11/22"
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 34
+        info:
+          type: string
+          example: "12341231241"
+        venc:
+          type: string
+          example: "11/22"
+  Plate:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 10
+      nombre:
+        type: string
+        example: "Milanesa"
+      precio:
+        type: number
+        example: 30
+      descripcion:
+        type: string
+        example: "Rico plato"
+      imagen:
+        type: string
+        example: "img.png"
+      categoria:
+        type: integer
+        example: 1
