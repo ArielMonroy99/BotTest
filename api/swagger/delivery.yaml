@@ -3,8 +3,59 @@ info:
   title: Delivery API
   description: API para manejar pedidos y entrega de platos de un restaurant
   version: 1.0.0
-
+tags: 
+- name: "Menu"
+  description: "Visualizacion de categorias y menus" 
 paths:
+  "/menu/categories":
+    get:
+      tags:
+      - "Menu"
+      summary: "Obtener las categorias del Menu"
+      description: "Obtener la lista de categorias que tiene el restaurante"
+      parameters: []
+      responses:
+        200:
+          description: "Lista de categorias del restaurante"
+          schema: 
+            $ref: '#/definitions/categories'
+        404: 
+          description: No se encuentra la lista de categorias
+      produces:
+        - application/json  
+          
+  "/menu/mainPopular":
+    get:
+      tags:
+      - "Menu"
+      summary: "Obtener los platos principales mas populares"
+      description: "Obtener una lista de los platos principales populares del restaurante"
+      parameters: []
+      responses:
+        200:
+          description: "Lista de platos principales mas populares"
+          schema:
+            $ref: '#/definitions/PopularMainDishes'
+        404:
+          description: No se encuentra la lista de platos princiaples populares
+      produces:
+        - application/json  
+  "/menu/dessertpopular":
+    get:
+      tags:
+      - "Menu"
+      summary: "Obtener los postrs mas populares"
+      description: "Obtener una lista de los postres populares del restaurante"
+      parameters: []
+      responses:
+        200:
+          description: "Lista de los postres mas populares"
+          schema:
+            $ref: '#/definitions/dessertpopular'
+        404:
+          description: No se encuentra la lista de postres populares
+      produces:
+        - application/json 
   /orders: 
     post: 
       summary: Crea un nuevo pedido
@@ -119,6 +170,61 @@ paths:
 
 
 definitions:
+  categories:
+    type: array
+    items: 
+        type: object
+        properties:
+          categoriesId:
+            type: integer
+            example: 3
+          name:
+            type: string
+            example: "Postres"
+          image: 
+            type: string
+            example: "https://e6r9x5a3.rocketcdn.me/wp-content/uploads/2020/03/1-680x1020.png"
+    
+  PopularMainDishes:
+      type: array
+      items:
+        type: object
+        properties:
+          plateID:
+            type: integer
+            example: 10
+          nombre:
+            type: string
+            example: "Milanesa de pollo"
+          precio: 
+            type: number
+            example: 20.50
+          description:
+            type: string
+            example: "Es una milaneza muy buena"
+          img:
+            type: string
+            example: "https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg"
+  dessertpopular:
+    type: array
+    items:
+      type: object
+      properties:
+        plateID:
+          type: integer
+          example: 2
+        nombre:
+          type: string
+          example: "Flan de chocolate"
+        precio: 
+          type: number
+          example: 10.50
+        description:
+          type: string
+          example: "Un Flan bañado en chocolate"
+        img:
+          type: string
+          example: "https://gastronomiaycia.republica.com/wp-content/uploads/2018/08/15postres_choco_saludables_-768x559.jpg"  
   OrderList:
     type: array
     items:
