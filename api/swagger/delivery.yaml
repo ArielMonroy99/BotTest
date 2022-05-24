@@ -451,10 +451,106 @@ paths:
           description: Error al eliminar el plato
       consumes:
         - application/json
+  "/sucursal/":
+    get:
+      tags:
+        - "Sucursal"
+      summary: "Todos los datos de las sucursales"
+      description: "Obtener datos sobre las sucursales"
+      parameters: []
+      responses:
+        200:
+          description: "Lista de todas las sucursales"
+          schema:
+            $ref: '#/definitions/sucursal'
+        404:
+          description: "No se encontro la lista de sucursales"
+      produces: 
+        - application/json
+        
+        
+  "/sucursal/{sucursalID}":
+    get:
+      tags:
+        - "Sucursal"
+      summary: "Obtener la informacion de una sucursal"
+      description: "Obtener la informacion de una sucursal"
+      parameters:
+      - name: sucursalID
+        in: path
+        description: "Obtener datos de una sucursal"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "Informacion de una sucursal"
+          schema:
+            $ref: '#/definitions/sucursalData'
+        404:
+          description: "No se encontro la informacion del plato"
+      produces: 
+        - application/json
+  "/sucursal":
+    post:
+      tags:
+        - "Sucursal"
+      summary: Crea una nueva sucursal
+      description: |
+        Crea una nueva sucursal
+      parameters:
+        - name: body
+          in: body
+          description: "Se añadira a las sucursales"
+          required: true
+          schema:
+            $ref: '#/definitions/sucursalData'
+      responses:
+        200:
+          description: Se creo una nueva sucursal
+        400:
+          description: Error al crear una nueva sucursal
+      produces:
+        - application/json
+      consumes:
+        - application/json
 
 
 
 definitions:
+
+  sucursalData:
+    type: object
+    properties:
+      sucursalID:
+        type: integer
+        example: 1
+      nombre:
+        type: string
+        example: "Sucursal central"
+      direccion:
+        type: string
+        example: "Av X zona X"
+      encargado:
+        type: string
+        example: "Roberto Aguilar"
+  
+  sucursal:
+    type: array
+    items: 
+      type: object
+      properties:
+        sucursalID:
+            type: integer
+            example: 4
+        nombre:
+            type: string
+            example: "sucursal 3"
+        direccion: 
+            type: string
+            example: "Zona calacoto clle 2"
+        encargado:
+            type: string
+            example: "Jose Conde"
   soups:
     type: array
     items: 
