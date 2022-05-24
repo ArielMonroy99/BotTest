@@ -65,6 +65,78 @@ paths:
       produces:
         - application/json
   
+  "/menu/soups":
+    get:
+      tags:
+        - "Menu"
+      summary: "Todas las sopas que ofrece el restaurante"
+      description: "Obtener una lista de todas las sopas"
+      parameters: []
+      responses:
+        200:
+          description: "Lista de todas las sopa"
+          schema:
+            $ref: '#/definitions/soups'
+        404:
+          description: "No se encontro la lista de sopas"
+      produces: 
+        - application/json
+        
+  "/menu/maindishes":
+    get:
+      tags:
+        - "Menu"
+      summary: "Todos los platos principales que ofrece el restaurante"
+      description: "Obtener una lista de todos los platos principales que ofrece el restaurante"
+      parameters: []
+      responses:
+        200:
+          description: "Lista de todos los platos"
+          schema:
+            $ref: '#/definitions/plate'
+        404:
+          description: "No se encontro la lista de platos principales"
+      produces: 
+        - application/json
+        
+  "/menu/desserts":
+    get:
+      tags:
+        - "Menu"
+      summary: "Todos los postres que ofrece el restaurante"
+      description: "Obtener una lista de todos los postres que ofrece el restaurante"
+      parameters: []
+      responses:
+        200:
+          description: "Lista de todos los platos"
+          schema:
+            $ref: '#/definitions/dessertpopular'
+        404:
+          description: "No se encontro la lista de sopas"
+      produces: 
+        - application/json
+  
+  "/menu/{plateId}":
+    get:
+      tags:
+        - "Menu"
+      summary: "Obtener la informacion de un plato"
+      description: "Obtener la informacion de un plato"
+      parameters:
+      - name: plateId
+        in: path
+        description: "Obtener datos de un plato"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "Informacion del plato"
+          schema:
+            $ref: '#/definitions/dessertpopular'
+        404:
+          description: "No se encontro la informacion del plato"
+      produces: 
+        - application/json
 
 
   "/plato/{plateId}":
