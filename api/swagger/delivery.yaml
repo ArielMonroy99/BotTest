@@ -199,10 +199,12 @@ paths:
           schema:
             $ref: '#/definitions/Order'
       responses:
-        200:
+        201:
           description: Se creo el nuevo pedido satisfactoriamente
         400:
           description: Error al crear el nuevo pedido
+        
+        
       produces:
         - application/json
       consumes:
@@ -330,37 +332,14 @@ paths:
           description: Referencia de usuario
           required: true
           type: string
-  /client/{clientId}/location:
-    get:
-      tags:
-        - "Cliente"
-      summary: Obtener las direcciones agregados del cliente
-      description: |
-        Obtiene todos las direcciones registrados del cliente
-      parameters:
-        - name: clientId
-          in: path
-          description: Referencia al usuario
-          required: true
-          type: integer
-      responses:
-        200:
-          description: Direcciones registradas
-          schema:
-            $ref: '#/definitions/Locations'
-        400:
-          description: Error al obtener informacion de direcciones
-        404:
-          description: No se encontraron direcciones
-
-
+  
   /client/{clientId}/payments:
     get:
       tags:
         - "Cliente"
-      summary: Obtener los metodos de pago agregados del cliente
+      summary: Obtiene datos de la ultima tarjeta usada por el cliente
       description: |
-        Obtiene todos los metodos de pagos registrados del cliente
+        Obtiene datos de la ultima tarjeta usada por el cleiente
       parameters:
         - name: clientId
           in: path
@@ -369,13 +348,40 @@ paths:
           type: integer
       responses:
         200:
-          description: Metodos de pago
+          description: Metodo de pago
           schema:
-            $ref: '#/definitions/PaymentMethods'
+            $ref: '#/definitions/Payment'
         400:
-          description: Error al obtener metodos de pago
+          description: Error al obtener metodo de pago
         404:
-          description: No se encontraron metodos de pago
+          description: No se encontraron metodo de pago
+    post:
+      tags:
+        - "Cliente"
+      summary: Guardar la informacion de pago de un usuario
+      description: |
+        Guarda informacion del pago 
+      parameters:
+        - name: clientId
+          in: path
+          description: "Referencia al usuario"
+          required: true
+          type: integer
+        - name: body
+          in: body
+          description: "Informacion del metodo de pago"
+          required: true
+          schema:
+            $ref: '#/definitions/Payment'
+      responses:
+        200:
+          description: Se guardaron los datos correctamente
+        400:
+          description: Error al guardar los datos
+      produces:
+        - application/json
+      consumes:
+        - application/json
   /plate:
 
     post:
@@ -724,6 +730,14 @@ definitions:
         sucursal:
           type: string
           example: "Sucursal Obrajes"
+        delivery: 
+          type: string 
+          example: "Recojo en local"
+        pago:
+          type: string
+          enum: ["Efectivo", "Tarjeta" , "Qr"]
+          example: "Efectivo"  
+        
   Client:
     type: object
     properties:
@@ -742,6 +756,11 @@ definitions:
       correo:
         type: string
         example: "mperez@gmail.com"
+      imagen: 
+        type: string
+        example: "http://url_de_imagen.jpg"
+    
+  
   Order:
     type: object
     properties:
@@ -757,21 +776,39 @@ definitions:
       fecha:
         type: string
         example: "11/5/2022, 16:35"
-      lon:
-        type: number
-        example: -16.6584
-      lat:
-        type: number
-        example: -66.6584
+      direccion:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 11
+          direccion: 
+            type: string
+            example: "Av 20 de octubre #1540"
+          lon:
+            type: number
+            example: -16.6584
+          lat:
+            type: number
+            example: -66.6584
+          detalle: 
+            type: string
+            example: "Casa naranja"
       metodoPago:
-        type: integer
-        example: 2
+        type: string
+        enum: ["Efectivo","Tarjeta","Qr"]
+        example: "Efectivo"
       delivery:
-        type: integer
-        example: 3
+        type: string
+        enum: ["Delivery" , "Entrega en local"]
+        example: "Delivery"
+      estado:
+        type: string
+        enum: ["Enviado","Aprobado","Rechazado","En camino","Entregado"]
+        example: "Enviado"
       total:
         type: number
-        example: 150
+        example: 150.00
       platos:
         type: array
         items:
@@ -791,21 +828,13 @@ definitions:
             cantidad:
               type: integer
               example: 2
+            nota: 
+              type: string 
+              example: "sin pollo"
+            img: 
+              type: string
+              example: "http://img_dela_mila.jpg"
 
-  PaymentMethods:
-    type: array
-    items:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 34
-        info:
-          type: string
-          example: "12341231241"
-        venc:
-          type: string
-          example: "11/22"
   Plate:
     type: object
     properties:
@@ -827,21 +856,18 @@ definitions:
       categoria:
         type: integer
         example: 1
-  Locations:
-    type: array
-    items:
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 34
-        lat:
-          type: number
-          example: -16.65653
-        lon:
-          type: number
-          type: number
-          example: -66.65653
-        nombre:
-          type: string
-          example: "CASITA"
+  Payment:
+    type: object
+    properties:
+      id: 
+        type: integer
+        example: 2
+      nro: 
+        type: number
+        example: 1451320987987
+      venc: 
+        type: string
+        example: "11/22"
+      nombre: 
+        type: string
+        example: "Pepe el mago"
