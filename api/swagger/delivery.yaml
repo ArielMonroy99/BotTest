@@ -64,6 +64,8 @@ paths:
           description: No se encuentra la lista de postres populares
       produces:
         - application/json
+  
+
 
   "/plato/{plateId}":
     get:
@@ -381,6 +383,27 @@ paths:
 
 
 definitions:
+  soups:
+    type: array
+    items: 
+      type: object
+      properties:
+        plateID:
+            type: integer
+            example: 10
+        nombre:
+            type: string
+            example: "sopa de pollo"
+        precio: 
+            type: number
+            example: 20.50
+        description:
+            type: string
+            example: "Es una sopa bien buena"
+        img:
+            type: string
+            example: "https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg"
+
   categories:
     type: array
     items:
