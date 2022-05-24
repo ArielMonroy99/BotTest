@@ -64,7 +64,7 @@ paths:
           description: No se encuentra la lista de postres populares
       produces:
         - application/json
-  
+
   "/menu/soups":
     get:
       tags:
@@ -79,9 +79,9 @@ paths:
             $ref: '#/definitions/soups'
         404:
           description: "No se encontro la lista de sopas"
-      produces: 
+      produces:
         - application/json
-        
+
   "/menu/maindishes":
     get:
       tags:
@@ -96,9 +96,9 @@ paths:
             $ref: '#/definitions/plate'
         404:
           description: "No se encontro la lista de platos principales"
-      produces: 
+      produces:
         - application/json
-        
+
   "/menu/desserts":
     get:
       tags:
@@ -113,9 +113,9 @@ paths:
             $ref: '#/definitions/dessertpopular'
         404:
           description: "No se encontro la lista de sopas"
-      produces: 
+      produces:
         - application/json
-  
+
   "/menu/{plateId}":
     get:
       tags:
@@ -123,11 +123,11 @@ paths:
       summary: "Obtener la informacion de un plato"
       description: "Obtener la informacion de un plato"
       parameters:
-      - name: plateId
-        in: path
-        description: "Obtener datos de un plato"
-        required: true
-        type: string
+        - name: plateId
+          in: path
+          description: "Obtener datos de un plato"
+          required: true
+          type: string
       responses:
         200:
           description: "Informacion del plato"
@@ -135,22 +135,22 @@ paths:
             $ref: '#/definitions/dessertpopular'
         404:
           description: "No se encontro la informacion del plato"
-      produces: 
+      produces:
         - application/json
 
 
   "/plato/{plateId}":
     get:
       tags:
-      - "Orden"
+        - "Orden"
       summary: "Obtener la informacion del plato"
       description: "Obtener la informacion del plato selecionado"
-      parameters: 
-      - name: plateId
-        in: path
-        description: "Obtener datos del plato"
-        required: true
-        type: string
+      parameters:
+        - name: plateId
+          in: path
+          description: "Obtener datos del plato"
+          required: true
+          type: string
       responses:
         200:
           schema:
@@ -163,27 +163,27 @@ paths:
   "/order/{clientId}/Order":
     post:
       tags:
-      - "Orden"
+        - "Orden"
       summary: "Enviar la orden al listado"
       description: "Enviar la orden al listado"
       parameters:
-      - name: clientId
-        in: path
-        description: Referencia de cliente
-        required: true
-        type: string
-      - name: body 
-        in: body
-        schema:
-          $ref: '#/definitions/order'
+        - name: clientId
+          in: path
+          description: Referencia de cliente
+          required: true
+          type: string
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/order'
       responses:
         200:
-          description: Se envio la orden 
+          description: Se envio la orden
         400:
           description: Error al enviar la orden
       produces:
-        - application/json  
-  
+        - application/json
+
   /orders:
     post:
       tags:
@@ -207,7 +207,7 @@ paths:
         - application/json
       consumes:
         - application/json
-        
+
   /client/{clientId}/orders:
 
     ### Informacion del usuario
@@ -253,6 +253,32 @@ paths:
         404:
           description: No se encontro el pedido
         ### Informacion de un pedido
+    put:
+      tags:
+        - "Pedidos"
+      summary: actualizar el estado por Id
+      description: |
+        Actualizar el estado de un pedido por el id
+      parameters:
+        - name: orderId
+          in: path
+          description: Referencia al plato
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: En body se envia la informacion
+          schema:
+            $ref: '#/definitions/Order'
+          required: true
+      responses:
+        200:
+          description: El pedido fue enviado
+        404:
+          description: Error al actualizar el estado del pedido
+      consumes:
+        - application/json
+
 
   /client/{clientId}:
     put:
@@ -297,7 +323,7 @@ paths:
         - "Cliente"
       summary: Obtener informacion del cliente
       description: |
-          Actualiza la informacion del cliente
+        Actualiza la informacion del cliente
       parameters:
         - name: clientId
           in: path
@@ -306,25 +332,25 @@ paths:
           type: string
   /client/{clientId}/location:
     get:
-      tags: 
-      - "Cliente"
+      tags:
+        - "Cliente"
       summary: Obtener las direcciones agregados del cliente
       description: |
         Obtiene todos las direcciones registrados del cliente
       parameters:
-      - name: clientId
-        in: path 
-        description: Referencia al usuario
-        required: true
-        type: integer
+        - name: clientId
+          in: path
+          description: Referencia al usuario
+          required: true
+          type: integer
       responses:
-        200: 
+        200:
           description: Direcciones registradas
-          schema: 
+          schema:
             $ref: '#/definitions/Locations'
-        400: 
+        400:
           description: Error al obtener informacion de direcciones
-        404: 
+        404:
           description: No se encontraron direcciones
 
 
@@ -465,10 +491,10 @@ paths:
             $ref: '#/definitions/sucursal'
         404:
           description: "No se encontro la lista de sucursales"
-      produces: 
+      produces:
         - application/json
-        
-        
+
+
   "/sucursal/{sucursalID}":
     get:
       tags:
@@ -476,11 +502,11 @@ paths:
       summary: "Obtener la informacion de una sucursal"
       description: "Obtener la informacion de una sucursal"
       parameters:
-      - name: sucursalID
-        in: path
-        description: "Obtener datos de una sucursal"
-        required: true
-        type: string
+        - name: sucursalID
+          in: path
+          description: "Obtener datos de una sucursal"
+          required: true
+          type: string
       responses:
         200:
           description: "Informacion de una sucursal"
@@ -488,7 +514,7 @@ paths:
             $ref: '#/definitions/sucursalData'
         404:
           description: "No se encontro la informacion del plato"
-      produces: 
+      produces:
         - application/json
   "/sucursal":
     post:
@@ -533,44 +559,44 @@ definitions:
       encargado:
         type: string
         example: "Roberto Aguilar"
-  
+
   sucursal:
     type: array
-    items: 
+    items:
       type: object
       properties:
         sucursalID:
-            type: integer
-            example: 4
+          type: integer
+          example: 4
         nombre:
-            type: string
-            example: "sucursal 3"
-        direccion: 
-            type: string
-            example: "Zona calacoto clle 2"
+          type: string
+          example: "sucursal 3"
+        direccion:
+          type: string
+          example: "Zona calacoto clle 2"
         encargado:
-            type: string
-            example: "Jose Conde"
+          type: string
+          example: "Jose Conde"
   soups:
     type: array
-    items: 
+    items:
       type: object
       properties:
         plateID:
-            type: integer
-            example: 10
+          type: integer
+          example: 10
         nombre:
-            type: string
-            example: "sopa de pollo"
-        precio: 
-            type: number
-            example: 20.50
+          type: string
+          example: "sopa de pollo"
+        precio:
+          type: number
+          example: 20.50
         description:
-            type: string
-            example: "Es una sopa bien buena"
+          type: string
+          example: "Es una sopa bien buena"
         img:
-            type: string
-            example: "https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg"
+          type: string
+          example: "https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg"
 
   categories:
     type: array
@@ -629,30 +655,30 @@ definitions:
           example: "https://gastronomiaycia.republica.com/wp-content/uploads/2018/08/15postres_choco_saludables_-768x559.jpg"
   plate:
     type: array
-    items: 
+    items:
       type: object
       properties:
         plateID:
-            type: integer
-            example: 10
+          type: integer
+          example: 10
         nombre:
-            type: string
-            example: "Milanesa de pollo"
-        precio: 
-            type: number
-            example: 20.50
+          type: string
+          example: "Milanesa de pollo"
+        precio:
+          type: number
+          example: 20.50
         description:
-            type: string
-            example: "Es una milaneza muy buena"
+          type: string
+          example: "Es una milaneza muy buena"
         img:
-            type: string
-            example: "https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg"
+          type: string
+          example: "https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg"
   order:
     type: array
-    items: 
+    items:
       type: object
       properties:
-        cantidad: 
+        cantidad:
           type: integer
           example: 2
         extra:
@@ -672,9 +698,9 @@ definitions:
               nombre:
                 type: string
                 example: "Milanesa de pollo"
-              precio: 
+              precio:
                 type: number
-                example: 20.50  
+                example: 20.50
               description:
                 type: string
                 example: "Es una milaneza muy buena"
@@ -803,18 +829,19 @@ definitions:
         example: 1
   Locations:
     type: array
-    items: 
+    items:
       type: object
       properties:
-        id: 
+        id:
           type: integer
           example: 34
-        lat: 
-          type: number 
+        lat:
+          type: number
           example: -16.65653
-        lon: 
-          type: number 
+        lon:
+          type: number
+          type: number
           example: -66.65653
-        nombre: 
+        nombre:
           type: string
           example: "CASITA"

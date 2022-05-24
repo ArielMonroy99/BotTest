@@ -1,0 +1,109 @@
+Index: deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/bl/PlatoBl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.bl;\r\n\r\nimport bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.dao.PlatoDao;\r\nimport bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.dto.PlatoDto;\r\n\r\nimport org.slf4j.Logger;\r\nimport org.slf4j.LoggerFactory;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.stereotype.Service;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n\r\n@Service\r\npublic class PlatoBl {\r\n    private PlatoDao platoDao;\r\n\r\n\r\n\r\n    @Autowired\r\n    public PlatoBl(PlatoDao platoDao){\r\n        this.platoDao = platoDao;\r\n    }\r\n    public List<PlatoDto> TodayMenu(){\r\n        return platoDao.findAllPlates();\r\n    }\r\n\r\n    public void guardarPlato(PlatoDto platoDto){\r\n        platoDao.guardarPlato(platoDto);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/bl/PlatoBl.java b/deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/bl/PlatoBl.java
+--- a/deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/bl/PlatoBl.java	(revision 146b598cc811c5331e29dc68d5ffea2fb55a3510)
++++ b/deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/bl/PlatoBl.java	(date 1651773136691)
+@@ -29,4 +29,6 @@
+     public void guardarPlato(PlatoDto platoDto){
+         platoDao.guardarPlato(platoDto);
+     }
++
++    public void actualizarPlato(PlatoDto platoDto){ platoDao.actualizarPlato(platoDto);}
+ }
+Index: deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/dao/PlatoDao.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.dao;\r\n\r\nimport bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.dto.PlatoDto;\r\nimport org.apache.ibatis.annotations.Insert;\r\nimport org.apache.ibatis.annotations.Select;\r\nimport org.springframework.stereotype.Service;\r\nimport java.util.List;\r\n\r\n@Service\r\npublic interface PlatoDao {\r\n\r\n    @Select(\"select plato_id as id, nombre,precio,descripcion, imagen_url as img from plato where plato_id=2;\")\r\n    List<PlatoDto> findAllPlates();\r\n\r\n    @Insert(\"INSERT INTO Plato (nombre, precio, descripcion, imagen_url, categoria_categoria_id, status)\" +\r\n            \"VALUES (#{nombre}, #{precio}, #{descripcion}, #{img},#{categoria},1)\")\r\n    void guardarPlato(PlatoDto platoDto);\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/dao/PlatoDao.java b/deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/dao/PlatoDao.java
+--- a/deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/dao/PlatoDao.java	(revision 146b598cc811c5331e29dc68d5ffea2fb55a3510)
++++ b/deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/dao/PlatoDao.java	(date 1651776562178)
+@@ -3,16 +3,21 @@
+ import bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.dto.PlatoDto;
+ import org.apache.ibatis.annotations.Insert;
+ import org.apache.ibatis.annotations.Select;
++import org.apache.ibatis.annotations.Update;
+ import org.springframework.stereotype.Service;
+ import java.util.List;
+ 
+ @Service
+ public interface PlatoDao {
+ 
+-    @Select("select plato_id as id, nombre,precio,descripcion, imagen_url as img from plato where plato_id=2;")
++    @Select("select plato_id as id, nombre,precio,descripcion, imagen_url as img from plato where plato_id != 0;")
+     List<PlatoDto> findAllPlates();
+ 
+     @Insert("INSERT INTO Plato (nombre, precio, descripcion, imagen_url, categoria_categoria_id, status)" +
+             "VALUES (#{nombre}, #{precio}, #{descripcion}, #{img},#{categoria},1)")
+     void guardarPlato(PlatoDto platoDto);
++
++    @Update("UPDATE Plato Set nombre = #{nombre}, precio  = #{precio}, descripcion  = #{descripcion}, imagen_url = #{img}, categoria_categoria_id = #{categoria}"+
++            "WHERE plato_id = #{id}")
++    void actualizarPlato(PlatoDto platoDto);
+ }
+Index: deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/chat/EditarProcessImpl.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.chat;\r\n\r\nimport bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.bl.PlatoBl;\r\nimport bo.adu.ucb.ingsoft.deliverybotencargado.deliveryencargado.dto.PlatoDto;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.context.ApplicationContext;\r\nimport org.springframework.stereotype.Service;\r\nimport org.telegram.telegrambots.meta.api.objects.Message;\r\nimport org.telegram.telegrambots.meta.api.objects.Update;\r\n\r\nimport javax.xml.transform.Result;\r\nimport java.util.List;\r\n\r\n@Service\r\npublic class EditarProcessImpl extends AbstractProcess{\r\n    private PlatoBl platoBl;\r\n    private PlatoDto platoDto;\r\n    PlatoDto  aux = new PlatoDto();\r\n    int cen = 0 , cen2=0;\r\n    int cont,aux2;\r\n\r\n    @Autowired\r\n    EditarProcessImpl(PlatoDto platoDto, PlatoBl platoBl){\r\n        this.platoBl = platoBl;\r\n        this.setName(\"EditarPlatos\");\r\n        this.setDefault(true);\r\n        this.setExpires(false);\r\n        this.setStartDate(System.currentTimeMillis()/1000);\r\n//      this.setUserData(new HashMap<>());\r\n        this.setStatus(\"STARTED\");\r\n        this.platoDto = platoDto;\r\n    }\r\n\r\n    private void showMenuRestaurant(DeliveryLongPollingBot bot, Long chatId){\r\n\r\n        StringBuffer sb = new StringBuffer();\r\n        if (cen2==0){\r\n            cen2=1;\r\n            sb.append(\"Seleccione el atributo que desea modificar:\\r\\n\");\r\n            sb.append(\"2. Nombre: \"+ platoDto.getNombre()).append(\"\\n\\r\");\r\n            sb.append(\"3. Precio: \"+platoDto.getPrecio() + \" Bs\").append(\"\\n\\r\");\r\n            sb.append(\"4. Descripcion: \"+platoDto.getDescripcion()).append(\"\\n\\r\");\r\n            sb.append(\"5. Imagen(URL): \"+platoDto.getImg()).append(\"\\n\\r\");\r\n            sb.append(\"6. Categoria: \"+platoDto.getCategoria()).append(\"\\n\\r\");\r\n            sb.append(\"\\n\");\r\n            sb.append(\"0. atras\").append(\"\\n\\r\");\r\n            sb.append(\"1. guardar\").append(\"\\n\\r\");\r\n            sendPhotoB(bot,chatId,platoDto.getImg(), String.valueOf(sb));\r\n        }\r\n        else {\r\n            cen2=0;\r\n            aux2=cont;\r\n            switch (cont){\r\n                case 2:\r\n                    sb.append(\"Nuevo Nombre: \\r\\n\");\r\n                    break;\r\n                case 3:\r\n                    sb.append(\"Nuevo Precio: \\r\\n\");\r\n                    break;\r\n                case 4:\r\n                    sb.append(\"Nueva Descripcion: \\r\\n\");\r\n                    break;\r\n                case 5:\r\n                    sb.append(\"Nueva Imagen(URL): \\r\\n\");\r\n                    break;\r\n                case 6:\r\n                    sb.append(\"Nueva Categoria: \\r\\n\");\r\n                    break;\r\n            }\r\n\r\n            sendStringBuffer(bot, chatId, sb);\r\n\r\n        }\r\n        sb.setLength(0);\r\n        this.setStatus(\"AWAITING_USER_RESPONSE\");\r\n    }\r\n\r\n    @Override\r\n    public AbstractProcess handle(ApplicationContext context, Update update, DeliveryLongPollingBot bot) {\r\n        AbstractProcess result = this;\r\n        Long chatId = update.getMessage().getChatId();\r\n        StringBuffer sb = new StringBuffer();\r\n\r\n        if (this.getStatus().equals(\"STARTED\")) {\r\n\r\n            showMenuRestaurant(bot, chatId);\r\n        } else if (this.getStatus().equals(\"AWAITING_USER_RESPONSE\")) {\r\n            // Estamos esperando por un numero 1 o 2\r\n            Message message = update.getMessage();\r\n            if ( message.hasText() ) {\r\n                // Intentamos transformar en número\r\n                String text = message.getText(); // El texto contiene asdasda\r\n//                try {\r\n\r\n                    if (cen2==1){\r\n                        int opcion = Integer.parseInt(text);\r\n                        cont = opcion;\r\n                    }\r\n\r\n                    if (cen2==0){\r\n                        switch (aux2){\r\n                            case 0:\r\n                                result = context.getBean(EditarPlatoProcessImpl.class);\r\n                                cen = 1;\r\n                                break;\r\n                            case 1:\r\n                                result = context.getBean(EditarPlatoProcessImpl.class);\r\n                                cen = 1;\r\n                                sb.append(\"El plato se agrego  \\r\\n\");\r\n                                break;\r\n                            case 2:\r\n                                aux.setNombre(text);\r\n                                platoDto.setNombre(aux.getNombre());\r\n                                break;\r\n                            case 3:\r\n                                aux.setPrecio(Double.parseDouble(text));\r\n                                platoDto.setPrecio(aux.getPrecio());\r\n                                break;\r\n                            case 4:\r\n                                aux.setDescripcion(text);\r\n                                platoDto.setDescripcion(aux.getDescripcion());\r\n                                break;\r\n                            case 5:\r\n                                aux.setImg(text);\r\n                                platoDto.setImg(aux.getImg());\r\n                                break;\r\n                            case 6:\r\n                                aux.setCategoria(Integer.parseInt(text));\r\n                                platoDto.setCategoria(aux.getCategoria());\r\n                                break;\r\n\r\n                        }\r\n                    }\r\n\r\n                if (cen==0){\r\n                    showMenuRestaurant(bot,chatId);\r\n                }\r\n//                } catch (NumberFormatException ex) {\r\n//                    showMenuRestaurant(bot, chatId);\r\n//                }\r\n                // continuar con el proceso seleccionado\r\n            } else { // Si me enviaron algo diferente de un texto.\r\n                showMenuRestaurant(bot, chatId);\r\n            }\r\n        }\r\n        return result;\r\n    }\r\n\r\n    @Override\r\n    public AbstractProcess onError() {\r\n        return null;\r\n    }\r\n\r\n    @Override\r\n    public AbstractProcess onSuccess() {\r\n        return null;\r\n    }\r\n\r\n    @Override\r\n    public AbstractProcess onTimeout() {\r\n        return null;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/chat/EditarProcessImpl.java b/deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/chat/EditarProcessImpl.java
+--- a/deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/chat/EditarProcessImpl.java	(revision 146b598cc811c5331e29dc68d5ffea2fb55a3510)
++++ b/deliveryencargado/src/main/java/bo/adu/ucb/ingsoft/deliverybotencargado/deliveryencargado/chat/EditarProcessImpl.java	(date 1651776440886)
+@@ -37,6 +37,7 @@
+         if (cen2==0){
+             cen2=1;
+             sb.append("Seleccione el atributo que desea modificar:\r\n");
++            sb.append(platoDto.getId());
+             sb.append("2. Nombre: "+ platoDto.getNombre()).append("\n\r");
+             sb.append("3. Precio: "+platoDto.getPrecio() + " Bs").append("\n\r");
+             sb.append("4. Descripcion: "+platoDto.getDescripcion()).append("\n\r");
+@@ -95,19 +96,19 @@
+                     if (cen2==1){
+                         int opcion = Integer.parseInt(text);
+                         cont = opcion;
+-                    }
+-
+-                    if (cen2==0){
+-                        switch (aux2){
+-                            case 0:
+-                                result = context.getBean(EditarPlatoProcessImpl.class);
+-                                cen = 1;
+-                                break;
+-                            case 1:
+-                                result = context.getBean(EditarPlatoProcessImpl.class);
+-                                cen = 1;
+-                                sb.append("El plato se agrego  \r\n");
+-                                break;
++                        if (opcion == 0){
++                            result = new MenuEncargadoProcessImpl();
++                            cen = 1;
++                        }
++                        else if (opcion == 1){
++                            platoBl.actualizarPlato(platoDto);
++                            result = new MenuEncargadoProcessImpl();
++                            cen = 1;
++                        }
++                    }
++
++                    if (cen2==0){
++                        switch (aux2){
+                             case 2:
+                                 aux.setNombre(text);
+                                 platoDto.setNombre(aux.getNombre());
+@@ -130,6 +131,7 @@
+                                 break;
+ 
+                         }
++
+                     }
+ 
+                 if (cen==0){
