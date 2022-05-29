@@ -8,10 +8,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8b670c50-aba0-4ee0-b7c6-3ee04380e8a2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_19_2022_5_22_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_19_2022_5_22_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_19_2022_5_22_PM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/swagger/delivery.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/api/swagger/delivery.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +41,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunManager" selected="Swagger Codegen.delivery.yaml">
     <configuration name="DeliveryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
@@ -104,7 +102,8 @@
       <workItem from="1651733245389" duration="184000" />
       <workItem from="1652995281288" duration="3011000" />
       <workItem from="1653399675910" duration="1369000" />
-      <workItem from="1653857482828" duration="48000" />
+      <workItem from="1653857482828" duration="763000" />
+      <workItem from="1653859783138" duration="116000" />
     </task>
     <servers />
   </component>

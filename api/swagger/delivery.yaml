@@ -219,7 +219,7 @@ paths:
         Obtener la informacion de un pedido por el estado
       parameters:
         - name: estado
-          in: path
+          in: query
           required: true
           type: string
       responses:
@@ -515,12 +515,12 @@ paths:
         Obtiene todos los datos registrados del plato por categoria y con status 1
       parameters:
         - name: category
-          in: path
+          in: query
           description: Referencia a la categoria
           required: true
           type: string
         - name: status
-          in: path
+          in: query
           description: Referencia al estado del plato
           required: true
           type: integer
