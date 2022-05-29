@@ -1,0 +1,1000 @@
+openapi: 3.0.1
+info:
+  description: API para manejar pedidos y entrega de platos de un restaurant
+  title: Delivery API
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- description: Visualizacion de categorias y menus
+  name: Menu
+- description: Agregar, eliminar y editar platos
+  name: Plato
+- description: todo sobre los pedidos
+  name: Pedidos
+- description: Informacion necesaria sobre el cliente
+  name: Cliente
+- description: Realizar pedido
+  name: Orden
+paths:
+  /menu/categories:
+    get:
+      description: Obtener la lista de categorias que tiene el restaurante
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/categories'
+          description: Lista de categorias del restaurante
+        "404":
+          content: {}
+          description: No se encuentra la lista de categorias
+      summary: Obtener las categorias del Menu
+      tags:
+      - Menu
+      x-accepts: application/json
+  /menu/mainPopular:
+    get:
+      description: Obtener una lista de los platos principales populares del restaurante
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PopularMainDishes'
+          description: Lista de platos principales mas populares
+        "404":
+          content: {}
+          description: No se encuentra la lista de platos princiaples populares
+      summary: Obtener los platos principales mas populares
+      tags:
+      - Menu
+      x-accepts: application/json
+  /menu/dessertpopular:
+    get:
+      description: Obtener una lista de los postres populares del restaurante
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dessertpopular'
+          description: Lista de los postres mas populares
+        "404":
+          content: {}
+          description: No se encuentra la lista de postres populares
+      summary: Obtener los postrs mas populares
+      tags:
+      - Menu
+      x-accepts: application/json
+  /menu/soups:
+    get:
+      description: Obtener una lista de todas las sopas
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/soups'
+          description: Lista de todas las sopa
+        "404":
+          content: {}
+          description: No se encontro la lista de sopas
+      summary: Todas las sopas que ofrece el restaurante
+      tags:
+      - Menu
+      x-accepts: application/json
+  /menu/maindishes:
+    get:
+      description: Obtener una lista de todos los platos principales que ofrece el
+        restaurante
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/plate'
+          description: Lista de todos los platos
+        "404":
+          content: {}
+          description: No se encontro la lista de platos principales
+      summary: Todos los platos principales que ofrece el restaurante
+      tags:
+      - Menu
+      x-accepts: application/json
+  /menu/desserts:
+    get:
+      description: Obtener una lista de todos los postres que ofrece el restaurante
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dessertpopular'
+          description: Lista de todos los platos
+        "404":
+          content: {}
+          description: No se encontro la lista de sopas
+      summary: Todos los postres que ofrece el restaurante
+      tags:
+      - Menu
+      x-accepts: application/json
+  /menu/{plateId}:
+    get:
+      description: Obtener la informacion de un plato
+      parameters:
+      - description: Obtener datos de un plato
+        in: path
+        name: plateId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/dessertpopular'
+          description: Informacion del plato
+        "404":
+          content: {}
+          description: No se encontro la informacion del plato
+      summary: Obtener la informacion de un plato
+      tags:
+      - Menu
+      x-accepts: application/json
+  /plato/{plateId}:
+    get:
+      description: Obtener la informacion del plato selecionado
+      parameters:
+      - description: Obtener datos del plato
+        in: path
+        name: plateId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/plate'
+          description: Informacion del Plato
+        "404":
+          content: {}
+          description: No se encuentra el plato
+      summary: Obtener la informacion del plato
+      tags:
+      - Orden
+      x-accepts: application/json
+  /order/{clientId}/Order:
+    post:
+      description: Enviar la orden al listado
+      parameters:
+      - description: Referencia de cliente
+        in: path
+        name: clientId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/order'
+        required: false
+      responses:
+        "200":
+          content: {}
+          description: Se envio la orden
+        "400":
+          content: {}
+          description: Error al enviar la orden
+      summary: Enviar la orden al listado
+      tags:
+      - Orden
+      x-codegen-request-body-name: body
+      x-contentType: '*/*'
+      x-accepts: application/json
+  /orders:
+    post:
+      description: |
+        Crea en nuevo pedido
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+        description: Pedido que se añadira al servicio
+        required: true
+      responses:
+        "201":
+          content: {}
+          description: Se creo el nuevo pedido satisfactoriamente
+        "400":
+          content: {}
+          description: Error al crear el nuevo pedido
+      summary: Crea un nuevo pedido
+      tags:
+      - Pedidos
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
+  /client/{clientId}/orders:
+    get:
+      description: |
+        Obtener la lista de pedidos hechos por el cliente
+      parameters:
+      - description: Referencia de usuario
+        in: path
+        name: clientId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderList'
+          description: Lista de pedidos
+        "404":
+          content: {}
+          description: El usuario no tiene pedidos anteriores
+      summary: Obtener pedidos del cliente
+      tags:
+      - Cliente
+      x-accepts: application/json
+  /orders/{orderId}:
+    get:
+      description: |
+        Obtener la informacion de un pedido por el id
+      parameters:
+      - in: path
+        name: orderId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Order'
+          description: Informacion del pedido
+        "404":
+          content: {}
+          description: No se encontro el pedido
+      summary: Obtener pedido por id
+      tags:
+      - Pedidos
+      x-accepts: '*/*'
+    put:
+      description: |
+        Actualizar el estado de un pedido por el id
+      parameters:
+      - description: Referencia al plato
+        in: path
+        name: orderId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+        description: En body se envia la informacion
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: El pedido fue enviado
+        "404":
+          content: {}
+          description: Error al actualizar el estado del pedido
+      summary: actualizar el estado por Id
+      tags:
+      - Pedidos
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
+  /client/{clientId}:
+    get:
+      description: |
+        Actualiza la informacion del cliente
+      parameters:
+      - description: Referencia de usuario
+        in: path
+        name: clientId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: Se Obtienen datos del cliente
+        "400":
+          content: {}
+          description: Error al obtener datos
+        "404":
+          content: {}
+          description: Cliente no encontrado
+      summary: Obtener informacion del cliente
+      tags:
+      - Cliente
+      x-accepts: '*/*'
+    put:
+      description: |
+        Actualiza la informacion del cliente
+      parameters:
+      - description: Referencia de usuario
+        in: path
+        name: clientId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+        description: En body se envia la informacion
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: Se guardaron satisfactoriamente los cambios
+        "400":
+          content: {}
+          description: Error al actualizar la informacion
+        "404":
+          content: {}
+          description: No se encontro al usuario
+      summary: Actualizar informacion del cliente
+      tags:
+      - Cliente
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
+  /client/{clientId}/payments:
+    get:
+      description: |
+        Obtiene datos de la ultima tarjeta usada por el cleiente
+      parameters:
+      - description: Referencia al usuario
+        in: path
+        name: clientId
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Payment'
+          description: Metodo de pago
+        "400":
+          content: {}
+          description: Error al obtener metodo de pago
+        "404":
+          content: {}
+          description: No se encontraron metodo de pago
+      summary: Obtiene datos de la ultima tarjeta usada por el cliente
+      tags:
+      - Cliente
+      x-accepts: '*/*'
+    post:
+      description: "Guarda informacion del pago \n"
+      parameters:
+      - description: Referencia al usuario
+        in: path
+        name: clientId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payment'
+        description: Informacion del metodo de pago
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: Se guardaron los datos correctamente
+        "400":
+          content: {}
+          description: Error al guardar los datos
+      summary: Guardar la informacion de pago de un usuario
+      tags:
+      - Cliente
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
+  /plate:
+    post:
+      description: |
+        Crea en nuevo pedido
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plate'
+        description: Plato que se añadira al manu
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: Se creo el nuevo plato satisfactoriamente
+        "400":
+          content: {}
+          description: Error al crear el nuevo plato
+      summary: Crea un nuevo plato
+      tags:
+      - Plato
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
+  /plate/{plateId}:
+    delete:
+      description: |
+        Elimina el plato
+      parameters:
+      - description: Referencia al plato
+        in: path
+        name: plateId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plate'
+        description: En body se envia la informacion
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: Se elimino con exito
+        "400":
+          content: {}
+          description: Error al eliminar el plato
+      summary: Eliminar plato
+      tags:
+      - Plato
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
+    get:
+      description: |
+        Obtiene todos los datos registrados del plato
+      parameters:
+      - description: Referencia al plato
+        in: path
+        name: plateId
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Plate'
+          description: Informacion del plato
+        "400":
+          content: {}
+          description: Error al obtener la informacion del plato
+        "404":
+          content: {}
+          description: No se encontraron datos del plato
+      summary: Obtener la informacion del plato
+      tags:
+      - Plato
+      x-accepts: '*/*'
+    put:
+      description: |
+        Actualiza los datos del plato
+      parameters:
+      - description: Referencia al plato
+        in: path
+        name: plateId
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plate'
+        description: En body se envia la informacion
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: Se guardaron satisfactoriamente los cambios
+        "400":
+          content: {}
+          description: Error al actualizar la informacion del plato
+      summary: Actualizar informacion del plato
+      tags:
+      - Plato
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
+  /sucursal/:
+    get:
+      description: Obtener datos sobre las sucursales
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sucursal'
+          description: Lista de todas las sucursales
+        "404":
+          content: {}
+          description: No se encontro la lista de sucursales
+      summary: Todos los datos de las sucursales
+      tags:
+      - Sucursal
+      x-accepts: application/json
+  /sucursal/{sucursalID}:
+    get:
+      description: Obtener la informacion de una sucursal
+      parameters:
+      - description: Obtener datos de una sucursal
+        in: path
+        name: sucursalID
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sucursalData'
+          description: Informacion de una sucursal
+        "404":
+          content: {}
+          description: No se encontro la informacion del plato
+      summary: Obtener la informacion de una sucursal
+      tags:
+      - Sucursal
+      x-accepts: application/json
+  /sucursal:
+    post:
+      description: |
+        Crea una nueva sucursal
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sucursalData'
+        description: Se añadira a las sucursales
+        required: true
+      responses:
+        "200":
+          content: {}
+          description: Se creo una nueva sucursal
+        "400":
+          content: {}
+          description: Error al crear una nueva sucursal
+      summary: Crea una nueva sucursal
+      tags:
+      - Sucursal
+      x-codegen-request-body-name: body
+      x-contentType: application/json
+      x-accepts: application/json
+components:
+  schemas:
+    sucursalData:
+      example:
+        encargado: Roberto Aguilar
+        sucursalID: 1
+        direccion: Av X zona X
+        nombre: Sucursal central
+      properties:
+        sucursalID:
+          example: 1
+          type: integer
+        nombre:
+          example: Sucursal central
+          type: string
+        direccion:
+          example: Av X zona X
+          type: string
+        encargado:
+          example: Roberto Aguilar
+          type: string
+      type: object
+    sucursal:
+      items:
+        properties:
+          sucursalID:
+            example: 4
+            type: integer
+          nombre:
+            example: sucursal 3
+            type: string
+          direccion:
+            example: Zona calacoto clle 2
+            type: string
+          encargado:
+            example: Jose Conde
+            type: string
+        type: object
+      type: array
+    soups:
+      items:
+        properties:
+          plateID:
+            example: 10
+            type: integer
+          nombre:
+            example: sopa de pollo
+            type: string
+          precio:
+            example: 20.5
+            type: number
+          description:
+            example: Es una sopa bien buena
+            type: string
+          img:
+            example: https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg
+            type: string
+        type: object
+      type: array
+    categories:
+      items:
+        properties:
+          categoriesId:
+            example: 3
+            type: integer
+          name:
+            example: Postres
+            type: string
+          image:
+            example: https://e6r9x5a3.rocketcdn.me/wp-content/uploads/2020/03/1-680x1020.png
+            type: string
+        type: object
+      type: array
+    PopularMainDishes:
+      items:
+        properties:
+          plateID:
+            example: 10
+            type: integer
+          nombre:
+            example: Milanesa de pollo
+            type: string
+          precio:
+            example: 20.5
+            type: number
+          description:
+            example: Es una milaneza muy buena
+            type: string
+          img:
+            example: https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg
+            type: string
+        type: object
+      type: array
+    dessertpopular:
+      items:
+        properties:
+          plateID:
+            example: 2
+            type: integer
+          nombre:
+            example: Flan de chocolate
+            type: string
+          precio:
+            example: 10.5
+            type: number
+          description:
+            example: Un Flan bañado en chocolate
+            type: string
+          img:
+            example: https://gastronomiaycia.republica.com/wp-content/uploads/2018/08/15postres_choco_saludables_-768x559.jpg
+            type: string
+        type: object
+      type: array
+    plate:
+      items:
+        properties:
+          plateID:
+            example: 10
+            type: integer
+          nombre:
+            example: Milanesa de pollo
+            type: string
+          precio:
+            example: 20.5
+            type: number
+          description:
+            example: Es una milaneza muy buena
+            type: string
+          img:
+            example: https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg
+            type: string
+        type: object
+      type: array
+    order:
+      items:
+        properties:
+          cantidad:
+            example: 2
+            type: integer
+          extra:
+            example: Una porcion extra de papas
+            type: string
+          nota:
+            example: Sin mani
+            type: string
+          plato:
+            items:
+              properties:
+                plateID:
+                  example: 10
+                  type: integer
+                nombre:
+                  example: Milanesa de pollo
+                  type: string
+                precio:
+                  example: 20.5
+                  type: number
+                description:
+                  example: Es una milaneza muy buena
+                  type: string
+                img:
+                  example: https://cdn.recetas360.com/wp-content/uploads/2019/07/Milanesas-de-pollo-al-horno.jpg
+                  type: string
+              type: object
+            type: array
+        type: object
+      type: array
+    OrderList:
+      items:
+        properties:
+          orderid:
+            example: 300
+            type: integer
+          fecha:
+            example: 11/05/2022, 15,31
+            type: string
+          total:
+            example: 150.5
+            type: number
+          sucursal:
+            example: Sucursal Obrajes
+            type: string
+          delivery:
+            example: Recojo en local
+            type: string
+          pago:
+            enum:
+            - Efectivo
+            - Tarjeta
+            - Qr
+            example: Efectivo
+            type: string
+        type: object
+      type: array
+    Client:
+      example:
+        correo: mperez@gmail.com
+        nit: 12354987-V
+        imagen: http://url_de_imagen.jpg
+        id: 1
+        telefono: "77777777"
+        nombre: Maria Perez
+      properties:
+        id:
+          example: 1
+          type: integer
+        nombre:
+          example: Maria Perez
+          type: string
+        telefono:
+          example: "77777777"
+          type: string
+        nit:
+          example: 12354987-V
+          type: string
+        correo:
+          example: mperez@gmail.com
+          type: string
+        imagen:
+          example: http://url_de_imagen.jpg
+          type: string
+      type: object
+    Order:
+      example:
+        metodoPago: Efectivo
+        fecha: 11/5/2022, 16:35
+        delivery: Delivery
+        estado: Enviado
+        total: 150.0
+        clienteId: 13
+        sucursal: Sucursal Obrajes
+        direccion:
+          direccion: 'Av 20 de octubre #1540'
+          lon: -16.6584
+          id: 11
+          lat: -66.6584
+          detalle: Casa naranja
+        id: 30
+        platos:
+        - descripcion: Algo de texto aqui
+          precio: 30.0
+          img: http://img_dela_mila.jpg
+          id: 10
+          cantidad: 2
+          nombre: 0.8008281904610115
+          nota: sin pollo
+        - descripcion: Algo de texto aqui
+          precio: 30.0
+          img: http://img_dela_mila.jpg
+          id: 10
+          cantidad: 2
+          nombre: 0.8008281904610115
+          nota: sin pollo
+      properties:
+        id:
+          example: 30
+          type: integer
+        clienteId:
+          example: 13
+          type: integer
+        sucursal:
+          example: Sucursal Obrajes
+          type: string
+        fecha:
+          example: 11/5/2022, 16:35
+          type: string
+        direccion:
+          $ref: '#/components/schemas/Order_direccion'
+        metodoPago:
+          enum:
+          - Efectivo
+          - Tarjeta
+          - Qr
+          example: Efectivo
+          type: string
+        delivery:
+          enum:
+          - Delivery
+          - Entrega en local
+          example: Delivery
+          type: string
+        estado:
+          enum:
+          - Enviado
+          - Aprobado
+          - Rechazado
+          - En camino
+          - Entregado
+          example: Enviado
+          type: string
+        total:
+          example: 150.0
+          type: number
+        platos:
+          items:
+            $ref: '#/components/schemas/Order_platos'
+          type: array
+      type: object
+    Plate:
+      example:
+        descripcion: Rico plato
+        precio: 30.0
+        categoria: 1
+        imagen: img.png
+        id: 10
+        nombre: Milanesa
+      properties:
+        id:
+          example: 10
+          type: integer
+        nombre:
+          example: Milanesa
+          type: string
+        precio:
+          example: 30.0
+          type: number
+        descripcion:
+          example: Rico plato
+          type: string
+        imagen:
+          example: img.png
+          type: string
+        categoria:
+          example: 1
+          type: integer
+      type: object
+    Payment:
+      example:
+        venc: 11/22
+        nro: 1451320987987
+        id: 2
+        nombre: Pepe el mago
+      properties:
+        id:
+          example: 2
+          type: integer
+        nro:
+          example: 1451320987987
+          type: number
+        venc:
+          example: 11/22
+          type: string
+        nombre:
+          example: Pepe el mago
+          type: string
+      type: object
+    Order_direccion:
+      example:
+        direccion: 'Av 20 de octubre #1540'
+        lon: -16.6584
+        id: 11
+        lat: -66.6584
+        detalle: Casa naranja
+      properties:
+        id:
+          example: 11
+          type: integer
+        direccion:
+          example: 'Av 20 de octubre #1540'
+          type: string
+        lon:
+          example: -16.6584
+          type: number
+        lat:
+          example: -66.6584
+          type: number
+        detalle:
+          example: Casa naranja
+          type: string
+      type: object
+    Order_platos:
+      example:
+        descripcion: Algo de texto aqui
+        precio: 30.0
+        img: http://img_dela_mila.jpg
+        id: 10
+        cantidad: 2
+        nombre: 0.8008281904610115
+        nota: sin pollo
+      properties:
+        id:
+          example: 10
+          type: integer
+        nombre:
+          type: number
+        descripcion:
+          example: Algo de texto aqui
+          type: string
+        precio:
+          example: 30.0
+          type: number
+        cantidad:
+          example: 2
+          type: integer
+        nota:
+          example: sin pollo
+          type: string
+        img:
+          example: http://img_dela_mila.jpg
+          type: string
+      type: object
+x-original-swagger-version: "2.0"
+

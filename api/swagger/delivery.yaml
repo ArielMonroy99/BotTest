@@ -209,6 +209,27 @@ paths:
         - application/json
       consumes:
         - application/json
+  
+  /orders {?estado}:
+    get:
+      tags:
+        - "Pedidos"
+      summary: Obtiene los pedidos con estado pendiente
+      description: |
+        Obtener la informacion de un pedido por el estado
+      parameters:
+        - name: estado
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Informacion del pedido
+          schema:
+            $ref: '#/definitions/Order'
+        404:
+          description: No se encontro el pedido
+        ### Informacion de un pedido
 
   /client/{clientId}/orders:
 
@@ -483,6 +504,37 @@ paths:
           description: Error al eliminar el plato
       consumes:
         - application/json
+
+  /plate {?category}{&status}:
+
+    get:
+      tags:
+        - "Plato"
+      summary: Obtener una lista por categoria y con status 1 ;
+      description: |
+        Obtiene todos los datos registrados del plato por categoria y con status 1
+      parameters:
+        - name: category
+          in: path
+          description: Referencia a la categoria
+          required: true
+          type: string
+        - name: status
+          in: path
+          description: Referencia al estado del plato
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Informacion de los platos
+          schema:
+            $ref: '#/definitions/Plate'
+        400:
+          description: Error al obtener la informacion
+        404:
+          description: No se encontraron datos 
+
+
   "/sucursal/":
     get:
       tags:
@@ -854,8 +906,8 @@ definitions:
         type: string
         example: "img.png"
       categoria:
-        type: integer
-        example: 1
+        type: string
+        example: "Plato principal"
   Payment:
     type: object
     properties:
