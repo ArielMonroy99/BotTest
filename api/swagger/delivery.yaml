@@ -197,7 +197,7 @@ paths:
           description: "Pedido que se añadira al servicio"
           required: true
           schema:
-            $ref: '#/definitions/Order'
+            $ref: '#/definitions/OrderPost'
       responses:
         201:
           description: Se creo el nuevo pedido satisfactoriamente
@@ -813,6 +813,69 @@ definitions:
         example: "http://url_de_imagen.jpg"
     
   
+  OrderPost:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 30
+      clienteId:
+        type: integer
+        example: 13
+      sucursal:
+        type: string
+        example: "Sucursal Obrajes"
+      fecha:
+        type: string
+        example: "11/5/2022, 16:35"
+      direccion:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 11
+          direccion: 
+            type: string
+            example: "Av 20 de octubre #1540"
+          lon:
+            type: number
+            example: -16.6584
+          lat:
+            type: number
+            example: -66.6584
+          detalle: 
+            type: string
+            example: "Casa naranja"
+      metodoPago:
+        type: string
+        enum: ["Efectivo","Tarjeta","Qr"]
+        example: "Efectivo"
+      delivery:
+        type: string
+        enum: ["Delivery" , "Entrega en local"]
+        example: "Delivery"
+      estado:
+        type: string
+        enum: ["Enviado","Aprobado","Rechazado","En camino","Entregado"]
+        example: "Enviado"
+      total:
+        type: number
+        example: 150.00
+      platos:
+        type: array
+        items:
+          properties:
+            id:
+              type: integer
+              example: 10
+
+            cantidad:
+              type: integer
+              example: 2
+            nota: 
+              type: string 
+              example: "sin pollo"
+
   Order:
     type: object
     properties:
