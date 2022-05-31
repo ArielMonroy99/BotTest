@@ -24,13 +24,9 @@ public class ClientBl {
         this.sequenceDao = sequenceDao;
     }
 
-
-
-
-
     public ClientApiDto findClientById(Integer clientId){
         ClientDbDto clientDbDto = clientDao.findClientById(clientId);
-        //logger.debug(clientDbDto.toString());
+        logger.info(clientDbDto.toString());
         ClientApiDto clientApiDto = new ClientApiDto();
         clientApiDto.setClienteId(clientId);
         clientApiDto.setNombre(clientDbDto.getNombre());
@@ -38,6 +34,8 @@ public class ClientBl {
         clientApiDto.setTelefono(clientDbDto.getTelefono());
         clientApiDto.setUsuario(clientDbDto.getUsuario());
         clientApiDto.setPassword(clientDbDto.getPassword());
+        clientApiDto.setCorreo(clientDbDto.getCorreo());
+        clientApiDto.setImagen(clientDbDto.getImagen());
         return clientApiDto;
     }
     @Transactional(propagation = Propagation.REQUIRED)
@@ -49,6 +47,8 @@ public class ClientBl {
         client.setUsuario(newClient.getUsuario());
         client.setPassword(newClient.getPassword());
         client.setTelefono(newClient.getTelefono());
+        client.setCorreo(newClient.getCorreo());
+        client.setImagen(newClient.getImagen());
         client.setStatus(1);
         client.setTxDate(new Date());
         client.setTxHost("localhost");
@@ -57,6 +57,24 @@ public class ClientBl {
         clientDao.saveClient(client);
         return client;
 
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public ClientDbDto updateClient(ClientApiDto newClient , int clientId){
+        ClientDbDto client = new ClientDbDto();
+        client.setClientId(clientId);
+        client.setNombre(newClient.getNombre());
+        client.setNit(newClient.getNit());
+        client.setTelefono(newClient.getTelefono());
+        client.setCorreo(newClient.getCorreo());
+        client.setImagen(newClient.getImagen());
+        client.setStatus(2);
+        client.setTxDate(new Date());
+        client.setTxHost("localhost");
+        client.setTxId(1);
+        logger.debug(client.toString());
+        clientDao.updateClient(client);
+        return client;
     }
 
 }

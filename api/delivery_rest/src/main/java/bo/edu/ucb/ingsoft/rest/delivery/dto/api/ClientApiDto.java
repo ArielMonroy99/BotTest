@@ -9,14 +9,34 @@ public class ClientApiDto {
     private String telefono;
     private String usuario;
     private String password;
+    private String correo;
+    private String imagen;
 
-    public ClientApiDto(Integer clienteId, String nombre, String nit, String telefono, String usuario, String password) {
+    public ClientApiDto(Integer clienteId, String nombre, String nit, String telefono, String usuario, String password, String correo, String imagen) {
         this.clienteId = clienteId;
         this.nombre = nombre;
         this.nit = nit;
         this.telefono = telefono;
         this.usuario = usuario;
         this.password = password;
+        this.correo = correo;
+        this.imagen = imagen;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getUsuario() {

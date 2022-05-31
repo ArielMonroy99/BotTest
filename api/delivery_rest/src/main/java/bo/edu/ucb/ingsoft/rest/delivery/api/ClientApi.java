@@ -9,10 +9,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping("/api/v1/client")
-public class DeliveryApi {
+public class ClientApi {
     private ClientBl clientBl;
 
-    public DeliveryApi(ClientBl clientBl){
+    public ClientApi(ClientBl clientBl){
         this.clientBl = clientBl;
     }
 
@@ -24,5 +24,10 @@ public class DeliveryApi {
     produces = APPLICATION_JSON_VALUE)
     public ClientDbDto saveClient(@RequestBody ClientApiDto cliente){
      return clientBl.creatNewClient(cliente);
+    }
+
+    @PutMapping(path="/{clientId}", consumes = APPLICATION_JSON_VALUE,produces = APPLICATION_JSON_VALUE)
+    public ClientDbDto updateClient(@RequestBody ClientApiDto cliente,@PathVariable("clientId") Integer clientId) {
+        return clientBl.updateClient(cliente,clientId);
     }
 }

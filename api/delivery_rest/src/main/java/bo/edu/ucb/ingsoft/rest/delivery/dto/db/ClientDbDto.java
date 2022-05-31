@@ -12,6 +12,8 @@ public class ClientDbDto {
     private String telefono;
     private String usuario;
     private String password;
+    private String correo;
+    private String imagen;
     private Integer status;
     private Integer txId;
     private String txHost;
@@ -20,17 +22,35 @@ public class ClientDbDto {
     public ClientDbDto()
     {}
 
-    public ClientDbDto(Integer clientId, String nombre, String nit, String telefono, String usuario, String password, Integer status, Integer txId, String txHost, Date txDate) {
+    public ClientDbDto(Integer clientId, String nombre, String nit, String telefono, String usuario, String password, String correo, String imagen, Integer status, Integer txId, String txHost, Date txDate) {
         this.clientId = clientId;
         this.nombre = nombre;
         this.nit = nit;
         this.telefono = telefono;
         this.usuario = usuario;
         this.password = password;
+        this.correo = correo;
+        this.imagen = imagen;
         this.status = status;
         this.txId = txId;
         this.txHost = txHost;
         this.txDate = txDate;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getUsuario() {
@@ -135,6 +155,8 @@ public class ClientDbDto {
                 ", telefono='" + telefono + '\'' +
                 ", usuario='" + usuario + '\'' +
                 ", password='" + password + '\'' +
+                ", correo='" + correo + '\'' +
+                ", imagen='" + imagen + '\'' +
                 ", status=" + status +
                 ", txId=" + txId +
                 ", txHost='" + txHost + '\'' +
