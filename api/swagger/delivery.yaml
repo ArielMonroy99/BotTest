@@ -197,7 +197,7 @@ paths:
           description: "Pedido que se añadira al servicio"
           required: true
           schema:
-            $ref: '#/definitions/Order'
+            $ref: '#/definitions/OrderPost'
       responses:
         201:
           description: Se creo el nuevo pedido satisfactoriamente
@@ -209,6 +209,27 @@ paths:
         - application/json
       consumes:
         - application/json
+  
+  /orders {?estado}:
+    get:
+      tags:
+        - "Pedidos"
+      summary: Obtiene los pedidos con estado pendiente
+      description: |
+        Obtener la informacion de un pedido por el estado
+      parameters:
+        - name: estado
+          in: query
+          required: true
+          type: string
+      responses:
+        200:
+          description: Informacion del pedido
+          schema:
+            $ref: '#/definitions/Order'
+        404:
+          description: No se encontro el pedido
+        ### Informacion de un pedido
 
   /client/{clientId}/orders:
 
@@ -483,6 +504,37 @@ paths:
           description: Error al eliminar el plato
       consumes:
         - application/json
+
+  /plate {?category}{&status}:
+
+    get:
+      tags:
+        - "Plato"
+      summary: Obtener una lista por categoria y con status 1 ;
+      description: |
+        Obtiene todos los datos registrados del plato por categoria y con status 1
+      parameters:
+        - name: category
+          in: query
+          description: Referencia a la categoria
+          required: true
+          type: string
+        - name: status
+          in: query
+          description: Referencia al estado del plato
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Informacion de los platos
+          schema:
+            $ref: '#/definitions/Plate'
+        400:
+          description: Error al obtener la informacion
+        404:
+          description: No se encontraron datos 
+
+
   "/sucursal/":
     get:
       tags:
@@ -761,6 +813,69 @@ definitions:
         example: "http://url_de_imagen.jpg"
     
   
+  OrderPost:
+    type: object
+    properties:
+      id:
+        type: integer
+        example: 30
+      clienteId:
+        type: integer
+        example: 13
+      sucursal:
+        type: string
+        example: "Sucursal Obrajes"
+      fecha:
+        type: string
+        example: "11/5/2022, 16:35"
+      direccion:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 11
+          direccion: 
+            type: string
+            example: "Av 20 de octubre #1540"
+          lon:
+            type: number
+            example: -16.6584
+          lat:
+            type: number
+            example: -66.6584
+          detalle: 
+            type: string
+            example: "Casa naranja"
+      metodoPago:
+        type: string
+        enum: ["Efectivo","Tarjeta","Qr"]
+        example: "Efectivo"
+      delivery:
+        type: string
+        enum: ["Delivery" , "Entrega en local"]
+        example: "Delivery"
+      estado:
+        type: string
+        enum: ["Enviado","Aprobado","Rechazado","En camino","Entregado"]
+        example: "Enviado"
+      total:
+        type: number
+        example: 150.00
+      platos:
+        type: array
+        items:
+          properties:
+            id:
+              type: integer
+              example: 10
+
+            cantidad:
+              type: integer
+              example: 2
+            nota: 
+              type: string 
+              example: "sin pollo"
+
   Order:
     type: object
     properties:
@@ -854,8 +969,8 @@ definitions:
         type: string
         example: "img.png"
       categoria:
-        type: integer
-        example: 1
+        type: string
+        example: "Plato principal"
   Payment:
     type: object
     properties:
