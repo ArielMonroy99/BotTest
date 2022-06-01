@@ -14,6 +14,8 @@ public class ClientDbDto {
     private String password;
     private String correo;
     private String imagen;
+    private String imagenNombre;
+    private String imagenFormato;
     private Integer status;
     private Integer txId;
     private String txHost;
@@ -22,7 +24,7 @@ public class ClientDbDto {
     public ClientDbDto()
     {}
 
-    public ClientDbDto(Integer clientId, String nombre, String nit, String telefono, String usuario, String password, String correo, String imagen, Integer status, Integer txId, String txHost, Date txDate) {
+    public ClientDbDto(Integer clientId, String nombre, String nit, String telefono, String usuario, String password, String correo, String imagen, String imagen_nombre, String imagen_formato, Integer status, Integer txId, String txHost, Date txDate) {
         this.clientId = clientId;
         this.nombre = nombre;
         this.nit = nit;
@@ -31,10 +33,28 @@ public class ClientDbDto {
         this.password = password;
         this.correo = correo;
         this.imagen = imagen;
+        this.imagenNombre = imagen_nombre;
+        this.imagenFormato = imagen_formato;
         this.status = status;
         this.txId = txId;
         this.txHost = txHost;
         this.txDate = txDate;
+    }
+
+    public String getImagenNombre() {
+        return imagenNombre;
+    }
+
+    public void setImagenNombre(String imagenNombre) {
+        this.imagenNombre = imagenNombre;
+    }
+
+    public String getImagenFormato() {
+        return imagenFormato;
+    }
+
+    public void setImagenFormato(String imagenFormato) {
+        this.imagenFormato = imagenFormato;
     }
 
     public String getCorreo() {
@@ -157,6 +177,8 @@ public class ClientDbDto {
                 ", password='" + password + '\'' +
                 ", correo='" + correo + '\'' +
                 ", imagen='" + imagen + '\'' +
+                ", imagen_nombre='" + imagenNombre + '\'' +
+                ", imagen_formato='" + imagenFormato + '\'' +
                 ", status=" + status +
                 ", txId=" + txId +
                 ", txHost='" + txHost + '\'' +

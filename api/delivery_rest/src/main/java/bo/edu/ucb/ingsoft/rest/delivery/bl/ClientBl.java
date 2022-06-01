@@ -3,6 +3,7 @@ package bo.edu.ucb.ingsoft.rest.delivery.bl;
 import bo.edu.ucb.ingsoft.rest.delivery.dao.ClientDao;
 import bo.edu.ucb.ingsoft.rest.delivery.dao.SequenceDao;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.api.ClientApiDto;
+import bo.edu.ucb.ingsoft.rest.delivery.dto.api.ImageDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.ClientDbDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class ClientBl {
@@ -59,6 +64,9 @@ public class ClientBl {
 
     }
 
+    public void updateImage(String imgNom,String img,String imgFormat,Integer clientId){
+
+    }
     @Transactional(propagation = Propagation.REQUIRED)
     public ClientDbDto updateClient(ClientApiDto newClient , int clientId){
         ClientDbDto client = new ClientDbDto();
@@ -75,6 +83,28 @@ public class ClientBl {
         logger.debug(client.toString());
         clientDao.updateClient(client);
         return client;
+    }
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String savePhoto(MultipartFile archivo, Integer clientId){
+        UUID uuid = UUID.randomUUID();
+        try{
+        clientDao.updatePhoto(archivo.getOriginalFilename(),uuid.toString(), archivo.getContentType(), clientId);
+        archivo.transferTo(new File("E:\\IngSoftware\\image_test\\"+uuid.toString()));
+        return "Se guardo correctamente";
+        }catch (IOException ex){
+
+            throw new RuntimeException("Archivo Invalido");
+        }
+
+    }
+    public ImageDto getImage(Integer clientId){
+        ClientDbDto client = clientDao.findClientById(clientId);
+        logger.info(client.toString());
+        ImageDto imageDto = new ImageDto();
+        imageDto.setImagen(client.getImagen());
+        imageDto.setImagenFormato(client.getImagenFormato());
+        imageDto.setImagenNombre(client.getImagenNombre());
+        return imageDto;
     }
 
 }
