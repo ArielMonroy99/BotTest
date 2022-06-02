@@ -24,20 +24,20 @@ public class MenuApi {
     public MenuApi(MenuBl menuBl, CategoryBl categoryBl){this.menuBl = menuBl; this.categoryBl = categoryBl;}
 
     @GetMapping(path ="/soups",produces = APPLICATION_JSON_VALUE)
-    public List<PlateApiDto> allSoups(@RequestParam("pageSize")Integer pageSize,
-                                      @RequestParam("pageNumber")Integer pageNumber){
+    public List<PlateApiDto> allSoups(@RequestParam(value = "pageSize",required = false)Integer pageSize,
+                                      @RequestParam(value = "pageNumber", required = false)Integer pageNumber){
         return menuBl.allSoups(pageSize,pageNumber);
     }
 
     @GetMapping(path ="/mains",produces = APPLICATION_JSON_VALUE)
-    public List<PlateApiDto> allMains(@RequestParam("pageSize")Integer pageSize,
-                                      @RequestParam("pageNumber")Integer pageNumber){
+    public List<PlateApiDto> allMains(@RequestParam(value = "pageSize",required = false)Integer pageSize,
+                                      @RequestParam(value = "pageNumber",required = false)Integer pageNumber){
         return menuBl.allMains(pageSize,pageNumber);
     }
 
     @GetMapping(path ="/desserts",produces = APPLICATION_JSON_VALUE)
-    public List<PlateApiDto> allDesserts(@RequestParam("pageSize")Integer pageSize,
-                                         @RequestParam("pageNumber")Integer pageNumber){
+    public List<PlateApiDto> allDesserts(@RequestParam(value = "pageSize",required = false)Integer pageSize,
+                                         @RequestParam(value = "pageNumber",required = false)Integer pageNumber){
         return menuBl.allDesserts(pageSize,pageNumber);
     }
 
