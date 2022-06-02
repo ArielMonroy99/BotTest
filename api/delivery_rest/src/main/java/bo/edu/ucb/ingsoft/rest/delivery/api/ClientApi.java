@@ -46,7 +46,7 @@ public class ClientApi {
     }
     @PostMapping(path= "/", consumes = APPLICATION_JSON_VALUE,
     produces = APPLICATION_JSON_VALUE)
-    public ClientDbDto saveClient(@RequestBody ClientApiDto cliente){
+    public ClientApiDto saveClient(@RequestBody ClientApiDto cliente){
      return clientBl.creatNewClient(cliente);
     }
 

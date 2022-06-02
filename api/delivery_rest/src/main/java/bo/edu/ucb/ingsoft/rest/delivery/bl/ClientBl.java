@@ -51,10 +51,11 @@ public class ClientBl {
         return clientApiDto;
     }
     @Transactional(propagation = Propagation.REQUIRED)
-    public ClientDbDto creatNewClient(ClientApiDto newClient){
+    public ClientApiDto creatNewClient(ClientApiDto newClient){
         ClientDbDto client = new ClientDbDto();
         client.setClientId(sequenceDao.getSequence(ClientDbDto.SEQUENCE_NAME));
         client.setNombre(newClient.getNombre());
+        newClient.setClienteId(client.getClientId());
         client.setNit(newClient.getNit());
         client.setUsuario(newClient.getUsuario());
         client.setPassword(newClient.getPassword());
@@ -67,7 +68,7 @@ public class ClientBl {
         client.setTxId(1);
         logger.debug(client.toString());
         clientDao.saveClient(client);
-        return client;
+        return newClient;
 
     }
 

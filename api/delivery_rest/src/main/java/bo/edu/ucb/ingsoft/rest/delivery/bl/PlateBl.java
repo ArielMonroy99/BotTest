@@ -19,7 +19,7 @@ public class PlateBl {
 
     private PlateDao plateDao;
     private SequenceDao sequenceDao;
-    public Logger logger = LoggerFactory.getLogger(ClientBl.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(PlateBl.class);
     @Autowired
     public PlateBl(PlateDao plateDao, SequenceDao sequenceDao) {
         this.plateDao = plateDao;
@@ -32,7 +32,7 @@ public class PlateBl {
 
     public PlateApiDto findPlateById(Integer plateId){
         PlateDbDto plateDbDto = plateDao.findPlateById(plateId);
-        logger.debug(plateDbDto.toString());
+       LOGGER.info(plateDbDto.toString());
         PlateApiDto plateApiDto = new PlateApiDto();
         plateApiDto.setPlatoId(plateId);
         plateApiDto.setNombre(plateDbDto.getNombre());
@@ -44,6 +44,7 @@ public class PlateBl {
     }
     @Transactional(propagation = Propagation.REQUIRED)
     public PlateDbDto creatNewPlate(PlateApiDto newClient){
+        LOGGER.info("plato:{}",newClient.toString());
         PlateDbDto client = new PlateDbDto();
         client.setPlato_id(sequenceDao.getSequence(PlateDbDto.SEQUENCE_NAME));
         client.setNombre(newClient.getNombre());
@@ -55,7 +56,6 @@ public class PlateBl {
         client.setTxDate(new Date());
         client.setTxHost("localhost");
         client.setTxId(1);
-        logger.debug(client.toString());
         plateDao.addPlate(client);
         return client;
 

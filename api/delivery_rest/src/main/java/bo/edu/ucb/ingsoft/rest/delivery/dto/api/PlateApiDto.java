@@ -85,4 +85,15 @@ public class PlateApiDto {
         return Objects.hash(platoId);
     }
 
+    @Override
+    public String toString() {
+        return "PlateApiDto{" +
+                "platoId=" + platoId +
+                ", nombre='" + nombre + '\'' +
+                ", precio=" + precio +
+                ", descripcion='" + descripcion + '\'' +
+                ", imagenUrl='" + imagenUrl + '\'' +
+                ", categoriaCategoriaId=" + categoriaCategoriaId +
+                '}';
+    }
 }

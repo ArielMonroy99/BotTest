@@ -43,6 +43,7 @@ public class OrderBl {
         newOrder.setEncargadoId(1);
         newOrder.setSucursalId(order.getSucursalId());
         order.setFecha(new Date());
+        order.setPedidoId(newOrder.getPedidoId());
         newOrder.setFecha(order.getFecha());
         newOrder.setEstado(1);
         newOrder.setClientId(clientId);
@@ -51,6 +52,7 @@ public class OrderBl {
         newOrder.setTarjetaId(order.getTarjeta().getId());
         newOrder.setDireccionId(order.getDireccion().getId());
         newOrder.setTotal(order.getTotal());
+        newOrder.setPropina(order.getPropina());
         newOrder.setStatus(1);
         newOrder.setTxDate(new Date());
         newOrder.setTxHost("localhost");

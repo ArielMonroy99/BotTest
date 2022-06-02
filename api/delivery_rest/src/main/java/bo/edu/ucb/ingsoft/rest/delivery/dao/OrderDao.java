@@ -19,13 +19,13 @@ public interface OrderDao {
     void savePlatesInOrder(PlateInOrderDbDto plate);
 
     @Insert("Insert into pedido (pedido_id, cliente_cliente_id, encargado_encargado_id,sucursal_sucursal_id,tarjeta_id,direccion_id," +
-            " fecha, estado, metodo_de_pago, metodo_de_entrega, total, status)" +
+            " fecha, estado, metodo_de_pago, metodo_de_entrega, total, propina,status ,tx_id,tx_host,tx_date)" +
             "values (#{pedidoId},#{clientId},#{encargadoId},#{sucursalId},#{tarjetaId},#{direccionId},#{fecha},#{estado}," +
-            "#{metodoDePago},#{metodoDeEntrega},#{total},#{status})")
+            "#{metodoDePago},#{metodoDeEntrega},#{total},#{propina},#{status},#{txId},#{txHost},#{txDate})")
     void saveOrder (OrderDbDto orderDto);
 
     @Select("Select pedido_id, sucursal_sucursal_id as sucursal_id,fecha,estado,metodo_de_entrega,metodo_de_pago,total,propina,status,tx_id,tx_date,tx_host " +
-            "from pedido where cliente_cliente_id = #{clientId} and status = 1 LIMIT #{pageSize} OFFSET #{offset}")
+            "from pedido where cliente_cliente_id = #{clientId} and status = 1 ORDER BY pedido_id DESC LIMIT #{pageSize} OFFSET #{offset}")
     List<OrderDbDto> orderList(@Param("clientId") Integer clientId, @Param("pageSize") Integer pageSize, @Param("offset") Integer offset);
 
     @Select("Select pedido_id, cliente_cliente_id as client_id,tarjeta_id,direccion_id, sucursal_sucursal_id as sucursal_id,fecha,estado,metodo_de_entrega,metodo_de_pago," +

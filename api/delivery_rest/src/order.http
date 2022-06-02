@@ -21,6 +21,7 @@ Content-Type: application/json
   "metodoDeEntrega": 1,
   "estado": 1,
   "total": 150,
+  "propina": 10,
   "platos": [
     {
       "id": 10,
@@ -42,13 +43,13 @@ Content-Type: application/json
   }
 
 ###
-GET  http://localhost:8080/api/v1/order/19
+GET  http://localhost:8080/api/v1/order/54
 Accept: application/json
 Content-Type: application/json
 
 ###
 
-PUT http://localhost:8080/api/v1/order/14
+PUT http://localhost:8080/api/v1/order/54
 Accept: application/json
 Content-Type: application/json
 

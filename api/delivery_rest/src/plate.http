@@ -13,8 +13,8 @@ Content-Type: application/json
   "nombre": "Pie de Manzana",
   "precio": 15.00,
   "descripcion": "al de texto aqui",
-  "imagen": "https://mccormick.widen.net/content/5pgmsri5uh/png/Pie%20de%20Manzana.png?crop=true&anchor=341,0&color=ffffff00&u=u0bb0o&w=1365&h=1365%27",
-  "categoria": "3"
+  "imagenUrl": "https://mccormick.widen.net/content/5pgmsri5uh/png/Pie%20de%20Manzana.png?crop=true&anchor=341,0&color=ffffff00&u=u0bb0o&w=1365&h=1365%27",
+  "categoriaCategoriaId": "3"
 }
 
 ###
@@ -27,8 +27,8 @@ Content-Type: application/json
   "nombre": "Pie de Manzana",
   "precio": 30.00,
   "descripcion": "al de texto aqui",
-  "imagen": "https://mccormick.widen.net/content/5pgmsri5uh/png/Pie%20de%20Manzana.png?crop=true&anchor=341,0&color=ffffff00&u=u0bb0o&w=1365&h=1365%27",
-  "categoria": "3"
+  "imagenUrl": "https://mccormick.widen.net/content/5pgmsri5uh/png/Pie%20de%20Manzana.png?crop=true&anchor=341,0&color=ffffff00&u=u0bb0o&w=1365&h=1365%27",
+  "categoriaCategoriaId": "3"
 }
 
 ###

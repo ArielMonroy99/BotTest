@@ -29,6 +29,7 @@ public class PlateApi {
     @PostMapping(path= "/", consumes = APPLICATION_JSON_VALUE,
             produces = APPLICATION_JSON_VALUE)
     public PlateDbDto addPlate(@RequestBody PlateApiDto plate){
+
         return plateBl.creatNewPlate(plate);
     }
 
