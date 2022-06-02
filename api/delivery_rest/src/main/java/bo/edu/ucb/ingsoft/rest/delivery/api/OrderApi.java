@@ -2,6 +2,9 @@ package bo.edu.ucb.ingsoft.rest.delivery.api;
 
 import bo.edu.ucb.ingsoft.rest.delivery.bl.OrderBl;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.api.OrderApiDto;
+import bo.edu.ucb.ingsoft.rest.delivery.dto.api.PlateApiDto;
+import bo.edu.ucb.ingsoft.rest.delivery.dto.db.OrderDbDto;
+import bo.edu.ucb.ingsoft.rest.delivery.dto.db.PlateDbDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
@@ -31,5 +34,10 @@ public class OrderApi {
     public OrderApiDto getOrder(@PathVariable Integer orderId){
         LOGGER.info("ApiDto:{}",orderId);
         return orderBl.getOrderById(orderId);
+    }
+
+    @PutMapping(path = "/{orderId}",consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public OrderDbDto updatePlate(@RequestBody OrderApiDto order, @PathVariable("orderId") Integer orderId) {
+        return orderBl.updateOrder(order, orderId);
     }
 }

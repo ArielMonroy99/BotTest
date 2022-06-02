@@ -3,8 +3,10 @@ package bo.edu.ucb.ingsoft.rest.delivery.bl;
 import bo.edu.ucb.ingsoft.rest.delivery.api.OrderApi;
 import bo.edu.ucb.ingsoft.rest.delivery.dao.*;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.api.OrderApiDto;
+import bo.edu.ucb.ingsoft.rest.delivery.dto.api.PlateApiDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.api.PlateInOrderApiDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.OrderDbDto;
+import bo.edu.ucb.ingsoft.rest.delivery.dto.db.PlateDbDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.PlateInOrderDbDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,5 +130,18 @@ public class OrderBl {
             newList.add(newOrder);
         }
         return newList;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public OrderDbDto updateOrder(OrderApiDto newOrder , int orderId){
+        OrderDbDto order = new OrderDbDto();
+
+        order.setEstado(newOrder.getEstado());
+        order.setTxDate(new Date());
+        order.setTxHost("localhost");
+        order.setTxId(1);
+        //logger.debug(plate.toString());
+        orderDao.updateOrder(order);
+        return order;
     }
 }

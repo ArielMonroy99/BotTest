@@ -2,10 +2,12 @@ package bo.edu.ucb.ingsoft.rest.delivery.dao;
 
 import bo.edu.ucb.ingsoft.rest.delivery.dto.api.OrderApiDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.OrderDbDto;
+import bo.edu.ucb.ingsoft.rest.delivery.dto.db.PlateDbDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.PlateInOrderDbDto;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,4 +36,9 @@ public interface OrderDao {
     @Select("Select plato_plato_id as plate_id , cantidad , status , " +
             "notas as nota , tx_id, tx_date,tx_host from platoenpedido where status = 1 and pedido_pedido_id = #{pedidoId}")
     List<PlateInOrderDbDto> findPlatesInOrder(@Param("pedidoId")int pedidoId);
+
+    @Update("Update plato SET estado = {estado}"+
+            "WHERE plato_id = #{pedidoId}")
+    void updateOrder(OrderDbDto order);
+
 }
