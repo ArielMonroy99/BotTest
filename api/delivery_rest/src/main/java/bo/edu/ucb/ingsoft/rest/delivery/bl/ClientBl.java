@@ -30,17 +30,24 @@ public class ClientBl {
     }
 
     public ClientApiDto findClientById(Integer clientId){
-        ClientDbDto clientDbDto = clientDao.findClientById(clientId);
-        logger.info(clientDbDto.toString());
         ClientApiDto clientApiDto = new ClientApiDto();
-        clientApiDto.setClienteId(clientId);
-        clientApiDto.setNombre(clientDbDto.getNombre());
-        clientApiDto.setNit(clientDbDto.getNit());
-        clientApiDto.setTelefono(clientDbDto.getTelefono());
-        clientApiDto.setUsuario(clientDbDto.getUsuario());
-        clientApiDto.setPassword(clientDbDto.getPassword());
-        clientApiDto.setCorreo(clientDbDto.getCorreo());
-        clientApiDto.setImagen(clientDbDto.getImagen());
+        try{
+            ClientDbDto clientDbDto = clientDao.findClientById(clientId);
+            logger.info(clientDbDto.toString());
+            clientApiDto.setClienteId(clientId);
+            clientApiDto.setNombre(clientDbDto.getNombre());
+            clientApiDto.setNit(clientDbDto.getNit());
+            clientApiDto.setTelefono(clientDbDto.getTelefono());
+            clientApiDto.setUsuario(clientDbDto.getUsuario());
+            clientApiDto.setPassword(clientDbDto.getPassword());
+            clientApiDto.setCorreo(clientDbDto.getCorreo());
+            StringBuffer sb = new StringBuffer();
+            sb.append("http://localhost:8080/api/v1/client/").append(clientApiDto.getClienteId());
+            sb.append("/image");
+            clientApiDto.setImagen(sb.toString());
+        }catch (NullPointerException ex){
+            return new ClientApiDto();
+        }
         return clientApiDto;
     }
     @Transactional(propagation = Propagation.REQUIRED)

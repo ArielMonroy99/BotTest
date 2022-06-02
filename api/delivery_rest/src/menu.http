@@ -1,4 +1,4 @@
-GET http://localhost:8080/api/v1/menu/soups/?pageSize=2&pageNumber=0
+GET http://localhost:8080/api/v1/menu/soups?pageSize=2&pageNumber=2
 ###
 GET http://localhost:8080/api/v1/menu/mains/?pageSize=2&pageNumber=0
 ###

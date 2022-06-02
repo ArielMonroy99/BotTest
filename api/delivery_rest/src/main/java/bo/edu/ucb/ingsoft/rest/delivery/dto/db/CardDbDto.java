@@ -4,10 +4,12 @@ import java.util.Date;
 import java.util.Objects;
 
 public class CardDbDto {
+    public static final String  SEQUENCE = "tarjeta_id_seq";
     private Integer tarjetaId;
     private String nro;
     private String vencimiento;
     private String nombre;
+    private Integer clientId;
     private Integer status;
     private Integer txId;
     private String txHost;
@@ -22,6 +24,18 @@ public class CardDbDto {
         this.txId = txId;
         this.txHost = txHost;
         this.txDate = txDate;
+    }
+
+    public CardDbDto() {
+
+    }
+
+    public Integer getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
     }
 
     public String getNombre() {

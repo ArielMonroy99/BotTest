@@ -38,7 +38,7 @@ public interface OrderDao {
     List<PlateInOrderDbDto> findPlatesInOrder(@Param("pedidoId")int pedidoId);
 
     @Update("Update pedido SET estado = #{estado}"+
-            "WHERE pedido_id = #{pedidoId}")
+            " WHERE pedido_id = #{pedidoId}")
     void updateOrder(OrderDbDto order);
 
 }

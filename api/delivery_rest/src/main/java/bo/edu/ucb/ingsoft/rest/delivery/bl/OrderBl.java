@@ -135,7 +135,7 @@ public class OrderBl {
     @Transactional(propagation = Propagation.REQUIRED)
     public OrderDbDto updateOrder(OrderApiDto newOrder , int orderId){
         OrderDbDto order = new OrderDbDto();
-
+        order.setPedidoId(orderId);
         order.setEstado(newOrder.getEstado());
         order.setTxDate(new Date());
         order.setTxHost("localhost");

@@ -15,12 +15,9 @@ public interface CardDao {
     CardDbDto getCardById(@Param("cardId") Integer cardId);
 
     @Insert("insert into tarjeta (id, nro, venc, nombre, cliente_cliente_id, status, tx_id, tx_host, tx_date)" +
-            "values (#{tarjetaId},#{nro},#{vencimiento},#{clientId},#{status},#{txId},#{txHost},#{txDate};")
-    void createNewCard(CardDbDto cardDbDto , @Param("clientId") Integer clientId);
+            "values (#{tarjetaId},#{nro},#{vencimiento},#{nombre},#{clientId},#{status},#{txId},#{txHost},#{txDate});")
+    void createNewCard(CardDbDto cardDbDto );
 
-    @Select("Select pedido_id, sucursal_sucursal_id,fecha,estado,metodo_de_entrega,metodo_de_pago from pedido where cliente_cliente_id = #{clientId} LIMIT #{pageSize} OFFSET #{offset}")
-    List<OrderDbDto> orderList(@Param("clientId") Integer clientId,@Param("pageSize") Integer pageSize,@Param("offset") Integer offset);
-
-    @Select("Select pedido_id, sucursal_sucursal_id,fecha,estado,metodo_de_entrega,metodo_de_pago from pedido where cliente_cliente_id = #{clientId} LIMIT #{pageSize} OFFSET #{offset}")
-    OrderDbDto getOrderById(@Param("clientId") Integer clientId,@Param("pageSize") Integer pageSize,@Param("offset") Integer offset);
+    @Select("Select id as cardId, nro , venc as vencimiento,nombre,status,tx_id,tx_host,tx_date from tarjeta where cliente_cliente_id = #{clientId}")
+    List<CardDbDto> getCardsByClient(@Param("clientId") Integer clientId);
 }
