@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PlateBl {
@@ -35,12 +36,12 @@ public class PlateBl {
         PlateDbDto plateDbDto = plateDao.findPlateById(plateId);
         logger.debug(plateDbDto.toString());
         PlateApiDto plateApiDto = new PlateApiDto();
-        plateApiDto.setPlateId(plateId);
+        plateApiDto.setPlato_id(plateId);
         plateApiDto.setNombre(plateDbDto.getNombre());
         plateApiDto.setPrecio(plateDbDto.getPrecio());
         plateApiDto.setDescripcion(plateDbDto.getDescripcion());
-        plateApiDto.setImagen(plateDbDto.getImagen_url());
-        plateApiDto.setCategoria(plateDbDto.getCategoria_categoria_id());
+        plateApiDto.setImagen_url(plateDbDto.getImagen_url());
+        plateApiDto.setCategoria_categoria_id(plateDbDto.getCategoria_categoria_id());
         return plateApiDto;
     }
     @Transactional(propagation = Propagation.REQUIRED)
@@ -50,8 +51,8 @@ public class PlateBl {
         client.setNombre(newClient.getNombre());
         client.setPrecio(newClient.getPrecio());
         client.setDescripcion(newClient.getDescripcion());
-        client.setImagen_url(newClient.getImagen());
-        client.setCategoria_categoria_id(newClient.getCategoria());
+        client.setImagen_url(newClient.getImagen_url());
+        client.setCategoria_categoria_id(newClient.getCategoria_categoria_id());
         client.setStatus(1);
         client.setTxDate(new Date());
         client.setTxHost("localhost");
@@ -69,8 +70,8 @@ public class PlateBl {
         plate.setNombre(newPlate.getNombre());
         plate.setPrecio(newPlate.getPrecio());
         plate.setDescripcion(newPlate.getDescripcion());
-        plate.setImagen_url(newPlate.getImagen());
-        plate.setCategoria_categoria_id(newPlate.getCategoria());
+        plate.setImagen_url(newPlate.getImagen_url());
+        plate.setCategoria_categoria_id(newPlate.getCategoria_categoria_id());
         plate.setStatus(1);
         plate.setTxDate(new Date());
         plate.setTxHost("localhost");
@@ -89,6 +90,11 @@ public class PlateBl {
 
         plateDao.deletePlate(plate);
         return plate;
+    }
+
+    public List<PlateApiDto> findAllPlate(Integer categoryId){
+        List<PlateApiDto> plateApiDto = plateDao.findAllPlate(categoryId);
+        return plateApiDto;
     }
 
 }

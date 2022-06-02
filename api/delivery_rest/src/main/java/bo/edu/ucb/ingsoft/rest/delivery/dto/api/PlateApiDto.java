@@ -4,32 +4,32 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class PlateApiDto {
-    private Integer plateId;
+    private Integer plato_id;
     private String nombre;
     private BigDecimal precio;
     private String descripcion;
-    private String imagen;
-    private Integer categoria;
+    private String imagen_url;
+    private Integer categoria_categoria_id;
 
-    public PlateApiDto(Integer plateId, String nombre, BigDecimal precio, String descripcion, String imagen, Integer categoria) {
-        this.plateId = plateId;
+    public PlateApiDto(Integer plato_id, String nombre, BigDecimal precio, String descripcion, String imagen_url, Integer categoria_categoria_id) {
+        this.plato_id = plato_id;
         this.nombre = nombre;
         this.precio = precio;
         this.descripcion = descripcion;
-        this.imagen = imagen;
-        this.categoria = categoria;
+        this.imagen_url = imagen_url;
+        this.categoria_categoria_id = categoria_categoria_id;
     }
 
     public PlateApiDto() {
 
     }
 
-    public Integer getPlateId() {
-        return plateId;
+    public Integer getPlato_id() {
+        return plato_id;
     }
 
-    public void setPlateId(Integer plateId) {
-        this.plateId = plateId;
+    public void setPlato_id(Integer plato_id) {
+        this.plato_id = plato_id;
     }
 
     public String getNombre() {
@@ -56,20 +56,20 @@ public class PlateApiDto {
         this.descripcion = descripcion;
     }
 
-    public String getImagen() {
-        return imagen;
+    public String getImagen_url() {
+        return imagen_url;
     }
 
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
+    public void setImagen_url(String imagen_url) {
+        this.imagen_url = imagen_url;
     }
 
-    public Integer getCategoria() {
-        return categoria;
+    public Integer getCategoria_categoria_id() {
+        return categoria_categoria_id;
     }
 
-    public void setCategoria(Integer categoria) {
-        this.categoria = categoria;
+    public void setCategoria_categoria_id(Integer categoria_categoria_id) {
+        this.categoria_categoria_id = categoria_categoria_id;
     }
 
     @Override
@@ -77,12 +77,12 @@ public class PlateApiDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PlateApiDto that = (PlateApiDto) o;
-        return Objects.equals(plateId, that.plateId);
+        return Objects.equals(plato_id, that.plato_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(plateId);
+        return Objects.hash(plato_id);
     }
 
 }
