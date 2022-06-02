@@ -2,9 +2,7 @@ package bo.edu.ucb.ingsoft.rest.delivery.bl;
 
 import bo.edu.ucb.ingsoft.rest.delivery.dao.PlateDao;
 import bo.edu.ucb.ingsoft.rest.delivery.dao.SequenceDao;
-import bo.edu.ucb.ingsoft.rest.delivery.dto.api.ClientApiDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.api.PlateApiDto;
-import bo.edu.ucb.ingsoft.rest.delivery.dto.db.ClientDbDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.PlateDbDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,12 +34,12 @@ public class PlateBl {
         PlateDbDto plateDbDto = plateDao.findPlateById(plateId);
         logger.debug(plateDbDto.toString());
         PlateApiDto plateApiDto = new PlateApiDto();
-        plateApiDto.setPlato_id(plateId);
+        plateApiDto.setPlatoId(plateId);
         plateApiDto.setNombre(plateDbDto.getNombre());
         plateApiDto.setPrecio(plateDbDto.getPrecio());
         plateApiDto.setDescripcion(plateDbDto.getDescripcion());
-        plateApiDto.setImagen_url(plateDbDto.getImagen_url());
-        plateApiDto.setCategoria_categoria_id(plateDbDto.getCategoria_categoria_id());
+        plateApiDto.setImagenUrl(plateDbDto.getImagenUrl());
+        plateApiDto.setCategoriaCategoriaId(plateDbDto.getCategoriaCategoriaId());
         return plateApiDto;
     }
     @Transactional(propagation = Propagation.REQUIRED)
@@ -51,8 +49,8 @@ public class PlateBl {
         client.setNombre(newClient.getNombre());
         client.setPrecio(newClient.getPrecio());
         client.setDescripcion(newClient.getDescripcion());
-        client.setImagen_url(newClient.getImagen_url());
-        client.setCategoria_categoria_id(newClient.getCategoria_categoria_id());
+        client.setImagenUrl(newClient.getImagenUrl());
+        client.setCategoriaCategoriaId(newClient.getCategoriaCategoriaId());
         client.setStatus(1);
         client.setTxDate(new Date());
         client.setTxHost("localhost");
@@ -70,8 +68,8 @@ public class PlateBl {
         plate.setNombre(newPlate.getNombre());
         plate.setPrecio(newPlate.getPrecio());
         plate.setDescripcion(newPlate.getDescripcion());
-        plate.setImagen_url(newPlate.getImagen_url());
-        plate.setCategoria_categoria_id(newPlate.getCategoria_categoria_id());
+        plate.setImagenUrl(newPlate.getImagenUrl());
+        plate.setCategoriaCategoriaId(newPlate.getCategoriaCategoriaId());
         plate.setStatus(1);
         plate.setTxDate(new Date());
         plate.setTxHost("localhost");

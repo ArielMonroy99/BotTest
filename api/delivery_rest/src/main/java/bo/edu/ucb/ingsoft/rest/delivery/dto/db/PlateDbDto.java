@@ -8,12 +8,12 @@ public class PlateDbDto {
     public final static String SEQUENCE_NAME="plato_plato_id_seq";
 
 
-    private Integer plato_id;
+    private Integer platoId;
     private String nombre;
     private BigDecimal precio;
     private String descripcion;
-    private String imagen_url;
-    private Integer categoria_categoria_id;
+    private String imagenUrl;
+    private Integer categoriaCategoriaId;
     private Integer status;
     private Integer txId;
     private Date txDate;
@@ -23,12 +23,12 @@ public class PlateDbDto {
     {}
 
     public PlateDbDto(Integer plato_id, String nombre, BigDecimal precio, String descripcion, String imagen_url, Integer categoria_categoria_id, Integer status, Integer txId, Date txDate,  String txHost) {
-        this.plato_id = plato_id;
+        this.platoId = plato_id;
         this.nombre = nombre;
         this.precio = precio;
         this.descripcion = descripcion;
-        this.imagen_url = imagen_url;
-        this.categoria_categoria_id = categoria_categoria_id;
+        this.imagenUrl = imagen_url;
+        this.categoriaCategoriaId = categoria_categoria_id;
         this.status = status;
         this.txId = txId;
         this.txDate = txDate;
@@ -36,11 +36,11 @@ public class PlateDbDto {
     }
 
     public Integer getPlato_id() {
-        return plato_id;
+        return platoId;
     }
 
     public void setPlato_id(Integer plato_id) {
-        this.plato_id = plato_id;
+        this.platoId = plato_id;
     }
 
     public String getNombre() {
@@ -67,20 +67,20 @@ public class PlateDbDto {
         this.descripcion = descripcion;
     }
 
-    public String getImagen_url() {
-        return imagen_url;
+    public String getImagenUrl() {
+        return imagenUrl;
     }
 
-    public void setImagen_url(String imagen_url) {
-        this.imagen_url = imagen_url;
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
     }
 
-    public Integer getCategoria_categoria_id() {
-        return categoria_categoria_id;
+    public Integer getCategoriaCategoriaId() {
+        return categoriaCategoriaId;
     }
 
-    public void setCategoria_categoria_id(Integer categoria_categoria_id) {
-        this.categoria_categoria_id = categoria_categoria_id;
+    public void setCategoriaCategoriaId(Integer categoriaCategoriaId) {
+        this.categoriaCategoriaId = categoriaCategoriaId;
     }
 
     public Integer getStatus() {
@@ -122,23 +122,23 @@ public class PlateDbDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PlateDbDto that = (PlateDbDto) o;
-        return Objects.equals(plato_id, that.plato_id);
+        return Objects.equals(platoId, that.platoId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(plato_id);
+        return Objects.hash(platoId);
     }
 
     @Override
     public String toString() {
         return "PlateDbDto{" +
-                "plato_id=" + plato_id +
+                "plato_id=" + platoId +
                 ", nombre='" + nombre + '\'' +
                 ", precio=" + precio +
                 ", descripcion='" + descripcion + '\'' +
-                ", imagen_url='" + imagen_url + '\'' +
-                ", categoria_categoria_id=" + categoria_categoria_id +
+                ", imagen_url='" + imagenUrl + '\'' +
+                ", categoria_categoria_id=" + categoriaCategoriaId +
                 ", status=" + status +
                 ", txId=" + txId +
                 ", txDate=" + txDate +'\'' +
