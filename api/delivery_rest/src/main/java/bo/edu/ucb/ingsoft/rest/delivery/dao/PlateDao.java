@@ -1,9 +1,12 @@
 package bo.edu.ucb.ingsoft.rest.delivery.dao;
 
+import bo.edu.ucb.ingsoft.rest.delivery.dto.api.PlateApiDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.ClientDbDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.PlateDbDto;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public interface PlateDao {
@@ -24,4 +27,7 @@ public interface PlateDao {
             "WHERE plato_id = #{plato_id}")
     void deletePlate(PlateDbDto plate);
 
+    @Select("Select plato_id ,nombre,precio,descripcion,imagen_url,categoria_categoria_id,status,tx_id," +
+            "tx_date,tx_host from plato WHERE categoria_categoria_id = #{categoria_categoria_id} and status = 1")
+    public List<PlateApiDto> findAllPlate(@Param("categoria_categoria_id")Integer categoria_categoria_id);
 }
