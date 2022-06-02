@@ -3,26 +3,30 @@ package bo.edu.ucb.ingsoft.rest.delivery.dto.api;
 import java.util.Objects;
 
 public class AddressApiDto {
-    private Integer direccionId;
+    private Integer id;
     private Double latitud;
     private Double longitud;
     private String direccion;
-    private String nota;
+    private String detalle;
 
-    public AddressApiDto(Integer direccionId, Double latitud, Double longitud, String direccion, String nota) {
-        this.direccionId = direccionId;
+    public AddressApiDto(Integer direccionId, Double latitud, Double longitud, String direccion, String detalle) {
+        this.id = direccionId;
         this.latitud = latitud;
         this.longitud = longitud;
         this.direccion = direccion;
-        this.nota = nota;
+        this.detalle = detalle;
     }
 
-    public Integer getDireccionId() {
-        return direccionId;
+    public AddressApiDto() {
+
     }
 
-    public void setDireccionId(Integer direccionId) {
-        this.direccionId = direccionId;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Double getLatitud() {
@@ -49,12 +53,12 @@ public class AddressApiDto {
         this.direccion = direccion;
     }
 
-    public String getNota() {
-        return nota;
+    public String getDetalle() {
+        return detalle;
     }
 
-    public void setNota(String nota) {
-        this.nota = nota;
+    public void setDetalle(String nota) {
+        this.detalle = nota;
     }
 
     @Override
@@ -62,22 +66,22 @@ public class AddressApiDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddressApiDto that = (AddressApiDto) o;
-        return Objects.equals(direccionId, that.direccionId);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(direccionId);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "AddressApiDto{" +
-                "direccionId=" + direccionId +
+                "direccionId=" + id +
                 ", latitud=" + latitud +
                 ", longitud=" + longitud +
                 ", direccion='" + direccion + '\'' +
-                ", nota='" + nota + '\'' +
+                ", nota='" + detalle + '\'' +
                 '}';
     }
 }

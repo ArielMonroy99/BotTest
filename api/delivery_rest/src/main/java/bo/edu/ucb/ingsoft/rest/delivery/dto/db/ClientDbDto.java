@@ -16,6 +16,7 @@ public class ClientDbDto {
     private String imagen;
     private String imagenNombre;
     private String imagenFormato;
+    private Integer estado;
     private Integer status;
     private Integer txId;
     private String txHost;
@@ -39,6 +40,14 @@ public class ClientDbDto {
         this.txId = txId;
         this.txHost = txHost;
         this.txDate = txDate;
+    }
+
+    public Integer getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Integer estado) {
+        this.estado = estado;
     }
 
     public String getImagenNombre() {
@@ -166,6 +175,7 @@ public class ClientDbDto {
         return Objects.hash(clientId);
     }
 
+
     @Override
     public String toString() {
         return "ClientDbDto{" +
@@ -177,8 +187,9 @@ public class ClientDbDto {
                 ", password='" + password + '\'' +
                 ", correo='" + correo + '\'' +
                 ", imagen='" + imagen + '\'' +
-                ", imagen_nombre='" + imagenNombre + '\'' +
-                ", imagen_formato='" + imagenFormato + '\'' +
+                ", imagenNombre='" + imagenNombre + '\'' +
+                ", imagenFormato='" + imagenFormato + '\'' +
+                ", estado=" + estado +
                 ", status=" + status +
                 ", txId=" + txId +
                 ", txHost='" + txHost + '\'' +

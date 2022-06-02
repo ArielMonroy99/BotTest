@@ -1,0 +1,47 @@
+POST http://localhost:8080/api/v1/order/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "sucursalId": 1,
+  "direccion": {
+    "id": 1,
+    "direccion": "Av 20 de octubre #1540",
+    "latitud": -16.6584,
+    "longitud": -66.6584,
+    "detalle": "Casa naranja"
+  },
+  "tarjeta": {
+    "id": 1,
+    "nro": "478465456",
+    "vencimiento": "11/22",
+    "nombre": "arimonmon"
+  },
+  "metodoDePago": 2,
+  "metodoDeEntrega": 1,
+  "estado": 1,
+  "total": 150,
+  "platos": [
+    {
+      "id": 10,
+      "cantidad": 2,
+      "nota": "sin pollo"
+    },
+    {
+      "id": 11,
+      "cantidad": 3,
+      "nota": "sin nada nadita de pollo"
+    }
+  ,
+    {
+      "id": 12,
+      "cantidad": 4,
+      "nota": "con mucho pollo"
+    }
+  ]
+  }
+
+###
+GET  http://localhost:8080/api/v1/order/19
+Accept: application/json
+Content-Type: application/json

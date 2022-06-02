@@ -2,45 +2,71 @@ package bo.edu.ucb.ingsoft.rest.delivery.dto.api;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class OrderApiDto {
     private Integer pedidoId;
-    private CardApiDto tarjetaDto;
-    private AddressApiDto direccionDto;
+    private CardApiDto tarjeta;
+    private AddressApiDto direccion;
     private Integer sucursalId;
     private Date fecha;
+    private List<PlateInOrderApiDto> platos;
     private Integer estado;
     private Integer metodoDePago;
     private Integer metodoDeEntrega;
     private BigDecimal total;
+    private BigDecimal propina;
 
-    public OrderApiDto(Integer pedidoId, CardApiDto tarjetaDto, AddressApiDto direccionDto, Integer sucursalId, Date fecha, Integer estado, Integer metodoDePago, Integer metodoDeEntrega, BigDecimal total) {
+
+
+    public OrderApiDto(Integer pedidoId, CardApiDto tarjetaDto, AddressApiDto direccionDto, Integer sucursalId, Date fecha, List<PlateInOrderApiDto> platos, Integer estado, Integer metodoDePago, Integer metodoDeEntrega, BigDecimal total) {
         this.pedidoId = pedidoId;
-        this.tarjetaDto = tarjetaDto;
-        this.direccionDto = direccionDto;
+        this.tarjeta = tarjetaDto;
+        this.direccion = direccionDto;
         this.sucursalId = sucursalId;
         this.fecha = fecha;
+        this.platos = platos;
         this.estado = estado;
         this.metodoDePago = metodoDePago;
         this.metodoDeEntrega = metodoDeEntrega;
         this.total = total;
     }
 
-    public CardApiDto getTarjetaDto() {
-        return tarjetaDto;
+    public OrderApiDto() {
+
     }
 
-    public void setTarjetaDto(CardApiDto tarjetaDto) {
-        this.tarjetaDto = tarjetaDto;
+    public BigDecimal getPropina() {
+        return propina;
     }
 
-    public AddressApiDto getDireccionDto() {
-        return direccionDto;
+    public void setPropina(BigDecimal propina) {
+        this.propina = propina;
     }
 
-    public void setDireccionDto(AddressApiDto direccionDto) {
-        this.direccionDto = direccionDto;
+    public List<PlateInOrderApiDto> getPlatos() {
+        return platos;
+    }
+
+    public void setPlatos(List<PlateInOrderApiDto> platos) {
+        this.platos = platos;
+    }
+
+    public CardApiDto getTarjeta() {
+        return tarjeta;
+    }
+
+    public void setTarjeta(CardApiDto tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+
+    public AddressApiDto getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(AddressApiDto direccion) {
+        this.direccion = direccion;
     }
 
     public Integer getPedidoId() {
@@ -120,14 +146,16 @@ public class OrderApiDto {
     public String toString() {
         return "OrderApiDto{" +
                 "pedidoId=" + pedidoId +
-                ", tarjetaDto=" + tarjetaDto +
-                ", direccionDto=" + direccionDto +
+                ", tarjeta=" + tarjeta +
+                ", direccion=" + direccion +
                 ", sucursalId=" + sucursalId +
                 ", fecha=" + fecha +
+                ", platos=" + platos +
                 ", estado=" + estado +
                 ", metodoDePago=" + metodoDePago +
                 ", metodoDeEntrega=" + metodoDeEntrega +
                 ", total=" + total +
+                ", propina=" + propina +
                 '}';
     }
 }

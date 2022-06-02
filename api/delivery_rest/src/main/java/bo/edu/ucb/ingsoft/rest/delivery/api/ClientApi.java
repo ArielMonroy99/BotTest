@@ -1,8 +1,10 @@
 package bo.edu.ucb.ingsoft.rest.delivery.api;
 
 import bo.edu.ucb.ingsoft.rest.delivery.bl.ClientBl;
+import bo.edu.ucb.ingsoft.rest.delivery.bl.OrderBl;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.api.ClientApiDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.api.ImageDto;
+import bo.edu.ucb.ingsoft.rest.delivery.dto.api.OrderApiDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.ClientDbDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -25,9 +28,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/api/v1/client")
 public class ClientApi {
     private ClientBl clientBl;
+    private OrderBl orderBl;
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientApi.class);
-    public ClientApi(ClientBl clientBl){
+
+    public ClientApi(ClientBl clientBl, OrderBl orderBl) {
         this.clientBl = clientBl;
+        this.orderBl = orderBl;
     }
 
     @GetMapping(path ="/{clientId}",produces = APPLICATION_JSON_VALUE)
@@ -68,4 +74,13 @@ public class ClientApi {
                 .contentLength(file.length())
                 .body(resource);
     }
+
+    @GetMapping(path = "/{clientId}/orders")
+    public List<OrderApiDto> getOrdersByClientId(@PathVariable("clientId") Integer clientId,
+                                                 @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                                                 @RequestParam(value = "pageNumber",required = false) Integer pageNumber){
+
+        return orderBl.getOrdersByClient(clientId,pageSize,pageNumber);
+    }
+
 }

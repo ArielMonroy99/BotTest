@@ -2,30 +2,40 @@ package bo.edu.ucb.ingsoft.rest.delivery.dto.db;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class OrderDbDto {
+
+    public static final String sequence = "pedido_pedido_id_seq";
     private Integer pedidoId;
-    private CardDbDto tarjetaDto;
-    private AddressDbDto direccionDto;
-    private Integer encargadoId; //FIXME: pedir encargado Id
+    private Integer clientId;
+    private Integer tarjetaId;
+    private Integer direccionId;
+    private Integer encargadoId;
     private Integer sucursalId;
+    private List<PlateInOrderDbDto> platos;
     private Date fecha;
     private Integer estado;
     private Integer metodoDePago;
     private Integer metodoDeEntrega;
     private BigDecimal total;
+    private BigDecimal propina;
     private Integer status;
     private Integer txId;
     private String txHost;
     private Date txDate;
 
-    public OrderDbDto(Integer pedidoId, CardDbDto tarjetaDto, AddressDbDto direccionDto, Integer encargadoId, Integer sucursalId, Date fecha, Integer estado, Integer metodoDePago, Integer metodoDeEntrega, BigDecimal total, Integer status, Integer txId, String txHost, Date txDate) {
+    public OrderDbDto() {
+    }
+
+    public OrderDbDto(Integer pedidoId, Integer tarjetaDto, Integer direccionDto, Integer encargadoId, Integer sucursalId, List<PlateInOrderDbDto> platos, Date fecha, Integer estado, Integer metodoDePago, Integer metodoDeEntrega, BigDecimal total, Integer status, Integer txId, String txHost, Date txDate) {
         this.pedidoId = pedidoId;
-        this.tarjetaDto = tarjetaDto;
-        this.direccionDto = direccionDto;
+        this.tarjetaId = tarjetaDto;
+        this.direccionId = direccionDto;
         this.encargadoId = encargadoId;
         this.sucursalId = sucursalId;
+        this.platos = platos;
         this.fecha = fecha;
         this.estado = estado;
         this.metodoDePago = metodoDePago;
@@ -37,6 +47,31 @@ public class OrderDbDto {
         this.txDate = txDate;
     }
 
+    public BigDecimal getPropina() {
+        return propina;
+    }
+
+    public void setPropina(BigDecimal propina) {
+        this.propina = propina;
+    }
+
+    public Integer getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
+
+
+    public List<PlateInOrderDbDto> getPlatos() {
+        return platos;
+    }
+
+    public void setPlatos(List<PlateInOrderDbDto> platos) {
+        this.platos = platos;
+    }
+
     public Integer getPedidoId() {
         return pedidoId;
     }
@@ -45,20 +80,20 @@ public class OrderDbDto {
         this.pedidoId = pedidoId;
     }
 
-    public CardDbDto getTarjetaDto() {
-        return tarjetaDto;
+    public Integer getTarjetaId() {
+        return tarjetaId;
     }
 
-    public void setTarjetaDto(CardDbDto tarjetaDto) {
-        this.tarjetaDto = tarjetaDto;
+    public void setTarjetaId(Integer tarjetaId) {
+        this.tarjetaId = tarjetaId;
     }
 
-    public AddressDbDto getDireccionDto() {
-        return direccionDto;
+    public Integer getDireccionId() {
+        return direccionId;
     }
 
-    public void setDireccionDto(AddressDbDto direccionDto) {
-        this.direccionDto = direccionDto;
+    public void setDireccionId(Integer direccionId) {
+        this.direccionId = direccionId;
     }
 
     public Integer getEncargadoId() {
@@ -164,17 +199,20 @@ public class OrderDbDto {
 
     @Override
     public String toString() {
-        return "PedidoDbDto{" +
+        return "OrderDbDto{" +
                 "pedidoId=" + pedidoId +
-                ", tarjetaDto=" + tarjetaDto +
-                ", direccionDto=" + direccionDto +
+                ", clientId=" + clientId +
+                ", tarjetaId=" + tarjetaId +
+                ", direccionId=" + direccionId +
                 ", encargadoId=" + encargadoId +
                 ", sucursalId=" + sucursalId +
+                ", platos=" + platos +
                 ", fecha=" + fecha +
                 ", estado=" + estado +
                 ", metodoDePago=" + metodoDePago +
                 ", metodoDeEntrega=" + metodoDeEntrega +
                 ", total=" + total +
+                ", propina=" + propina +
                 ", status=" + status +
                 ", txId=" + txId +
                 ", txHost='" + txHost + '\'' +

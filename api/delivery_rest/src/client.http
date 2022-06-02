@@ -22,7 +22,9 @@ Accept: application/json
 
 
 ###
+GET http://localhost:8080/api/v1/client/1/orders?pageNumber=1
 
+###
 POST http://localhost:8080/api/v1/plate/
 Accept: application/json
 Content-Type: application/json

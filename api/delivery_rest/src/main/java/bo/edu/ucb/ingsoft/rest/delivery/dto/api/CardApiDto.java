@@ -3,24 +3,29 @@ package bo.edu.ucb.ingsoft.rest.delivery.dto.api;
 import java.util.Objects;
 
 public class CardApiDto {
-    private Integer tarjetaId;
+    private Integer id;
     private String nro;
     private String vencimiento;
     private String nombre;
 
     public CardApiDto(Integer tarjetaId, String nro, String vencimiento, String nombre) {
-        this.tarjetaId = tarjetaId;
+        this.id = tarjetaId;
         this.nro = nro;
         this.vencimiento = vencimiento;
         this.nombre = nombre;
     }
 
-    public Integer getTarjetaId() {
-        return tarjetaId;
+    public CardApiDto() {
+
     }
 
-    public void setTarjetaId(Integer tarjetaId) {
-        this.tarjetaId = tarjetaId;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNro() {
@@ -52,18 +57,18 @@ public class CardApiDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CardApiDto that = (CardApiDto) o;
-        return Objects.equals(tarjetaId, that.tarjetaId);
+        return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tarjetaId);
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "CardApiDto{" +
-                "tarjetaId=" + tarjetaId +
+                "tarjetaId=" + id +
                 ", nro='" + nro + '\'' +
                 ", vencimiento='" + vencimiento + '\'' +
                 ", nombre='" + nombre + '\'' +
