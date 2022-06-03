@@ -1,6 +1,7 @@
 package bo.edu.ucb.ingsoft.rest.delivery.dao;
 
 import bo.edu.ucb.ingsoft.rest.delivery.dto.api.OrderApiDto;
+import bo.edu.ucb.ingsoft.rest.delivery.dto.api.PlateApiDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.OrderDbDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.PlateDbDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.PlateInOrderDbDto;
@@ -41,4 +42,6 @@ public interface OrderDao {
             " WHERE pedido_id = #{pedidoId}")
     void updateOrder(OrderDbDto order);
 
+    @Select("Select * from pedido WHERE estado = #{estado}")
+    public List<OrderApiDto> findAllOrder(@Param("estado")Integer estado);
 }

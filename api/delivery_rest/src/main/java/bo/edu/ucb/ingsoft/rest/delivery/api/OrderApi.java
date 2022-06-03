@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
@@ -40,4 +42,10 @@ public class OrderApi {
     public OrderDbDto updatePlate(@RequestBody OrderApiDto order, @PathVariable("orderId") Integer orderId) {
         return orderBl.updateOrder(order, orderId);
     }
+
+    @GetMapping(path ="/",produces = APPLICATION_JSON_VALUE)
+    public List<OrderApiDto> findAllOrder(@RequestParam("estado") Integer estado){
+        return orderBl.findAllOrder(estado);
+    }
+
 }

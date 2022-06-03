@@ -146,4 +146,9 @@ public class OrderBl {
         orderDao.updateOrder(order);
         return order;
     }
+
+    public List<OrderApiDto> findAllOrder(Integer estado){
+        List<OrderApiDto> orderApiDto = orderDao.findAllOrder(estado);
+        return orderApiDto;
+    }
 }
