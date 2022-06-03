@@ -7,6 +7,7 @@ import java.util.Objects;
 
 public class OrderApiDto {
     private Integer pedidoId;
+    private Integer clientId;
     private CardApiDto tarjeta;
     private AddressApiDto direccion;
     private Integer sucursalId;
@@ -35,6 +36,14 @@ public class OrderApiDto {
 
     public OrderApiDto() {
 
+    }
+
+    public Integer getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
     }
 
     public BigDecimal getPropina() {

@@ -76,8 +76,9 @@ public class ClientBl {
 
     }
     @Transactional(propagation = Propagation.REQUIRED)
-    public ClientDbDto updateClient(ClientApiDto newClient , int clientId){
+    public ClientApiDto updateClient(ClientApiDto newClient , int clientId){
         ClientDbDto client = new ClientDbDto();
+        newClient.setClienteId(clientId);
         client.setClientId(clientId);
         client.setNombre(newClient.getNombre());
         client.setNit(newClient.getNit());
@@ -90,7 +91,7 @@ public class ClientBl {
         client.setTxId(1);
         logger.debug(client.toString());
         clientDao.updateClient(client);
-        return client;
+        return newClient;
     }
     @Transactional(propagation = Propagation.REQUIRED)
     public String savePhoto(MultipartFile archivo, Integer clientId){

@@ -1,8 +1,10 @@
-POST http://localhost:8080/api/v1/order/1
+### post para registrar un nuevo pedido
+POST http://localhost:8080/api/v1/order/
 Accept: application/json
 Content-Type: application/json
 
 {
+  "clientId": 16,
   "sucursalId": 1,
   "direccion": {
     "id": 1,
@@ -42,12 +44,12 @@ Content-Type: application/json
   ]
   }
 
-###
+### Get para recuperar orden por id
 GET  http://localhost:8080/api/v1/order/54
 Accept: application/json
 Content-Type: application/json
 
-###
+###PUt para editar estado de los pedidos
 
 PUT http://localhost:8080/api/v1/order/54
 Accept: application/json

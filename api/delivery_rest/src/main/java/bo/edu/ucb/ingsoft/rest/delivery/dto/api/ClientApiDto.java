@@ -27,6 +27,7 @@ public class ClientApiDto {
         return correo;
     }
 
+
     public void setCorreo(String correo) {
         this.correo = correo;
     }

@@ -51,7 +51,7 @@ public class ClientApi {
     }
 
     @PutMapping(path="/{clientId}", consumes = APPLICATION_JSON_VALUE,produces = APPLICATION_JSON_VALUE)
-    public ClientDbDto updateClient(@RequestBody ClientApiDto cliente,@PathVariable("clientId") Integer clientId) {
+    public ClientApiDto updateClient(@RequestBody ClientApiDto cliente,@PathVariable("clientId") Integer clientId) {
         return clientBl.updateClient(cliente,clientId);
     }
     @PostMapping(path="/{clientId}/image")

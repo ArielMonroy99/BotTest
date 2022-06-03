@@ -25,11 +25,11 @@ public class OrderApi {
         this.orderBl = orderBl;
     }
 
-    @PostMapping(path= "/{clientId}", consumes = APPLICATION_JSON_VALUE,
+    @PostMapping(path= "/", consumes = APPLICATION_JSON_VALUE,
             produces = APPLICATION_JSON_VALUE)
-    public OrderApiDto saveClient(@RequestBody OrderApiDto order, @PathVariable Integer clientId ){
+    public OrderApiDto saveClient(@RequestBody OrderApiDto order ){
         LOGGER.info("ApiDto: {}",order.toString());
-        return orderBl.createNewOrder(order,clientId);
+        return orderBl.createNewOrder(order);
     }
 
     @GetMapping(path = "/{orderId}",consumes = APPLICATION_JSON_VALUE,produces = APPLICATION_JSON_VALUE)

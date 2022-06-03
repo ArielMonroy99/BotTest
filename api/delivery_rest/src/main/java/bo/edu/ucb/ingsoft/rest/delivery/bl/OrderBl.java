@@ -1,12 +1,9 @@
 package bo.edu.ucb.ingsoft.rest.delivery.bl;
 
-import bo.edu.ucb.ingsoft.rest.delivery.api.OrderApi;
 import bo.edu.ucb.ingsoft.rest.delivery.dao.*;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.api.OrderApiDto;
-import bo.edu.ucb.ingsoft.rest.delivery.dto.api.PlateApiDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.api.PlateInOrderApiDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.OrderDbDto;
-import bo.edu.ucb.ingsoft.rest.delivery.dto.db.PlateDbDto;
 import bo.edu.ucb.ingsoft.rest.delivery.dto.db.PlateInOrderDbDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +34,7 @@ public class OrderBl {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public OrderApiDto createNewOrder(OrderApiDto order,Integer clientId){
+    public OrderApiDto createNewOrder(OrderApiDto order){
         OrderDbDto newOrder = new OrderDbDto();
         newOrder.setPedidoId(sequenceDao.getSequence(OrderDbDto.sequence));
         newOrder.setEncargadoId(1);
@@ -46,7 +43,7 @@ public class OrderBl {
         order.setPedidoId(newOrder.getPedidoId());
         newOrder.setFecha(order.getFecha());
         newOrder.setEstado(1);
-        newOrder.setClientId(clientId);
+        newOrder.setClientId(order.getClientId());
         newOrder.setMetodoDeEntrega(order.getMetodoDeEntrega());
         newOrder.setMetodoDePago(order.getMetodoDePago());
         newOrder.setTarjetaId(order.getTarjeta().getId());

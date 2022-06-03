@@ -1,9 +1,9 @@
-###
+### Obtener plato por id
 
 GET http://localhost:8080/api/v1/plate/2
 Accept: application/json
 
-###
+### Guardar nuevo plato
 
 POST http://localhost:8080/api/v1/plate/
 Accept: application/json
@@ -17,7 +17,7 @@ Content-Type: application/json
   "categoriaCategoriaId": "3"
 }
 
-###
+### editar informacion de plato
 
 PUT http://localhost:8080/api/v1/plate/9
 Accept: application/json
@@ -31,7 +31,7 @@ Content-Type: application/json
   "categoriaCategoriaId": "3"
 }
 
-###
+### eliminar logicamente un plato
 
 DELETE http://localhost:8080/api/v1/plate/13
 Accept: application/json
@@ -41,6 +41,6 @@ Content-Type: application/json
   "status": 0
 }
 
-###
+### obtener platos de cierta categoria
 
 GET http://localhost:8080/api/v1/plate/?category=1
