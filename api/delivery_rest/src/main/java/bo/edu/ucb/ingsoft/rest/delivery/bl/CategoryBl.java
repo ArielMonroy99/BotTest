@@ -24,7 +24,6 @@ public class CategoryBl {
     public List<CategoryApiDto> allCategories(){
         List<CategoryApiDto> categories = categoryDao.findAllCategories();
         logger.debug(categories.toString());
-        System.out.println(categories);
         return categories;
     }
 }
